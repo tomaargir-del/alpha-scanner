@@ -13,97 +13,68 @@
 :root{
   --bg:#07070f;--bg2:#0c0c18;--card:#101020;--border:#181830;
   --accent:#00e5ff;--accent2:#a020f0;--green:#00ff88;--red:#ff2244;
-  --yellow:#ffd000;--orange:#ff6600;--text:#dde0f0;--muted:#404058;
+  --yellow:#ffd000;--orange:#ff6600;--alpha:#f0c000;--text:#dde0f0;--muted:#404058;
   --mono:'Share Tech Mono',monospace;--ui:'Barlow',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;flex-direction:column}
 
-/* ── HEADER ── */
-.hdr{
-  background:rgba(7,7,15,.97);border-bottom:1px solid var(--border);
-  padding:10px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0;
-}
+.hdr{background:rgba(7,7,15,.97);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo{font-family:var(--mono);font-size:14px;color:var(--accent);letter-spacing:2px;white-space:nowrap}
 .logo b{color:var(--accent2)}
+.alpha-count{font-family:var(--mono);font-size:10px;color:var(--alpha);background:rgba(240,192,0,.08);border:1px solid rgba(240,192,0,.2);padding:3px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0}
 .search-wrap{flex:1;position:relative}
-.search{
-  width:100%;background:var(--card);border:1px solid var(--border);
-  color:var(--text);padding:7px 28px 7px 10px;border-radius:6px;
-  font-family:var(--mono);font-size:13px;text-transform:uppercase;letter-spacing:.5px;
-}
+.search{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);padding:7px 28px 7px 10px;border-radius:6px;font-family:var(--mono);font-size:13px;text-transform:uppercase}
 .search::placeholder{text-transform:none;letter-spacing:0}
 .search:focus{outline:none;border-color:var(--accent)}
 .search-x{position:absolute;right:8px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:15px;cursor:pointer;display:none}
-.live-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
-.live-dot.live{background:var(--green);box-shadow:0 0 7px var(--green);animation:blink 1.5s infinite}
-.live-dot.scan{background:var(--yellow);box-shadow:0 0 7px var(--yellow);animation:blink .7s infinite}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .3s}
+.dot.live{background:var(--green);box-shadow:0 0 7px var(--green);animation:blink 1.5s infinite}
+.dot.scan{background:var(--yellow);box-shadow:0 0 7px var(--yellow);animation:blink .7s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-/* ── CONTROLS ── */
-.ctrl{
-  display:flex;align-items:center;gap:6px;padding:8px 14px;
-  border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto;scrollbar-width:none;
-}
+.ctrl{display:flex;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
 .ctrl::-webkit-scrollbar{display:none}
 .btn{font-family:var(--ui);font-weight:700;font-size:12px;padding:7px 16px;border-radius:20px;border:none;cursor:pointer;white-space:nowrap;transition:all .2s}
 .btn-start{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000}
 .btn-stop{background:rgba(255,34,68,.12);border:1px solid var(--red);color:var(--red)}
 .btn-clear{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:7px 12px}
-
-/* TF pills */
 .tf-wrap{display:flex;gap:4px;margin-left:auto;flex-shrink:0}
 .tf{font-family:var(--mono);font-size:11px;padding:5px 9px;border-radius:4px;cursor:pointer;background:var(--card);border:1px solid var(--border);color:var(--muted);transition:all .2s;white-space:nowrap}
 .tf.active{border-color:var(--accent2);color:var(--accent2);background:rgba(160,32,240,.12)}
 .tf.all-tf.active{border-color:var(--yellow);color:var(--yellow);background:rgba(255,208,0,.1)}
 
-/* ── STATS ── */
 .stats{display:flex;gap:1px;background:var(--border);flex-shrink:0}
-.sc{flex:1;background:var(--bg2);padding:7px 4px;text-align:center}
-.sv{font-family:var(--mono);font-size:16px;font-weight:bold;line-height:1}
+.sc{flex:1;background:var(--bg2);padding:6px 4px;text-align:center}
+.sv{font-family:var(--mono);font-size:15px;font-weight:bold;line-height:1}
 .sl{font-size:9px;color:var(--muted);margin-top:2px;letter-spacing:.3px}
 
-/* ── PROGRESS ── */
 .prog{padding:5px 14px;flex-shrink:0;display:none;border-bottom:1px solid var(--border)}
 .prog-t{font-family:var(--mono);font-size:10px;color:var(--muted)}
 .prog-bg{height:2px;background:var(--border);border-radius:1px;margin-top:3px}
 .prog-f{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:1px;transition:width .25s}
 
-/* ── FILTERS ── */
 .frow{display:flex;gap:5px;padding:7px 14px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;border-bottom:1px solid var(--border)}
 .frow::-webkit-scrollbar{display:none}
 .ftab{font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;white-space:nowrap;cursor:pointer;background:var(--card);border:1px solid var(--border);color:var(--muted);transition:all .2s}
 .ftab.active{background:rgba(0,229,255,.07);border-color:var(--accent);color:var(--accent)}
+.ftab.alpha-tab.active{background:rgba(240,192,0,.08);border-color:var(--alpha);color:var(--alpha)}
 
-/* ── LIQ BANNERS ── */
-.liq-area{padding:0 14px;flex-shrink:0}
-.liq-b{background:rgba(255,102,0,.07);border:1px solid rgba(255,102,0,.25);border-radius:6px;padding:7px 11px;font-family:var(--mono);font-size:11px;color:var(--orange);display:flex;align-items:center;gap:6px;margin-top:6px}
+.liq-area{flex-shrink:0}
+.liq-b{margin:6px 14px 0;background:rgba(255,102,0,.07);border:1px solid rgba(255,102,0,.25);border-radius:6px;padding:7px 11px;font-family:var(--mono);font-size:11px;color:var(--orange);display:flex;align-items:center;gap:6px}
 
-/* ── LIST ── */
 .list-wrap{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 
-/* ── COIN ROW (compact) ── */
-.crow{
-  display:grid;
-  grid-template-columns:3px 1fr auto;
-  align-items:center;gap:0;
-  border-bottom:1px solid var(--border);
-  cursor:pointer;transition:background .12s;
-  min-height:52px;
-}
+/* COMPACT ROW */
+.crow{display:grid;grid-template-columns:3px 1fr auto;align-items:stretch;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;min-height:54px}
 .crow:active{background:rgba(255,255,255,.025)}
-
-.crow-bar{height:100%;min-height:52px;width:3px;border-radius:0}
-.bar-bull{background:var(--green)}
-.bar-bear{background:var(--red)}
-.bar-liq{background:var(--orange)}
-.bar-neutral{background:var(--yellow)}
-
-.crow-mid{padding:10px 12px;display:flex;align-items:center;gap:10px;min-width:0}
+.crow-bar{width:3px;border-radius:0}
+.bar-bull{background:var(--green)}.bar-bear{background:var(--red)}.bar-liq{background:var(--orange)}.bar-neutral{background:var(--yellow)}
+.crow-mid{padding:9px 12px;display:flex;align-items:center;gap:10px;min-width:0}
 .crow-sym{font-family:var(--mono);font-size:15px;font-weight:bold;letter-spacing:.5px;white-space:nowrap}
 .crow-sym span{font-size:9px;color:var(--muted);margin-left:2px}
-.crow-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}
+.crow-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px;align-items:center}
 .ctag{font-size:9px;padding:2px 5px;border-radius:3px;font-family:var(--mono);font-weight:bold;white-space:nowrap}
 .ct-bull{background:rgba(0,255,136,.1);color:var(--green)}
 .ct-bear{background:rgba(255,34,68,.1);color:var(--red)}
@@ -111,8 +82,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .ct-neu{background:rgba(255,208,0,.08);color:var(--yellow)}
 .ct-cvd{background:rgba(0,229,255,.07);color:var(--accent)}
 .ct-tf{background:rgba(160,32,240,.1);color:#c060ff}
+.ct-alpha{background:rgba(240,192,0,.12);color:var(--alpha);border:1px solid rgba(240,192,0,.25)}
 
-.crow-right{padding:10px 12px 10px 0;display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.crow-right{padding:9px 12px 9px 0;display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
 .crow-price{font-family:var(--mono);font-size:13px;color:var(--text)}
 .crow-chg{font-family:var(--mono);font-size:12px;font-weight:bold}
 .sdots{display:flex;gap:2px;align-items:center}
@@ -122,16 +94,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 
 .up{color:var(--green)}.dn{color:var(--red)}.neu{color:var(--yellow)}.bl{color:var(--accent)}.or{color:var(--orange)}
 
-/* ── EMPTY ── */
 .empty{text-align:center;padding:50px 20px;color:var(--muted);font-family:var(--mono);font-size:13px;line-height:2.2}
 
-/* ── DETAIL OVERLAY ── */
+/* DETAIL OVERLAY */
 .ov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);display:none;align-items:flex-end}
 .ov.open{display:flex}
 .dp{width:100%;background:var(--bg2);border-radius:18px 18px 0 0;border-top:1px solid var(--border);max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .dp-hnd{width:34px;height:3px;background:var(--border);border-radius:2px;margin:12px auto 0}
 .dp-top{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between}
 .dp-sym{font-family:var(--mono);font-size:22px;font-weight:bold;letter-spacing:1px}
+.dp-alpha-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:4px;font-family:var(--mono);font-size:11px;font-weight:bold;background:rgba(240,192,0,.12);color:var(--alpha);border:1px solid rgba(240,192,0,.3);margin-top:4px}
 .dp-sub{font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:3px}
 .dp-x{width:28px;height:28px;border-radius:14px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0}
 
@@ -142,12 +114,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .dp-badge{padding:10px 16px;border-bottom:1px solid var(--border)}
 .big-b{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-family:var(--mono);font-size:13px;font-weight:bold;letter-spacing:.5px}
 
-/* TF tabs in detail */
 .dp-tf-row{display:flex;gap:5px;padding:10px 16px;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
 .dp-tf-row::-webkit-scrollbar{display:none}
 .dtf{font-family:var(--mono);font-size:11px;padding:5px 10px;border-radius:4px;cursor:pointer;background:var(--card);border:1px solid var(--border);color:var(--muted);transition:all .2s;white-space:nowrap}
 .dtf.active{border-color:var(--accent2);color:var(--accent2);background:rgba(160,32,240,.12)}
-.dtf.has-signal{border-color:rgba(0,229,255,.4);color:var(--accent)}
+.dtf.has-sig{border-color:rgba(0,229,255,.35);color:var(--accent)}
 
 .dp-metrics{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:12px 16px;border-bottom:1px solid var(--border)}
 .dm{background:var(--card);border-radius:8px;padding:10px 12px}
@@ -156,34 +127,32 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .dm-s{font-size:10px;color:var(--muted);margin-top:3px;font-family:var(--mono)}
 
 .dp-sigs{padding:12px 16px;border-bottom:1px solid var(--border)}
-.dp-sigs-title{font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:7px;font-family:var(--mono)}
+.dp-sigs-t{font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:7px;font-family:var(--mono)}
 .sigs-wrap{display:flex;gap:5px;flex-wrap:wrap}
 .stag{font-size:11px;padding:5px 10px;border-radius:4px;font-family:var(--mono);font-weight:bold;background:rgba(128,128,128,.08)}
 
-.dp-score{padding:12px 16px 20px}
+.dp-score{padding:12px 16px 24px}
 .sc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .sc-n{font-family:var(--mono);font-size:15px;font-weight:bold}
 .sc-d{font-size:11px;color:var(--muted)}
 .sc-bg{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
 .sc-f{height:100%;border-radius:3px;transition:width .5s}
 
-/* ERR */
 .err{margin:5px 14px;background:rgba(255,34,68,.07);border:1px solid rgba(255,34,68,.2);border-radius:6px;padding:8px 11px;font-family:var(--mono);font-size:11px;color:var(--red);display:none}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="hdr">
   <div class="logo">α<b>SCOUT</b></div>
+  <div class="alpha-count" id="alphaCount">🅐 —</div>
   <div class="search-wrap">
     <input class="search" id="srch" placeholder="Пребарај коин..." oninput="onSrch(this.value)" autocomplete="off" autocorrect="off" spellcheck="false">
     <span class="search-x" id="srchX" onclick="clrSrch()">✕</span>
   </div>
-  <div class="live-dot" id="dot"></div>
+  <div class="dot" id="dot"></div>
 </div>
 
-<!-- CONTROLS -->
 <div class="ctrl">
   <button class="btn btn-start" id="btnS" onclick="startScan()">⚡ СКЕНИРАЈ</button>
   <button class="btn btn-stop" id="btnX" onclick="stopScan()" style="display:none">⏹ СТОП</button>
@@ -197,21 +166,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
   </div>
 </div>
 
-<!-- STATS -->
 <div class="stats">
   <div class="sc"><div class="sv up"  id="sBull">0</div><div class="sl">BULL</div></div>
   <div class="sc"><div class="sv dn"  id="sBear">0</div><div class="sl">BEAR</div></div>
   <div class="sc"><div class="sv or"  id="sLiq">0</div><div class="sl">ЛИК ХАНТ</div></div>
+  <div class="sc"><div class="sv" style="color:var(--alpha)" id="sAlpha">0</div><div class="sl">ALPHA</div></div>
   <div class="sc"><div class="sv bl"  id="sTot">0</div><div class="sl">СИГНАЛИ</div></div>
-  <div class="sc"><div class="sv" id="sTF" style="color:var(--accent2);font-size:12px">1М</div><div class="sl">TF</div></div>
 </div>
 
 <div class="prog" id="prog"><div class="prog-t" id="progT">Скенирање...</div><div class="prog-bg"><div class="prog-f" id="progF" style="width:0%"></div></div></div>
 <div class="err" id="errB"></div>
 
-<!-- FILTERS -->
 <div class="frow">
   <div class="ftab active" onclick="setFil('all',this)">ВСЕ</div>
+  <div class="ftab alpha-tab" onclick="setFil('alpha',this)">🅐 ALPHA</div>
   <div class="ftab" onclick="setFil('bull',this)">🟢 BULL</div>
   <div class="ftab" onclick="setFil('bear',this)">🔴 BEAR</div>
   <div class="ftab" onclick="setFil('liq',this)">🟠 ЛИК ХАНТ</div>
@@ -220,26 +188,23 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 </div>
 
 <div class="liq-area" id="liqArea"></div>
+<div class="list-wrap"><div id="list"><div class="empty">🔍<br>Притисни СКЕНИРАЈ<br><span style="font-size:10px;color:#1a1a28">Сите Binance Futures + live Alpha таг</span></div></div></div>
 
-<div class="list-wrap"><div id="list"><div class="empty">🔍<br>Притисни СКЕНИРАЈ<br><span style="font-size:10px;color:#1a1a28">Binance Alpha листа · 1М/5М/15М/1Ч/СВИ</span></div></div></div>
-
-<!-- DETAIL OVERLAY -->
+<!-- DETAIL -->
 <div class="ov" id="ov" onclick="ovClick(event)">
   <div class="dp">
     <div class="dp-hnd"></div>
     <div class="dp-top">
       <div>
         <div class="dp-sym" id="dpSym">—</div>
+        <div id="dpAlphaBadge"></div>
         <div class="dp-sub" id="dpSub">—</div>
       </div>
       <div class="dp-x" onclick="closeOv()">✕</div>
     </div>
     <div class="dp-price"><div class="dp-p" id="dpP">—</div><div class="dp-c" id="dpC">—</div></div>
     <div class="dp-badge"><div class="big-b" id="dpBB"></div></div>
-
-    <!-- TF switcher in detail -->
     <div class="dp-tf-row" id="dpTFRow"></div>
-
     <div class="dp-metrics">
       <div class="dm"><div class="dm-l">CVD Δ</div><div class="dm-v" id="mCvd">—</div><div class="dm-s" id="mCvdS">—</div></div>
       <div class="dm"><div class="dm-l">OI Δ EST</div><div class="dm-v" id="mOi">—</div><div class="dm-s" id="mOiS">—</div></div>
@@ -248,12 +213,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
       <div class="dm"><div class="dm-l">24Ч High</div><div class="dm-v up" id="mHi">—</div><div class="dm-s" id="mHiS">—</div></div>
       <div class="dm"><div class="dm-l">Лик Хант</div><div class="dm-v" id="mLiq">—</div><div class="dm-s" id="mLiqS">—</div></div>
     </div>
-
-    <div class="dp-sigs">
-      <div class="dp-sigs-title">// АКТИВНИ СИГНАЛИ</div>
-      <div class="sigs-wrap" id="dpSigs"></div>
-    </div>
-
+    <div class="dp-sigs"><div class="dp-sigs-t">// АКТИВНИ СИГНАЛИ</div><div class="sigs-wrap" id="dpSigs"></div></div>
     <div class="dp-score">
       <div class="sc-row"><div class="sc-n" id="scN">—</div><div class="sc-d" id="scD">—</div></div>
       <div class="sc-bg"><div class="sc-f" id="scF"></div></div>
@@ -262,35 +222,17 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 </div>
 
 <script>
-// ── ALPHA COINS ──────────────────────────────────────────────
-const ALPHA=[
-  'ACT','AIXBT','ALT','ANIME','APT','ARB','ATOM','AVAX','BACK','BABY',
-  'BANK','BB','BCH','BLUR','BOME','BONK','BTC','CATI','COMP','COOKIE',
-  'CRV','CYBER','DOGE','DOGS','DOT','DYM','EIGEN','ETC','ETH',
-  'FARTCOIN','FIL','FLOKI','GOAT','GMX','HAEDAL','HFT','HMSTR',
-  'IMX','INJ','INIT','IO','IP','JTO','KAIA','LAYER','LINK','LISTA',
-  'LTC','MAGIC','MAJOR','MANTA','ME','MELANIA','MEME','MOODENG',
-  'MOVE','MKR','NEAR','NEIRO','NIL','NOT','OMNI','OP','ORDI','PARTI',
-  'PENGU','PEPE','PIXEL','PNUT','POPCAT','PORTAL','PYTH','RENDER',
-  'REZ','RNDR','SAGA','SATS','SCR','SEI','SHELL','SHIB','SIGN',
-  'SNX','SOL','STRK','SUSHI','TIA','TON','TRUMP','TURBO','UNI',
-  'VIRTUAL','WAL','WIF','WLD','ZEREBRO','ZK','ZRO','ZETA',
-  'DYDX','AAVE','1INCH','BAKE','BANANA'
-];
-
-const TFS=['1m','5m','15m','1h'];
-const FAPI='https://fapi.binance.com/fapi/v1';
-const PROXY='https://api.allorigins.win/raw?url=';
+const FAPI  = 'https://fapi.binance.com/fapi/v1';
+const BAPI  = 'https://www.binance.com/bapi/defi/v1/public/wallet-direct/buw/wallet/cex/alpha/all/token/list';
+const PROXY = 'https://api.allorigins.win/raw?url=';
+const TFS   = ['1m','5m','15m','1h'];
 
 const S={
   scanning:false,timer:null,abort:false,
-  signals:[],          // {coin, price, priceChg, ..., tfData:{1m:{...},5m:{...},...}}
-  filter:'all',tf:'1m',
-  srch:'',
+  signals:[],filter:'all',tf:'1m',srch:'',
+  alphaSet:new Set(), // live Alpha symbols
   detailCoin:null,detailTF:'1m'
 };
-
-// shared ticker+funding cache per scan cycle
 let _tMap={},_fMap={};
 
 async function apiFetch(ep){
@@ -300,6 +242,44 @@ async function apiFetch(ep){
   return null;
 }
 
+// ── FETCH LIVE ALPHA LIST ────────────────────────────────────
+async function fetchAlphaList(){
+  try{
+    // Try direct
+    const r=await fetch(BAPI,{signal:AbortSignal.timeout(8000)});
+    if(r.ok){
+      const j=await r.json();
+      if(j.data&&Array.isArray(j.data)){
+        const syms=new Set(j.data.map(t=>(t.symbol||t.cexCoinName||'').toUpperCase()));
+        if(syms.size>0){
+          S.alphaSet=syms;
+          document.getElementById('alphaCount').textContent=`🅐 ${syms.size}`;
+          return;
+        }
+      }
+    }
+  }catch(e){}
+  // Proxy fallback
+  try{
+    const r=await fetch(PROXY+encodeURIComponent(BAPI),{signal:AbortSignal.timeout(12000)});
+    if(r.ok){
+      const j=await r.json();
+      if(j.data&&Array.isArray(j.data)){
+        const syms=new Set(j.data.map(t=>(t.symbol||t.cexCoinName||'').toUpperCase()));
+        S.alphaSet=syms;
+        document.getElementById('alphaCount').textContent=`🅐 ${syms.size}`;
+        return;
+      }
+    }
+  }catch(e){}
+  // Fallback hardcoded known Alpha coins
+  const FALLBACK=['ACT','AIXBT','ALT','ANIME','ARB','ATOM','AVAX','BACK','BABY','BANK','BB','BLUR','BOME','BONK','CATI','COOKIE','CYBER','DOGE','DOGS','DYM','EIGEN','FARTCOIN','FLOKI','GOAT','HAEDAL','HMSTR','INJ','INIT','IO','IP','JTO','KAIA','LAYER','LISTA','MAGIC','MAJOR','MANTA','ME','MELANIA','MEME','MOODENG','MOVE','NEAR','NEIRO','NIL','NOT','OMNI','OP','ORDI','PARTI','PENGU','PEPE','PIXEL','PNUT','POPCAT','PORTAL','PYTH','REZ','SAGA','SATS','SCR','SEI','SHELL','SIGN','SOL','STRK','TIA','TON','TRUMP','TURBO','VIRTUAL','WAL','WIF','WLD','ZEREBRO','ZK','ZRO','ZETA'];
+  S.alphaSet=new Set(FALLBACK);
+  document.getElementById('alphaCount').textContent=`🅐 ${FALLBACK.length}*`;
+}
+
+function isAlpha(coin){return S.alphaSet.has(coin.toUpperCase());}
+
 // ── SCAN ────────────────────────────────────────────────────
 async function startScan(){
   if(S.scanning)return;
@@ -308,38 +288,52 @@ async function startScan(){
   document.getElementById('btnX').style.display='inline-block';
   setDot('scan');errHide();
   await doScan();
-  const baseIv=S.tf==='all'?60000:S.tf==='1m'?60000:S.tf==='5m'?300000:S.tf==='15m'?900000:3600000;
-  S.timer=setInterval(()=>{if(!S.abort)doScan();},baseIv);
+  const iv=S.tf==='all'?60000:S.tf==='1m'?60000:S.tf==='5m'?300000:S.tf==='15m'?900000:3600000;
+  S.timer=setInterval(()=>{if(!S.abort)doScan();},iv);
 }
 function stopScan(){
   S.abort=true;S.scanning=false;clearInterval(S.timer);
   document.getElementById('btnS').style.display='inline-block';
   document.getElementById('btnX').style.display='none';
-  setDot('off');
-  document.getElementById('prog').style.display='none';
+  setDot('off');document.getElementById('prog').style.display='none';
 }
 
 async function doScan(){
   document.getElementById('prog').style.display='block';
-  setP('Се поврзувам со Binance...',3);
+  setP('Вчитувам Alpha листа...',3);
 
-  const [tickers,fundings]=await Promise.all([apiFetch('/ticker/24hr'),apiFetch('/premiumIndex')]);
+  // Parallel: fetch Alpha list + all tickers + fundings
+  const [,tickers,fundings]=await Promise.all([
+    fetchAlphaList(),
+    apiFetch('/ticker/24hr'),
+    apiFetch('/premiumIndex')
+  ]);
+
   if(!tickers){errShow('⚠️ Binance API недостапен');stopScan();return;}
 
   _tMap={};_fMap={};
-  tickers.forEach(t=>{if(t.symbol.endsWith('USDT'))_tMap[t.symbol.replace('USDT','')]=t;});
-  if(fundings)fundings.forEach(f=>{if(f.symbol.endsWith('USDT'))_fMap[f.symbol.replace('USDT','')]=parseFloat(f.lastFundingRate||0)*100;});
+  // Only USDT perps (excludes BUSD, BTC pairs etc)
+  tickers.forEach(t=>{
+    if(t.symbol.endsWith('USDT')&&!t.symbol.includes('_')){
+      _tMap[t.symbol.replace('USDT','')]=t;
+    }
+  });
+  if(fundings)fundings.forEach(f=>{
+    if(f.symbol.endsWith('USDT'))_fMap[f.symbol.replace('USDT','')]=parseFloat(f.lastFundingRate||0)*100;
+  });
+
+  const allCoins=Object.keys(_tMap);
+  setP(`Скенирам ${allCoins.length} Futures коини...`,15);
 
   const tfsToScan=S.tf==='all'?TFS:[S.tf];
-  const coins=ALPHA.filter(c=>_tMap[c]);
-  const allResults={};// coin -> {coin, price, ..., tfData:{}}
+  const allResults={};
+  let done=0;
 
   for(let ti=0;ti<tfsToScan.length;ti++){
     const tf=tfsToScan[ti];
-    let done=0;
-    for(let i=0;i<coins.length;i+=10){
+    for(let i=0;i<allCoins.length;i+=12){
       if(S.abort)break;
-      const chunk=coins.slice(i,i+10);
+      const chunk=allCoins.slice(i,i+12);
       const res=await Promise.all(chunk.map(c=>analyzeOneTF(c,_tMap[c],_fMap[c]||0,tf)));
       res.forEach((r,idx)=>{
         if(!r)return;
@@ -347,39 +341,39 @@ async function doScan(){
         if(!allResults[c]){
           allResults[c]={
             coin:c,price:r.price,priceChg:r.priceChg,volume:r.volume,
-            high24:r.high24,low24:r.low24,
-            score:0,sigs:[],dir:'neutral',liqHunt:false,
-            tfData:{},bestTF:tf
+            high24:r.high24,low24:r.low24,isAlpha:isAlpha(c),
+            score:0,sigs:[],dir:'neutral',liqHunt:false,tfData:{},bestTF:tf
           };
         }
         allResults[c].tfData[tf]=r;
-        // Accumulate score across TFs
+        if(r.score>(allResults[c].tfData[allResults[c].bestTF]?.score||0))allResults[c].bestTF=tf;
         allResults[c].score=Math.max(allResults[c].score,r.score);
-        if(r.score>=(allResults[c].tfData[allResults[c].bestTF]?.score||0))allResults[c].bestTF=tf;
         if(r.liqHunt)allResults[c].liqHunt=true;
       });
-      done=Math.min(i+10,coins.length);
-      const overall=(ti/tfsToScan.length)+(done/coins.length/tfsToScan.length);
-      setP(`${tf.toUpperCase()} · ${done}/${coins.length} коини`,Math.round(5+overall*93));
-      await sleep(100);
+      done=Math.min(i+12,allCoins.length);
+      const pct=15+((ti/tfsToScan.length)+(done/allCoins.length/tfsToScan.length))*83;
+      setP(`${tf.toUpperCase()} · ${done}/${allCoins.length} коини`,Math.round(pct));
+      await sleep(80);
     }
   }
 
   if(!S.abort){
-    // Build final signals from best TF per coin
     S.signals=Object.values(allResults)
       .filter(x=>x.score>0)
       .map(x=>{
         const best=x.tfData[x.bestTF]||Object.values(x.tfData)[0];
-        return{...x,...best,tf:x.bestTF};
+        return{...x,...best,tf:x.bestTF,isAlpha:x.isAlpha};
       })
-      .sort((a,b)=>b.score-a.score);
-
+      .sort((a,b)=>{
+        // Alpha coins first within same score
+        if(b.score!==a.score)return b.score-a.score;
+        return(b.isAlpha?1:0)-(a.isAlpha?1:0);
+      });
     renderList();
     setDot('live');
     document.getElementById('prog').style.display='none';
-    const tfLabel=S.tf==='all'?'СВИ TF':S.tf.toUpperCase();
-    toast(`✅ ${S.signals.length} сигнали · ${tfLabel}`);
+    const alphaSigs=S.signals.filter(s=>s.isAlpha).length;
+    toast(`✅ ${S.signals.length} сигнали · ${alphaSigs} Alpha · ${S.tf==='all'?'СВИ TF':S.tf.toUpperCase()}`);
   }
 }
 
@@ -421,6 +415,7 @@ async function analyzeOneTF(coin,ticker,fr,tf){
   if(Math.abs(fr)>0.03){score++;sigs.push({l:`FR ${fr>0?'+':''}${fr.toFixed(4)}%`,t:fr>0.05?'bear':'bull'});}
   if(liqHunt){score+=2;sigs.push({l:'⚡ЛИК',t:'liq'});}
   if(volume>5000000)score++;
+  if(isAlpha(coin))score++; // Alpha bonus
 
   if(score===0)return null;
   const bulls=sigs.filter(s=>s.t==='bull').length,bears=sigs.filter(s=>s.t==='bear').length,liqs=sigs.filter(s=>s.t==='liq').length;
@@ -429,32 +424,30 @@ async function analyzeOneTF(coin,ticker,fr,tf){
     ts:new Date().toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit',second:'2-digit'})};
 }
 
-// ── RENDER LIST ──────────────────────────────────────────────
+// ── RENDER ──────────────────────────────────────────────────
 function renderList(){
-  // Liq banners
   document.getElementById('liqArea').innerHTML=S.signals.filter(s=>s.liqHunt).slice(0,2)
-    .map(s=>`<div class="liq-b">⚡ <b>${s.coin}USDT</b> — ЛИК ХАНТ @ $${fmt(s.price)} <span style="margin-left:auto;color:var(--muted)">${s.tf.toUpperCase()} · ${s.ts}</span></div>`).join('');
+    .map(s=>`<div class="liq-b">⚡ <b>${s.coin}USDT</b>${s.isAlpha?' 🅐':''} — ЛИК ХАНТ @ $${fmt(s.price)} <span style="margin-left:auto;color:var(--muted)">${s.tf.toUpperCase()} · ${s.ts}</span></div>`).join('');
 
-  // Stats
+  const alphaSigs=S.signals.filter(s=>s.isAlpha);
   document.getElementById('sBull').textContent=S.signals.filter(s=>s.dir==='bull').length;
   document.getElementById('sBear').textContent=S.signals.filter(s=>s.dir==='bear').length;
   document.getElementById('sLiq').textContent=S.signals.filter(s=>s.liqHunt).length;
+  document.getElementById('sAlpha').textContent=alphaSigs.length;
   document.getElementById('sTot').textContent=S.signals.length;
 
   let data=S.signals;
   if(S.srch)data=data.filter(s=>s.coin.includes(S.srch));
   else{
-    if(S.filter==='bull')data=data.filter(s=>s.dir==='bull');
-    if(S.filter==='bear')data=data.filter(s=>s.dir==='bear');
-    if(S.filter==='liq')data=data.filter(s=>s.liqHunt);
+    if(S.filter==='alpha') data=data.filter(s=>s.isAlpha);
+    if(S.filter==='bull')  data=data.filter(s=>s.dir==='bull');
+    if(S.filter==='bear')  data=data.filter(s=>s.dir==='bear');
+    if(S.filter==='liq')   data=data.filter(s=>s.liqHunt);
     if(S.filter==='strong')data=data.filter(s=>s.score>=5);
-    if(S.filter==='cvd')data=data.filter(s=>s.sigs.some(sg=>sg.l==='CVD DIV'));
+    if(S.filter==='cvd')   data=data.filter(s=>s.sigs.some(sg=>sg.l==='CVD DIV'));
   }
 
-  if(!data.length){
-    document.getElementById('list').innerHTML=`<div class="empty">🔍<br>${S.srch?S.srch+'USDT не пронајден':'Нема сигнали'}</div>`;
-    return;
-  }
+  if(!data.length){document.getElementById('list').innerHTML=`<div class="empty">🔍<br>${S.srch?S.srch+'USDT не пронајден':'Нема сигнали'}</div>`;return;}
   document.getElementById('list').innerHTML=data.map(rowHTML).join('');
 }
 
@@ -464,8 +457,8 @@ function rowHTML(s){
   const sc=s.score>=5?'g':s.score>=3?'y':'a';
   const dots=Array.from({length:7},(_,i)=>`<div class="sd ${i<s.score?sc:''}"></div>`).join('');
 
-  // Compact tags — only most relevant
   const tags=[];
+  if(s.isAlpha)tags.push(`<span class="ctag ct-alpha">🅐 ALPHA</span>`);
   if(s.liqHunt)tags.push(`<span class="ctag ct-liq">⚡ЛИК</span>`);
   else if(s.dir==='bull')tags.push(`<span class="ctag ct-bull">▲BULL</span>`);
   else if(s.dir==='bear')tags.push(`<span class="ctag ct-bear">▼BEAR</span>`);
@@ -475,12 +468,10 @@ function rowHTML(s){
 
   return`<div class="crow" onclick="openDetail('${s.coin}')">
     <div class="crow-bar ${barC}"></div>
-    <div class="crow-mid">
-      <div>
-        <div class="crow-sym">${s.coin}<span>USDT</span></div>
-        <div class="crow-tags">${tags.join('')}</div>
-      </div>
-    </div>
+    <div class="crow-mid"><div>
+      <div class="crow-sym">${s.coin}<span>USDT</span></div>
+      <div class="crow-tags">${tags.join('')}</div>
+    </div></div>
     <div class="crow-right">
       <div class="crow-price">$${fmt(s.price)}</div>
       <div class="crow-chg ${pc?'up':'dn'}">${pc?'+':''}${s.priceChg.toFixed(2)}%</div>
@@ -489,16 +480,12 @@ function rowHTML(s){
   </div>`;
 }
 
-// ── DETAIL ───────────────────────────────────────────────────
+// ── DETAIL ──────────────────────────────────────────────────
 function openDetail(coin){
   S.detailCoin=coin;
   const s=S.signals.find(x=>x.coin===coin);
-  if(s){
-    S.detailTF=s.tf;
-    showDetail(s);
-  } else {
-    fetchDetail(coin,S.tf==='all'?'1m':S.tf);
-  }
+  if(s){S.detailTF=s.tf;showDetail({...s,isAlpha:s.isAlpha});}
+  else fetchDetail(coin,S.tf==='all'?'1m':S.tf);
   document.getElementById('ov').style.display='flex';
   document.getElementById('ov').classList.add('open');
 }
@@ -509,52 +496,41 @@ async function fetchDetail(coin,tf){
   document.getElementById('dpC').textContent='';
   if(!Object.keys(_tMap).length){
     const [t,f]=await Promise.all([apiFetch('/ticker/24hr'),apiFetch('/premiumIndex')]);
-    if(t){t.forEach(x=>{if(x.symbol.endsWith('USDT'))_tMap[x.symbol.replace('USDT','')]=x;});}
-    if(f){f.forEach(x=>{if(x.symbol.endsWith('USDT'))_fMap[x.symbol.replace('USDT','')]=parseFloat(x.lastFundingRate||0)*100;});}
+    if(t)t.forEach(x=>{if(x.symbol.endsWith('USDT'))_tMap[x.symbol.replace('USDT','')]=x;});
+    if(f)f.forEach(x=>{if(x.symbol.endsWith('USDT'))_fMap[x.symbol.replace('USDT','')]=parseFloat(x.lastFundingRate||0)*100;});
   }
   const ticker=_tMap[coin];
-  if(!ticker){document.getElementById('dpP').textContent='Не постои';return;}
+  if(!ticker){document.getElementById('dpP').textContent='Не постои на Futures';return;}
   const r=await analyzeOneTF(coin,ticker,_fMap[coin]||0,tf);
-  if(r)showDetail(r);
-  else showDetail({
-    coin,price:parseFloat(ticker.lastPrice),priceChg:parseFloat(ticker.priceChangePercent),
-    volume:parseFloat(ticker.quoteVolume),high24:parseFloat(ticker.highPrice),low24:parseFloat(ticker.lowPrice),
-    cvdDelta:0,oiChange:0,fr:_fMap[coin]||0,liqHunt:false,score:0,sigs:[],dir:'neutral',tf,
-    ts:new Date().toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit',second:'2-digit'})
-  });
+  const alpha=isAlpha(coin);
+  if(r)showDetail({...r,isAlpha:alpha});
+  else showDetail({coin,price:parseFloat(ticker.lastPrice),priceChg:parseFloat(ticker.priceChangePercent),volume:parseFloat(ticker.quoteVolume),high24:parseFloat(ticker.highPrice),low24:parseFloat(ticker.lowPrice),cvdDelta:0,oiChange:0,fr:_fMap[coin]||0,liqHunt:false,score:0,sigs:[],dir:'neutral',tf,isAlpha:alpha,ts:new Date().toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit',second:'2-digit'})});
 }
 
 function showDetail(s){
   S.detailTF=s.tf;
   document.getElementById('dpSym').textContent=s.coin;
+  document.getElementById('dpAlphaBadge').innerHTML=s.isAlpha?`<div class="dp-alpha-badge">🅐 BINANCE ALPHA</div>`:'';
   document.getElementById('dpSub').textContent=`${s.coin}USDT PERP · ${s.tf.toUpperCase()} · ${s.ts}`;
-
   const pc=s.priceChg>=0;
   document.getElementById('dpP').textContent='$'+fmt(s.price);
-  const dc=document.getElementById('dpC');
-  dc.textContent=(pc?'+':'')+s.priceChg.toFixed(2)+'%';
-  dc.className='dp-c '+(pc?'up':'dn');
+  const dc=document.getElementById('dpC');dc.textContent=(pc?'+':'')+s.priceChg.toFixed(2)+'%';dc.className='dp-c '+(pc?'up':'dn');
 
-  // Big badge
   const bb=document.getElementById('dpBB');
-  if(s.liqHunt)bb.innerHTML=`<span style="font-size:16px">⚡</span>ЛИКВИДАЦИЈА ХАНТ`;
+  if(s.liqHunt)bb.innerHTML=`<span>⚡</span>ЛИКВИДАЦИЈА ХАНТ`;
   else if(s.dir==='bull')bb.innerHTML=`<span>▲</span>BULL СИГНАЛ`;
   else if(s.dir==='bear')bb.innerHTML=`<span>▼</span>BEAR СИГНАЛ`;
   else bb.innerHTML=`<span>◆</span>NEUTRAL`;
-  const bbColors={liq:'rgba(255,102,0,.15);color:var(--orange);border:1px solid rgba(255,102,0,.35)',bull:'rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.3)',bear:'rgba(255,34,68,.1);color:var(--red);border:1px solid rgba(255,34,68,.3)',neutral:'rgba(255,208,0,.07);color:var(--yellow);border:1px solid rgba(255,208,0,.2)'};
-  const bk=s.liqHunt?'liq':s.dir;
-  bb.style.cssText=`background:${bbColors[bk]||bbColors.neutral}`;
+  const bbC={liq:'rgba(255,102,0,.15);color:var(--orange);border:1px solid rgba(255,102,0,.35)',bull:'rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.3)',bear:'rgba(255,34,68,.1);color:var(--red);border:1px solid rgba(255,34,68,.3)',neutral:'rgba(255,208,0,.07);color:var(--yellow);border:1px solid rgba(255,208,0,.2)'};
+  bb.style.cssText=`background:${bbC[s.liqHunt?'liq':s.dir]||bbC.neutral}`;
 
-  // TF switcher — show which TFs have signals
-  const coin=S.signals.find(x=>x.coin===s.coin);
-  const tfRow=document.getElementById('dpTFRow');
-  tfRow.innerHTML=TFS.map(tf=>{
-    const hasSig=coin?.tfData?.[tf];
-    const isActive=tf===S.detailTF;
-    return`<div class="dtf ${isActive?'active':''} ${hasSig&&!isActive?'has-signal':''}" onclick="switchDetailTF('${s.coin}','${tf}',this)">${tf.toUpperCase()}${hasSig?' ●':''}</div>`;
+  // TF row
+  const coinData=S.signals.find(x=>x.coin===s.coin);
+  document.getElementById('dpTFRow').innerHTML=TFS.map(tf=>{
+    const has=coinData?.tfData?.[tf];
+    return`<div class="dtf ${tf===S.detailTF?'active':''} ${has&&tf!==S.detailTF?'has-sig':''}" onclick="switchDTF('${s.coin}','${tf}',this)">${tf.toUpperCase()}${has?' ●':''}</div>`;
   }).join('');
 
-  // Metrics
   const cvdC=s.cvdDelta>=0?'up':'dn',oiC=s.oiChange>=0?'up':'dn',frC=s.fr>0.05?'dn':s.fr<-0.05?'up':'neu';
   setM('mCvd',`${s.cvdDelta>=0?'+':''}${s.cvdDelta.toFixed(1)}%`,cvdC,s.cvdDelta>0?'Buying pressure↑':'Selling pressure↑');
   setM('mOi',`${s.oiChange>=0?'+':''}${s.oiChange.toFixed(1)}%`,oiC,s.oiChange>0?'Нови позиции':'Затворени позиции');
@@ -563,70 +539,43 @@ function showDetail(s){
   setM('mHi','$'+fmt(s.high24),'up','Low: $'+fmt(s.low24));
   setM('mLiq',s.liqHunt?'⚡ ДА':'—',s.liqHunt?'or':'neu',s.liqHunt?'Spike + CVD дивергенција':'Не детектиран');
 
-  // Signal tags
-  const tags=s.sigs.map(sg=>{
-    const tc=sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu';
-    return`<span class="stag ${tc}">${sg.l}</span>`;
-  }).join('');
+  const tags=s.sigs.map(sg=>`<span class="stag ${sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu'}">${sg.l}</span>`).join('');
   document.getElementById('dpSigs').innerHTML=tags||`<span style="color:var(--muted);font-family:var(--mono);font-size:12px">Нема активни сигнали</span>`;
 
-  // Score
   const sc=s.score>=5?'var(--green)':s.score>=3?'var(--yellow)':'var(--accent)';
-  document.getElementById('scN').textContent=`Score: ${s.score}/7`;
+  document.getElementById('scN').textContent=`Score: ${s.score}/8`;
   document.getElementById('scN').style.color=sc;
-  document.getElementById('scD').textContent=s.score>=6?'⚡ Екстремно јак':s.score>=4?'Јак сигнал':s.score>=2?'Умерен':'Слаб сигнал';
-  document.getElementById('scF').style.cssText=`width:${Math.min((s.score/7)*100,100)}%;background:${sc}`;
+  document.getElementById('scD').textContent=s.score>=7?'⚡ Екстремно јак':s.score>=5?'Јак сигнал':s.score>=3?'Умерен':'Слаб сигнал';
+  document.getElementById('scF').style.cssText=`width:${Math.min((s.score/8)*100,100)}%;background:${sc}`;
 }
 
-async function switchDetailTF(coin,tf,el){
-  document.querySelectorAll('.dtf').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  S.detailTF=tf;
-  // Check if we have cached data
+async function switchDTF(coin,tf,el){
+  document.querySelectorAll('.dtf').forEach(b=>b.classList.remove('active'));el.classList.add('active');S.detailTF=tf;
   const coinData=S.signals.find(x=>x.coin===coin);
-  if(coinData?.tfData?.[tf]){
-    showDetail({...coinData,...coinData.tfData[tf],tf});
-  } else {
-    await fetchDetail(coin,tf);
-  }
+  if(coinData?.tfData?.[tf])showDetail({...coinData,...coinData.tfData[tf],tf,isAlpha:coinData.isAlpha});
+  else await fetchDetail(coin,tf);
 }
-
-function setM(id,val,cls,sub){
-  document.getElementById(id).textContent=val;
-  document.getElementById(id).className='dm-v '+(cls||'');
-  const s=document.getElementById(id+'S');
-  if(s)s.textContent=sub||'';
-}
+function setM(id,val,cls,sub){document.getElementById(id).textContent=val;document.getElementById(id).className='dm-v '+(cls||'');const s=document.getElementById(id+'S');if(s)s.textContent=sub||'';}
 function ovClick(e){if(e.target===document.getElementById('ov'))closeOv();}
 function closeOv(){document.getElementById('ov').classList.remove('open');document.getElementById('ov').style.display='none';}
 
-// ── SEARCH ───────────────────────────────────────────────────
-function onSrch(v){
-  S.srch=v.toUpperCase().replace('USDT','').trim();
-  document.getElementById('srchX').style.display=v?'block':'none';
-  if(S.srch&&!S.scanning&&S.signals.length===0){openDetail(S.srch);}
-  else renderList();
-}
+// ── UTILS ────────────────────────────────────────────────────
+function onSrch(v){S.srch=v.toUpperCase().replace('USDT','').trim();document.getElementById('srchX').style.display=v?'block':'none';if(S.srch&&!S.scanning&&S.signals.length===0)openDetail(S.srch);else renderList();}
 function clrSrch(){document.getElementById('srch').value='';document.getElementById('srchX').style.display='none';S.srch='';renderList();}
-
-// ── HELPERS ──────────────────────────────────────────────────
-function setTF(tf,el){
-  S.tf=tf;
-  document.querySelectorAll('.tf').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('sTF').textContent=tf==='all'?'СВИ':tf.toUpperCase();
-  if(S.scanning){stopScan();setTimeout(startScan,400);}
-}
+function setTF(tf,el){S.tf=tf;document.querySelectorAll('.tf').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('sTF')&&(document.getElementById('sTF').textContent=tf==='all'?'СВИ':tf.toUpperCase());if(S.scanning){stopScan();setTimeout(startScan,400);}}
 function setFil(f,el){S.filter=f;document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderList();}
-function clearAll(){S.signals=[];document.getElementById('liqArea').innerHTML='';document.getElementById('list').innerHTML='<div class="empty">📡<br>Притисни СКЕНИРАЈ</div>';['sBull','sBear','sLiq','sTot'].forEach(id=>document.getElementById(id).textContent='0');}
-function setDot(s){const d=document.getElementById('dot');d.className='live-dot'+(s==='live'?' live':s==='scan'?' scan':'');}
+function clearAll(){S.signals=[];document.getElementById('liqArea').innerHTML='';document.getElementById('list').innerHTML='<div class="empty">📡<br>Притисни СКЕНИРАЈ</div>';['sBull','sBear','sLiq','sAlpha','sTot'].forEach(id=>document.getElementById(id).textContent='0');}
+function setDot(s){const d=document.getElementById('dot');d.className='dot'+(s==='live'?' live':s==='scan'?' scan':'');}
 function setP(txt,pct){document.getElementById('progT').textContent=txt;document.getElementById('progF').style.width=pct+'%';}
 function errShow(m){const e=document.getElementById('errB');e.textContent=m;e.style.display='block';}
 function errHide(){document.getElementById('errB').style.display='none';}
 function fmt(p){if(p>=1000)return p.toLocaleString('en-US',{maximumFractionDigits:2});if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(5);return p.toFixed(8);}
 function fmtM(n){if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(0)+'K';return n.toFixed(0);}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
-function toast(m){let t=document.getElementById('_t');if(!t){t=document.createElement('div');t.id='_t';t.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#101020;border:1px solid #181830;border-radius:8px;padding:9px 16px;font-family:var(--mono);font-size:11px;z-index:999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none';document.body.appendChild(t);}t.textContent=m;t.style.opacity='1';setTimeout(()=>t.style.opacity='0',3200);}
+function toast(m){let t=document.getElementById('_t');if(!t){t=document.createElement('div');t.id='_t';t.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#101020;border:1px solid #181830;border-radius:8px;padding:9px 16px;font-family:var(--mono);font-size:11px;z-index:999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none';document.body.appendChild(t);}t.textContent=m;t.style.opacity='1';setTimeout(()=>t.style.opacity='0',3500);}
+
+// Preload Alpha list on startup
+fetchAlphaList();
 </script>
 </body>
 </html>
