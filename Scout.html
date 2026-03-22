@@ -204,7 +204,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
     <div class="tf"         id="tf-1h"  onclick="setTF('1h',this)">1Ч</div>
     <div class="tf"         id="tf-1d"  onclick="setTF('1d',this)">1Д</div>
     <div class="tf"         id="tf-1w"  onclick="setTF('1w',this)">1Н</div>
-    <div class="tf all-tf"  id="tf-all" onclick="setTF('all',this)">СВИ</div>
+    <div class="tf all-tf"  id="tf-all" onclick="setTF('all',this)">СИТЕ</div>
   </div>
 </div>
 
@@ -518,18 +518,24 @@ async function loadAllTFs(coin, coinData){
     if(!r&&_tMap[coin]){
       r=await analyzeOneTF(coin,_tMap[coin],_fMap[coin]||0,tf);
     }
-    renderTFCard(tf,r);
+    renderTFCard(tf,r,coin);
   }));
 }
 
-function renderTFCard(tf,r){
+function renderTFCard(tf,r,coin){
   const card=document.getElementById(`tfc-${tf}`);
   if(!card)return;
+  // Binance TF mapping
+  const bnTF={'1m':'1m','5m':'5m','15m':'15m','1h':'1h','1d':'1D','1w':'1W'};
+  const bnUrl=coin?`https://www.binance.com/en/futures/${coin}USDT?type=isolated&interval=${bnTF[tf]||tf}`:'';
+  const linkOpen=bnUrl?`onclick="window.open('${bnUrl}','_blank')" style="cursor:pointer"`:'';
+  const chartIcon=bnUrl?`<span style="font-size:10px;color:var(--muted);margin-left:4px">↗</span>`:'';
+
   if(!r){
     card.className='tf-card tf-none';
     card.innerHTML=`
-      <div class="tf-card-header">
-        <span class="tf-label">${TF_LABELS[tf]}</span>
+      <div class="tf-card-header" ${linkOpen}>
+        <span class="tf-label">${TF_LABELS[tf]}${chartIcon}</span>
         <span class="tf-dir-badge tdb-none">—</span>
       </div>
       <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Нема сигнал</div>`;
@@ -544,8 +550,8 @@ function renderTFCard(tf,r){
   const sigTags=r.sigs.map(sg=>`<span class="tf-sig ${sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu'}">${sg.l}</span>`).join('');
   card.className=`tf-card tf-has-signal ${dirClass}`;
   card.innerHTML=`
-    <div class="tf-card-header">
-      <span class="tf-label">${TF_LABELS[tf]}</span>
+    <div class="tf-card-header" ${linkOpen}>
+      <span class="tf-label">${TF_LABELS[tf]}${chartIcon}</span>
       ${dirBadge}
     </div>
     <div class="tf-metrics">
@@ -579,7 +585,7 @@ async function fetchAndShowDetail(coin){
   const best=results.filter(Boolean).sort((a,b)=>b.score-a.score)[0];
   if(best)populateDetail({...best,isAlpha:isAlpha(coin),tfData:{}});
   else populateDetail({coin,price:parseFloat(ticker.lastPrice),priceChg:parseFloat(ticker.priceChangePercent),volume:parseFloat(ticker.quoteVolume),high24:parseFloat(ticker.highPrice),low24:parseFloat(ticker.lowPrice),cvdDelta:0,oiChange:0,fr:_fMap[coin]||0,liqHunt:false,score:0,sigs:[],dir:'neutral',tf:'1m',isAlpha:isAlpha(coin),ts:new Date().toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit',second:'2-digit'})});
-  TFS.forEach((tf,i)=>renderTFCard(tf,results[i]));
+  TFS.forEach((tf,i)=>renderTFCard(tf,results[i],coin));
 }
 
 function setM(id,val,cls,sub){document.getElementById(id).textContent=val;document.getElementById(id).className='dm-v '+(cls||'');const s=document.getElementById(id+'S');if(s)s.textContent=sub||'';}
