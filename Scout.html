@@ -130,14 +130,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .dp-tf-section{padding:12px 16px;border-bottom:1px solid var(--border)}
 .section-title{font-size:10px;color:var(--text2);letter-spacing:1.5px;font-family:var(--mono);margin-bottom:10px;text-transform:uppercase}
 .tf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.tf-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;position:relative;overflow:hidden}
+.tf-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;position:relative;overflow:hidden;transition:border-color .2s}
+.tf-card:hover{border-color:rgba(0,229,255,.5)}
 .tf-card.tf-has-signal{border-color:rgba(0,229,255,.3)}
 .tf-card.tf-bull{border-left:3px solid var(--green)}
 .tf-card.tf-bear{border-left:3px solid var(--red)}
 .tf-card.tf-liq{border-left:3px solid var(--orange)}
 .tf-card.tf-neutral{border-left:3px solid var(--yellow)}
 .tf-card.tf-none{opacity:.45}
-.tf-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.tf-card a{text-decoration:none;color:inherit;display:block}
+.tf-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;cursor:pointer}
 .tf-label{font-family:var(--mono);font-size:13px;font-weight:bold;color:var(--text)}
 .tf-dir-badge{font-size:10px;padding:2px 8px;border-radius:3px;font-family:var(--mono);font-weight:bold}
 .tdb-bull{background:rgba(0,255,136,.12);color:var(--green)}
@@ -156,6 +158,24 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .tf-sigs{display:flex;gap:3px;flex-wrap:wrap;margin-top:6px}
 .tf-sig{font-size:9px;padding:2px 5px;border-radius:2px;font-family:var(--mono);font-weight:bold;background:rgba(128,128,128,.08)}
 .tf-loading{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:center;padding:8px}
+
+/* ── DESKTOP RESPONSIVE ── */
+@media (min-width:768px){
+  html,body{overflow:auto}
+  body{max-width:900px;margin:0 auto}
+  .tf-grid{grid-template-columns:repeat(3,1fr);gap:12px}
+  .dp{max-height:none;border-radius:12px;margin:20px;width:auto}
+  .ov{align-items:center;justify-content:center}
+  .hdr{padding:12px 20px}
+  .ctrl{padding:10px 20px}
+  .frow{padding:8px 20px}
+  .list-wrap{overflow-y:auto;max-height:calc(100vh - 280px)}
+  .crow{min-height:60px}
+  .crow-sym{font-size:16px}
+  .crow-price{font-size:14px}
+  .dp-metrics{grid-template-columns:repeat(3,1fr)}
+  .dp-p{font-size:28px}
+}
 
 /* Metrics grid */
 .dp-metrics{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:12px 16px;border-bottom:1px solid var(--border)}
@@ -534,31 +554,26 @@ async function loadAllTFs(coin, coinData){
 function openBinance(coin,tf){
   const bnTF={'1m':'1m','5m':'5m','15m':'15m','1h':'1h','1d':'1D','1w':'1W'};
   const url=`https://www.binance.com/en/futures/${coin}USDT?type=isolated&interval=${bnTF[tf]||tf}`;
-  window.location.href=url;
+  // Works on both Safari iOS and desktop Chrome/Brave
+  const a=document.createElement('a');
+  a.href=url;a.target='_blank';a.rel='noopener';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 
 function renderTFCard(tf,r,coin){
   const card=document.getElementById(`tfc-${tf}`);
   if(!card)return;
-  const bnTF={'1m':'1m','5m':'5m','15m':'15m','1h':'1h','1d':'1D','1w':'1W'};
-  const url=coin?`https://www.binance.com/en/futures/${coin}USDT?type=isolated&interval=${bnTF[tf]||tf}`:'';
-  const chartIcon=`<span style="font-size:11px;color:var(--accent)"> ↗</span>`;
+  const chartIcon=coin?`<span style="font-size:11px;color:var(--accent)"> ↗</span>`:'';
+  const clickAttr=coin?`onclick="openBinance('${coin}','${tf}')" style="cursor:pointer"`:'';
 
   if(!r){
     card.className='tf-card tf-none';
-    card.innerHTML=url?`
-      <a href="${url}" style="text-decoration:none;color:inherit;display:block">
-        <div class="tf-card-header">
-          <span class="tf-label">${TF_LABELS[tf]}${chartIcon}</span>
-          <span class="tf-dir-badge tdb-none">—</span>
-        </div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Нема сигнал</div>
-      </a>`:`
-        <div class="tf-card-header">
-          <span class="tf-label">${TF_LABELS[tf]}</span>
-          <span class="tf-dir-badge tdb-none">—</span>
-        </div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Нема сигнал</div>`;
+    card.innerHTML=`
+      <div class="tf-card-header" ${clickAttr}>
+        <span class="tf-label">${TF_LABELS[tf]}${chartIcon}</span>
+        <span class="tf-dir-badge tdb-none">—</span>
+      </div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Нема сигнал</div>`;
     return;
   }
 
@@ -569,8 +584,10 @@ function renderTFCard(tf,r,coin){
   const frC=r.fr>0.05?'dn':r.fr<-0.05?'up':'neu';
   const sc=r.score>=5?'var(--green)':r.score>=3?'var(--yellow)':'var(--accent)';
   const sigTags=r.sigs.map(sg=>`<span class="tf-sig ${sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu'}">${sg.l}</span>`).join('');
-  const inner=`
-    <div class="tf-card-header">
+
+  card.className=`tf-card tf-has-signal ${dirClass}`;
+  card.innerHTML=`
+    <div class="tf-card-header" ${clickAttr}>
       <span class="tf-label">${TF_LABELS[tf]}${chartIcon}</span>
       ${dirBadge}
     </div>
@@ -585,11 +602,6 @@ function renderTFCard(tf,r,coin){
       <div class="tf-score-bg"><div class="tf-score-fill" style="width:${Math.min((r.score/8)*100,100)}%;background:${sc}"></div></div>
       <span class="tf-score-num" style="color:${sc}">${r.score}/8</span>
     </div>`;
-
-  card.className=`tf-card tf-has-signal ${dirClass}`;
-  card.innerHTML=url
-    ?`<a href="${url}" style="text-decoration:none;color:inherit;display:block">${inner}</a>`
-    :inner;
 }
 
 async function fetchAndShowDetail(coin){
