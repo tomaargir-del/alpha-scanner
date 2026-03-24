@@ -129,8 +129,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 /* ── ALL TIMEFRAMES GRID ── */
 .dp-tf-section{padding:12px 16px;border-bottom:1px solid var(--border)}
 .section-title{font-size:10px;color:var(--text2);letter-spacing:1.5px;font-family:var(--mono);margin-bottom:10px;text-transform:uppercase}
-.tf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.tf-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;position:relative;overflow:hidden;transition:border-color .2s}
+.tf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.tf-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;position:relative;overflow:hidden;transition:border-color .2s}
 .tf-card:hover{border-color:rgba(0,229,255,.5)}
 .tf-card.tf-has-signal{border-color:rgba(0,229,255,.3)}
 .tf-card.tf-bull{border-left:3px solid var(--green)}
@@ -218,12 +217,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
   <button class="btn btn-stop"  id="btnX" onclick="stopScan()" style="display:none">⏹ СТОП</button>
   <button class="btn btn-clear" onclick="clearAll()">🗑</button>
   <div class="tf-wrap">
-    <div class="tf active"  id="tf-1m"  onclick="setTF('1m',this)">1М</div>
-    <div class="tf"         id="tf-5m"  onclick="setTF('5m',this)">5М</div>
-    <div class="tf"         id="tf-15m" onclick="setTF('15m',this)">15М</div>
-    <div class="tf"         id="tf-1h"  onclick="setTF('1h',this)">1Ч</div>
-    <div class="tf"         id="tf-1d"  onclick="setTF('1d',this)">1Д</div>
-    <div class="tf"         id="tf-1w"  onclick="setTF('1w',this)">1Н</div>
+    <div class="tf active"  id="tf-1m"  onclick="setTF('1m',this)">1m</div>
+    <div class="tf"         id="tf-5m"  onclick="setTF('5m',this)">5m</div>
+    <div class="tf"         id="tf-15m" onclick="setTF('15m',this)">15m</div>
+    <div class="tf"         id="tf-1h"  onclick="setTF('1h',this)">1h</div>
+    <div class="tf"         id="tf-3h"  onclick="setTF('3h',this)">3h</div>
+    <div class="tf"         id="tf-4h"  onclick="setTF('4h',this)">4h</div>
+    <div class="tf"         id="tf-12h" onclick="setTF('12h',this)">12h</div>
+    <div class="tf"         id="tf-1d"  onclick="setTF('1d',this)">1d</div>
+    <div class="tf"         id="tf-1w"  onclick="setTF('1w',this)">1w</div>
     <div class="tf all-tf"  id="tf-all" onclick="setTF('all',this)">СИТЕ</div>
   </div>
 </div>
@@ -288,7 +290,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
     <!-- BEST TF METRICS -->
     <div class="dp-metrics">
       <div class="dm"><div class="dm-l">CVD Δ</div><div class="dm-v" id="mCvd">—</div><div class="dm-s" id="mCvdS">—</div></div>
-      <div class="dm"><div class="dm-l">OI Δ EST</div><div class="dm-v" id="mOi">—</div><div class="dm-s" id="mOiS">—</div></div>
+      <div class="dm"><div class="dm-l">OI (коини)</div><div class="dm-v" id="mOi">—</div><div class="dm-s" id="mOiS">—</div></div>
+      <div class="dm"><div class="dm-l">OI (USDT)</div><div class="dm-v bl" id="mOiUsdt">—</div><div class="dm-s" id="mOiUsdtS">—</div></div>
       <div class="dm"><div class="dm-l">Funding Rate</div><div class="dm-v" id="mFr">—</div><div class="dm-s" id="mFrS">—</div></div>
       <div class="dm"><div class="dm-l">Волумен 24Ч</div><div class="dm-v bl" id="mVol">—</div><div class="dm-s" id="mVolS">—</div></div>
       <div class="dm"><div class="dm-l">24Ч High</div><div class="dm-v up" id="mHi">—</div><div class="dm-s" id="mHiS">—</div></div>
@@ -311,8 +314,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 const FAPI  = 'https://fapi.binance.com/fapi/v1';
 const BAPI  = 'https://www.binance.com/bapi/defi/v1/public/wallet-direct/buw/wallet/cex/alpha/all/token/list';
 const PROXY = 'https://api.allorigins.win/raw?url=';
-const TFS   = ['1m','5m','15m','1h','1d','1w'];
-const TF_LABELS = {'1m':'1М','5m':'5М','15m':'15М','1h':'1Ч','1d':'1Д','1w':'1Н'};
+const TFS   = ['1m','5m','15m','1h','3h','4h','12h','1d','1w'];
+const TF_LABELS = {'1m':'1m','5m':'5m','15m':'15m','1h':'1h','3h':'3h','4h':'4h','12h':'12h','1d':'1d','1w':'1w'};
 
 const S={scanning:false,timer:null,abort:false,signals:[],filter:'all',tf:'1m',srch:'',alphaSet:new Set()};
 let _tMap={},_fMap={};
@@ -414,7 +417,8 @@ async function doScan(){
 
 async function analyzeOneTF(coin,ticker,fr,tf){
   const price=parseFloat(ticker.lastPrice),priceChg=parseFloat(ticker.priceChangePercent),volume=parseFloat(ticker.quoteVolume),high24=parseFloat(ticker.highPrice),low24=parseFloat(ticker.lowPrice);
-  let cvdDelta=0,liqHunt=false,oiChange=0;
+  let cvdDelta=0,liqHunt=false,liqType='',oiChange=0,oiUsdt=0,oiCoins=0;
+
   try{
     const klines=await apiFetch(`/klines?symbol=${coin}USDT&interval=${tf}&limit=20`);
     if(klines&&klines.length>=10){
@@ -424,21 +428,65 @@ async function analyzeOneTF(coin,ticker,fr,tf){
       cvdDelta=((lT>0?lB/lT:.5)-(eT>0?eB/eT:.5))*100;
       const v1=klines.slice(-5).reduce((s,k)=>s+parseFloat(k[7]),0),v2=klines.slice(-10,-5).reduce((s,k)=>s+parseFloat(k[7]),0);
       oiChange=v2>0?((v1-v2)/v2)*100:0;
-      for(const k of klines.slice(-3)){const hi=parseFloat(k[2]),lo=parseFloat(k[3]),op=parseFloat(k[1]),cl=parseFloat(k[4]),body=Math.abs(cl-op),range=hi-lo;if(range>0&&body/range<0.38&&(priceChg>0)!==(cvdDelta>0))liqHunt=true;}
+      // Improved liq hunt: price spike + CVD divergence
+      for(const k of klines.slice(-3)){
+        const hi=parseFloat(k[2]),lo=parseFloat(k[3]),op=parseFloat(k[1]),cl=parseFloat(k[4]);
+        const body=Math.abs(cl-op),range=hi-lo;
+        if(range>0&&body/range<0.38){
+          const priceGoingUp=priceChg>0,cvdGoingUp=cvdDelta>0;
+          if(priceGoingUp!==cvdGoingUp){
+            liqHunt=true;
+            // Bull liq hunt = price up + CVD down = short liquidations
+            // Bear liq hunt = price down + CVD up = long liquidations
+            liqType=priceGoingUp?'bull':'bear';
+          }
+        }
+      }
     }
   }catch(e){}
+
+  // Fetch real OI data
+  try{
+    const oiData=await apiFetch(`/openInterest?symbol=${coin}USDT`);
+    if(oiData){
+      oiCoins=parseFloat(oiData.openInterest);
+      oiUsdt=oiCoins*price;
+    }
+  }catch(e){}
+
   let score=0;const sigs=[];
+
+  // Price momentum
   if(Math.abs(priceChg)>2){score++;sigs.push({l:`${priceChg>0?'+':''}${priceChg.toFixed(1)}%`,t:priceChg>0?'bull':'bear'});}
-  if(Math.abs(cvdDelta)>3){const cb=cvdDelta>0,pb=priceChg>0;if(cb!==pb){score+=2;sigs.push({l:'CVD DIV',t:cb?'bull':'bear'});}else{score++;sigs.push({l:'CVD CONF',t:cb?'bull':'bear'});}}
+
+  // CVD
+  if(Math.abs(cvdDelta)>3){
+    const cb=cvdDelta>0,pb=priceChg>0;
+    if(cb!==pb){score+=2;sigs.push({l:'CVD DIV',t:cb?'bull':'bear'});}
+    else{score++;sigs.push({l:'CVD CONF',t:cb?'bull':'bear'});}
+  }
+
+  // OI change
   if(Math.abs(oiChange)>2){score++;sigs.push({l:`OI ${oiChange>0?'+':''}${oiChange.toFixed(1)}%`,t:oiChange>0?'bull':'bear'});}
+
+  // Funding
   if(Math.abs(fr)>0.03){score++;sigs.push({l:`FR ${fr>0?'+':''}${fr.toFixed(4)}%`,t:fr>0.05?'bear':'bull'});}
-  if(liqHunt){score+=2;sigs.push({l:'⚡ЛИК',t:'liq'});}
+
+  // Liq hunt — with type
+  if(liqHunt){
+    score+=2;
+    const liqLabel=liqType==='bull'?'⚡ЛИК-BULL':'⚡ЛИК-BEAR';
+    sigs.push({l:liqLabel,t:'liq'});
+  }
+
+  // Volume bonus
   if(volume>5000000)score++;
   if(isAlpha(coin))score++;
+
   if(score===0)return null;
   const bulls=sigs.filter(s=>s.t==='bull').length,bears=sigs.filter(s=>s.t==='bear').length,liqs=sigs.filter(s=>s.t==='liq').length;
-  const dir=liqs>0?'liq':bulls>bears?'bull':bears>bulls?'bear':'neutral';
-  return{coin,price,priceChg,volume,high24,low24,cvdDelta,oiChange,fr,liqHunt,score,sigs,dir,tf,ts:new Date().toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit',second:'2-digit'})};
+  const dir=liqs>0?liqType||'liq':bulls>bears?'bull':bears>bulls?'bear':'neutral';
+  return{coin,price,priceChg,volume,high24,low24,cvdDelta,oiChange,oiUsdt,oiCoins,fr,liqHunt,liqType,score,sigs,dir,tf,ts:new Date().toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit',second:'2-digit'})};
 }
 
 // ── RENDER LIST ──────────────────────────────────────────────
@@ -507,27 +555,44 @@ function openDetail(coin){
 function populateDetail(s){
   document.getElementById('dpSym').textContent=s.coin;
   document.getElementById('dpAlphaBadge').innerHTML=s.isAlpha?`<div class="dp-alpha-badge">🅐 BINANCE ALPHA</div>`:'';
-  document.getElementById('dpSub').textContent=`${s.coin}USDT PERP · Најдобар TF: ${s.tf.toUpperCase()} · ${s.ts}`;
+  document.getElementById('dpSub').textContent=`${s.coin}USDT PERP · Најдобар TF: ${s.tf} · ${s.ts}`;
   const pc=s.priceChg>=0;
   document.getElementById('dpP').textContent='$'+fmt(s.price);
   const dc=document.getElementById('dpC');dc.textContent=(pc?'+':'')+s.priceChg.toFixed(2)+'%';dc.className='dp-c '+(pc?'up':'dn');
-  // Big badge
+
+  // Big badge — with liq type
   const bb=document.getElementById('dpBB');
-  const bbMap={liq:['⚡ ЛИКВИДАЦИЈА ХАНТ','rgba(255,102,0,.15)','var(--orange)','rgba(255,102,0,.35)'],bull:['▲ BULL СИГНАЛ','rgba(0,255,136,.1)','var(--green)','rgba(0,255,136,.3)'],bear:['▼ BEAR СИГНАЛ','rgba(255,34,68,.1)','var(--red)','rgba(255,34,68,.3)'],neutral:['◆ NEUTRAL','rgba(255,208,0,.07)','var(--yellow)','rgba(255,208,0,.2)']};
-  const bk=s.liqHunt?'liq':s.dir in bbMap?s.dir:'neutral';
-  const[txt,bg,col,brd]=bbMap[bk];
-  bb.textContent=txt;bb.style.cssText=`background:${bg};color:${col};border:1px solid ${brd}`;
+  let bbTxt,bbBg,bbCol,bbBrd;
+  if(s.liqHunt&&s.liqType==='bull'){bbTxt='⚡ LIQ HUNT — SHORT SQUEEZE';bbBg='rgba(255,102,0,.15)';bbCol='var(--orange)';bbBrd='rgba(255,102,0,.35)';}
+  else if(s.liqHunt&&s.liqType==='bear'){bbTxt='⚡ LIQ HUNT — LONG DUMP';bbBg='rgba(255,34,68,.12)';bbCol='var(--red)';bbBrd='rgba(255,34,68,.35)';}
+  else if(s.liqHunt){bbTxt='⚡ ЛИКВИДАЦИЈА ХАНТ';bbBg='rgba(255,102,0,.15)';bbCol='var(--orange)';bbBrd='rgba(255,102,0,.35)';}
+  else if(s.dir==='bull'){bbTxt='▲ BULL СИГНАЛ';bbBg='rgba(0,255,136,.1)';bbCol='var(--green)';bbBrd='rgba(0,255,136,.3)';}
+  else if(s.dir==='bear'){bbTxt='▼ BEAR СИГНАЛ';bbBg='rgba(255,34,68,.1)';bbCol='var(--red)';bbBrd='rgba(255,34,68,.3)';}
+  else{bbTxt='◆ NEUTRAL';bbBg='rgba(255,208,0,.07)';bbCol='var(--yellow)';bbBrd='rgba(255,208,0,.2)';}
+  bb.textContent=bbTxt;bb.style.cssText=`background:${bbBg};color:${bbCol};border:1px solid ${bbBrd}`;
+
   // Metrics
   const cvdC=s.cvdDelta>=0?'up':'dn',oiC=s.oiChange>=0?'up':'dn',frC=s.fr>0.05?'dn':s.fr<-0.05?'up':'neu';
   setM('mCvd',`${s.cvdDelta>=0?'+':''}${s.cvdDelta.toFixed(1)}%`,cvdC,s.cvdDelta>0?'Buying pressure↑':'Selling pressure↑');
-  setM('mOi',`${s.oiChange>=0?'+':''}${s.oiChange.toFixed(1)}%`,oiC,s.oiChange>0?'Нови позиции':'Затворени позиции');
+
+  // OI in coins + USDT
+  const oiCoinsStr=s.oiCoins>0?fmtM(s.oiCoins)+' '+s.coin:'—';
+  const oiUsdtStr=s.oiUsdt>0?'$'+fmtM(s.oiUsdt):'—';
+  const oiChgStr=`Промена: ${s.oiChange>=0?'+':''}${s.oiChange.toFixed(1)}%`;
+  setM('mOi',oiCoinsStr,oiC,oiChgStr);
+  setM('mOiUsdt',oiUsdtStr,'bl',s.oiUsdt>0?'Вкупен OI во USDT':'—');
+
   setM('mFr',`${s.fr>=0?'+':''}${s.fr.toFixed(4)}%`,frC,s.fr>0.05?'Лонгови плаќаат':s.fr<-0.05?'Шортови плаќаат':'Неутрален');
-  setM('mVol',fmtM(s.volume),'bl','24Ч USDT промет');
+  setM('mVol',fmtM(s.volume),'bl','24h USDT промет');
   setM('mHi','$'+fmt(s.high24),'up','Low: $'+fmt(s.low24));
-  setM('mLiq',s.liqHunt?'⚡ ДА':'—',s.liqHunt?'or':'neu',s.liqHunt?'Spike + CVD дивергенција':'Не детектиран');
+
+  const liqDesc=s.liqHunt?(s.liqType==='bull'?'Spike↑ + CVD↓ = Short squeeze':'Spike↓ + CVD↑ = Long dump'):'Не детектиран';
+  setM('mLiq',s.liqHunt?'⚡ ДА':'—',s.liqHunt?'or':'neu',liqDesc);
+
   // Signals
   const tags=s.sigs.map(sg=>`<span class="stag ${sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu'}">${sg.l}</span>`).join('');
   document.getElementById('dpSigs').innerHTML=tags||`<span style="color:var(--muted);font-family:var(--mono);font-size:12px">Нема активни сигнали</span>`;
+
   // Score
   const sc=s.score>=5?'var(--green)':s.score>=3?'var(--yellow)':'var(--accent)';
   document.getElementById('scN').textContent=`Score: ${s.score}/8`;document.getElementById('scN').style.color=sc;
@@ -578,12 +643,14 @@ function renderTFCard(tf,r,coin){
   }
 
   const dirClass=r.liqHunt?'tf-liq':r.dir==='bull'?'tf-bull':r.dir==='bear'?'tf-bear':'tf-neutral';
-  const dirBadge=r.liqHunt?'<span class="tf-dir-badge tdb-liq">⚡ЛИК</span>':r.dir==='bull'?'<span class="tf-dir-badge tdb-bull">▲BULL</span>':r.dir==='bear'?'<span class="tf-dir-badge tdb-bear">▼BEAR</span>':`<span class="tf-dir-badge tdb-neu">◆NEU</span>`;
+  const liqLabel=r.liqHunt?(r.liqType==='bull'?'⚡SHORT SQ':r.liqType==='bear'?'⚡LONG DMP':'⚡ЛИК'):'';
+  const dirBadge=r.liqHunt?`<span class="tf-dir-badge tdb-liq">${liqLabel}</span>`:r.dir==='bull'?'<span class="tf-dir-badge tdb-bull">▲BULL</span>':r.dir==='bear'?'<span class="tf-dir-badge tdb-bear">▼BEAR</span>':`<span class="tf-dir-badge tdb-neu">◆NEU</span>`;
   const cvdC=r.cvdDelta>=0?'up':'dn';
   const oiC=r.oiChange>=0?'up':'dn';
   const frC=r.fr>0.05?'dn':r.fr<-0.05?'up':'neu';
   const sc=r.score>=5?'var(--green)':r.score>=3?'var(--yellow)':'var(--accent)';
   const sigTags=r.sigs.map(sg=>`<span class="tf-sig ${sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu'}">${sg.l}</span>`).join('');
+  const oiUsdtStr=r.oiUsdt>0?'$'+fmtM(r.oiUsdt):'—';
 
   card.className=`tf-card tf-has-signal ${dirClass}`;
   card.innerHTML=`
@@ -594,8 +661,8 @@ function renderTFCard(tf,r,coin){
     <div class="tf-metrics">
       <div class="tf-metric"><div class="tf-metric-label">CVD Δ</div><div class="tf-metric-val ${cvdC}">${r.cvdDelta>=0?'+':''}${r.cvdDelta.toFixed(1)}%</div></div>
       <div class="tf-metric"><div class="tf-metric-label">OI Δ</div><div class="tf-metric-val ${oiC}">${r.oiChange>=0?'+':''}${r.oiChange.toFixed(1)}%</div></div>
+      <div class="tf-metric"><div class="tf-metric-label">OI USDT</div><div class="tf-metric-val bl">${oiUsdtStr}</div></div>
       <div class="tf-metric"><div class="tf-metric-label">Funding</div><div class="tf-metric-val ${frC}">${r.fr>=0?'+':''}${r.fr.toFixed(3)}%</div></div>
-      <div class="tf-metric"><div class="tf-metric-label">Лик Хант</div><div class="tf-metric-val ${r.liqHunt?'or':'neu'}">${r.liqHunt?'⚡ДА':'—'}</div></div>
     </div>
     <div class="tf-sigs">${sigTags}</div>
     <div class="tf-score-row">
