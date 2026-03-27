@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#07070f">
 <title>ALPHA SCOUT</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 :root{
   --bg:#07070f;--bg2:#0d0d1c;--card:#121220;--border:#1e1e35;
@@ -306,11 +306,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
       <div class="chart-title" id="chartTitle">// OI + CVD ГРАФИЦИ</div>
       <div class="chart-wrap">
         <div class="chart-tf-label" id="oiChartLabel">🟡 OI коини (лево) · ⚪ OI USDT (десно)</div>
-        <div id="oiChart" style="height:140px;width:100%"></div>
+        <div style="position:relative;height:140px;width:100%"><canvas id="oiChart"></canvas></div>
       </div>
       <div class="chart-wrap">
         <div class="chart-tf-label" id="cvdChartLabel">CVD (Cumulative Volume Delta)</div>
-        <div id="cvdChart" style="height:110px;width:100%"></div>
+        <div style="position:relative;height:110px;width:100%"><canvas id="cvdChart"></canvas></div>
       </div>
     </div>
 
@@ -714,88 +714,131 @@ function renderTFCard(tf,r,coin){
 }
 
 // ── CHARTS ────────────────────────────────────────────────
-let _oiChart=null,_cvdChart=null,_oiSeries1=null,_oiSeries2=null,_cvdSeries=null;
-
-const CHART_OPTS={
-  layout:{background:{color:'#121220'},textColor:'#b0b0cc'},
-  grid:{vertLines:{color:'rgba(255,255,255,0.04)'},horzLines:{color:'rgba(255,255,255,0.04)'}},
-  timeScale:{borderColor:'#1e1e35',timeVisible:true,secondsVisible:false},
-  rightPriceScale:{borderColor:'#1e1e35'},
-  crosshair:{mode:1},
-  handleScroll:true,handleScale:true
-};
+let _oiChart=null,_cvdChart=null;
 
 function destroyCharts(){
-  if(_oiChart){_oiChart.remove();_oiChart=null;}
-  if(_cvdChart){_cvdChart.remove();_cvdChart=null;}
-  _oiSeries1=null;_oiSeries2=null;_cvdSeries=null;
+  if(_oiChart){try{_oiChart.destroy();}catch(e){}finally{_oiChart=null;}}
+  if(_cvdChart){try{_cvdChart.destroy();}catch(e){}finally{_cvdChart=null;}}
 }
 
 async function showTFCharts(coin,tf,cachedData){
-  // Highlight selected card
   document.querySelectorAll('.tf-card').forEach(c=>c.classList.remove('tf-selected'));
   const card=document.getElementById(`tfc-${tf}`);
   if(card)card.classList.add('tf-selected');
 
   const chartsEl=document.getElementById('dpCharts');
-  chartsEl.style.display='block';
   document.getElementById('chartTitle').textContent=`// ${coin} · ${tf} · OI + CVD`;
-  document.getElementById('oiChartLabel').textContent=`OI коини (жолто) · OI USDT (бело) · ${tf} — нормализирано за crossover`;
+  document.getElementById('oiChartLabel').textContent=`🟡 OI ${coin} коини (лево) · ⚪ OI USDT (десно) · ${tf}`;
   document.getElementById('cvdChartLabel').textContent=`CVD (Cumulative Volume Delta) · ${tf}`;
 
+  // ВАЖНО: прво прикажи, потоа скролај и создај графици
+  chartsEl.style.display='block';
+  await sleep(50); // чекај DOM да се ажурира
   chartsEl.scrollIntoView({behavior:'smooth',block:'start'});
 
-  // Destroy old charts
   destroyCharts();
 
   const klines=await apiFetch(`/klines?symbol=${coin}USDT&interval=${tf}&limit=50`);
-  if(!klines||klines.length<2)return;
+  if(!klines||klines.length<2){
+    document.getElementById('oiChartLabel').textContent='⚠️ Нема податоци за овој TF';
+    return;
+  }
 
-  const toTime=ts=>Math.floor(ts/1000);
-
-  // OI Chart — две линии на два axes (жолта=коини, бела=USDT)
-  const oiEl=document.getElementById('oiChart');
-  oiEl.innerHTML='';
-  _oiChart=LightweightCharts.createChart(oiEl,{
-    ...CHART_OPTS,height:160,
-    leftPriceScale:{visible:true,borderColor:'#1e1e35',scaleMargins:{top:0.1,bottom:0.1}},
-    rightPriceScale:{visible:true,borderColor:'#1e1e35',scaleMargins:{top:0.1,bottom:0.1}},
+  const labels=klines.map(k=>{
+    const d=new Date(parseInt(k[0]));
+    return d.toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit'});
   });
 
-  // OI Coins — жолта линија, лева оска
-  _oiSeries1=_oiChart.addLineSeries({
-    color:'#ffd000',lineWidth:2,priceScaleId:'left',
-    title:'OI '+coin,lastValueVisible:true,crosshairMarkerVisible:true,
+  const oiCoins=klines.map(k=>parseFloat(k[5]));
+  const oiUsdt=klines.map(k=>parseFloat(k[7]));
+
+  const tickColor='#505068';
+  const gridColor='rgba(255,255,255,0.04)';
+  const tooltipOpts={mode:'index',intersect:false,backgroundColor:'rgba(13,13,28,0.95)',titleColor:'#b0b0cc',bodyColor:'#f0f0ff',borderColor:'#1e1e35',borderWidth:1};
+
+  // ── OI Chart — Binance стил: барови=коини, линија=USDT ──
+  const oiCanvas=document.getElementById('oiChart');
+  const oiCtx=oiCanvas.getContext('2d');
+  _oiChart=new Chart(oiCtx,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {
+          label:`OI ${coin}`,
+          data:oiCoins,
+          backgroundColor:'rgba(255,208,0,0.7)',
+          borderColor:'rgba(255,208,0,0.9)',
+          borderWidth:1,
+          borderRadius:1,
+          yAxisID:'yL',
+          order:2,
+          type:'bar'
+        },
+        {
+          label:'OI USDT',
+          data:oiUsdt,
+          borderColor:'#e0e0ff',
+          backgroundColor:'transparent',
+          borderWidth:2,
+          pointRadius:3,
+          pointHoverRadius:5,
+          pointBackgroundColor:'#e0e0ff',
+          pointBorderColor:'#e0e0ff',
+          yAxisID:'yR',
+          order:1,
+          type:'line',
+          tension:0.2
+        }
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:false,
+      plugins:{
+        legend:{display:true,labels:{color:'#b0b0cc',font:{size:10},boxWidth:12,usePointStyle:false}},
+        tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(13,13,28,0.95)',titleColor:'#b0b0cc',bodyColor:'#f0f0ff',borderColor:'#1e1e35',borderWidth:1}
+      },
+      scales:{
+        x:{ticks:{color:tickColor,font:{size:9},maxTicksLimit:8},grid:{color:gridColor},border:{color:'#1e1e35'}},
+        yL:{position:'left',ticks:{color:'#ffd000',font:{size:9},maxTicksLimit:5,callback:v=>fmtM(v)},grid:{color:gridColor},border:{color:'#1e1e35'},title:{display:true,text:coin,color:'#ffd000',font:{size:9}}},
+        yR:{position:'right',ticks:{color:'#c8c8ff',font:{size:9},maxTicksLimit:5,callback:v=>fmtM(v)},grid:{display:false},border:{color:'#1e1e35'},title:{display:true,text:'USDT',color:'#c8c8ff',font:{size:9}}}
+      }
+    }
   });
-  _oiSeries1.setData(klines.map(k=>({time:toTime(k[0]),value:parseFloat(k[5])})));
 
-  // OI USDT — бела линија, десна оска
-  _oiSeries2=_oiChart.addLineSeries({
-    color:'#e0e0ff',lineWidth:2,priceScaleId:'right',
-    title:'OI USDT',lastValueVisible:true,crosshairMarkerVisible:true,
-  });
-  _oiSeries2.setData(klines.map(k=>({time:toTime(k[0]),value:parseFloat(k[7])})));
-  _oiChart.timeScale().fitContent();
-
-  // CVD Chart
-  const cvdEl=document.getElementById('cvdChart');
-  cvdEl.innerHTML='';
-  _cvdChart=LightweightCharts.createChart(cvdEl,{...CHART_OPTS,height:110});
-
+  // ── CVD Chart ──
   let cumCVD=0;
   const cvdData=klines.map(k=>{
     const buy=parseFloat(k[9]),total=parseFloat(k[5]);
     cumCVD+=(buy-(total-buy));
-    return{time:toTime(k[0]),value:cumCVD};
+    return cumCVD;
   });
+  const cvdLast=cvdData[cvdData.length-1]||0;
+  const cvdColor=cvdLast>=0?'rgba(0,255,136,0.9)':'rgba(255,34,68,0.9)';
+  const cvdFill=cvdLast>=0?'rgba(0,255,136,0.08)':'rgba(255,34,68,0.08)';
 
-  const cvdColor=cvdData[cvdData.length-1]?.value>=0?'rgba(0,255,136,0.9)':'rgba(255,34,68,0.9)';
-  _cvdSeries=_cvdChart.addAreaSeries({
-    lineColor:cvdColor,topColor:cvdColor.replace('0.9','0.15'),
-    bottomColor:'rgba(0,0,0,0)',lineWidth:2
+  const cvdCanvas=document.getElementById('cvdChart');
+  const cvdCtx=cvdCanvas.getContext('2d');
+  _cvdChart=new Chart(cvdCtx,{
+    type:'line',
+    data:{
+      labels,
+      datasets:[{
+        label:'CVD',data:cvdData,
+        borderColor:cvdColor,backgroundColor:cvdFill,
+        borderWidth:2,pointRadius:0,pointHoverRadius:3,
+        tension:0.2,fill:true
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:false,
+      plugins:{legend:{display:false},tooltip:tooltipOpts},
+      scales:{
+        x:{ticks:{color:tickColor,font:{size:9},maxTicksLimit:8},grid:{color:gridColor},border:{color:'#1e1e35'}},
+        y:{ticks:{color:tickColor,font:{size:9},maxTicksLimit:5,callback:v=>fmtM(v)},grid:{color:gridColor},border:{color:'#1e1e35'}}
+      }
+    }
   });
-  _cvdSeries.setData(cvdData);
-  _cvdChart.timeScale().fitContent();
 }
 
 async function fetchAndShowDetail(coin){
