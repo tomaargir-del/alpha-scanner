@@ -14,14 +14,15 @@
 :root{
   --bg:#07070f;--bg2:#0d0d1c;--card:#121220;--border:#1e1e35;
   --accent:#00e5ff;--accent2:#a020f0;--green:#00ff88;--red:#ff2244;
-  --yellow:#ffd000;--orange:#ff6600;--alpha:#f0c000;
-  --text:#ffffff;--text2:#d0d0e8;--muted:#7070a0;
+  --yellow:#ffd000;--orange:#ff6600;--alpha:#f0c000;--purple:#c060ff;
+  --text:#ffffff;--text2:#c8c8e8;--muted:#6060a0;
   --mono:'Share Tech Mono',monospace;--ui:'Barlow',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;flex-direction:column}
 
+/* ── HEADER ── */
 .hdr{background:rgba(7,7,15,.98);border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo{font-family:var(--mono);font-size:14px;color:var(--accent);letter-spacing:2px;white-space:nowrap}
 .logo b{color:var(--accent2)}
@@ -36,6 +37,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .dot.scan{background:var(--yellow);box-shadow:0 0 7px var(--yellow);animation:blink .7s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
+/* ── CONTROLS ── */
 .ctrl{display:flex;align-items:center;gap:6px;padding:8px 14px;border-bottom:1px solid var(--border);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
 .ctrl::-webkit-scrollbar{display:none}
 .btn{font-family:var(--ui);font-weight:700;font-size:12px;padding:7px 16px;border-radius:20px;border:none;cursor:pointer;white-space:nowrap;transition:all .2s}
@@ -47,29 +49,53 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .tf.active{border-color:var(--accent2);color:var(--accent2);background:rgba(160,32,240,.15)}
 .tf.all-tf.active{border-color:var(--yellow);color:var(--yellow);background:rgba(255,208,0,.12)}
 
+/* ── STATS ── */
 .stats{display:flex;gap:1px;background:var(--border);flex-shrink:0}
 .sc{flex:1;background:var(--bg2);padding:6px 4px;text-align:center}
-.sv{font-family:var(--mono);font-size:15px;font-weight:bold;line-height:1;color:var(--text)}
+.sv{font-family:var(--mono);font-size:14px;font-weight:bold;line-height:1}
 .sl{font-size:9px;color:var(--text2);margin-top:2px;letter-spacing:.3px}
 
+/* ── PROGRESS ── */
 .prog{padding:5px 14px;flex-shrink:0;display:none;border-bottom:1px solid var(--border)}
 .prog-t{font-family:var(--mono);font-size:10px;color:var(--text2)}
 .prog-bg{height:2px;background:var(--border);border-radius:1px;margin-top:3px}
 .prog-f{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:1px;transition:width .25s}
 
-.frow{display:flex;gap:5px;padding:7px 14px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;border-bottom:1px solid var(--border)}
-.frow::-webkit-scrollbar{display:none}
+/* ── FILTER PANEL ── */
+.filter-panel{border-bottom:1px solid var(--border);flex-shrink:0}
+.filter-row-1{display:flex;gap:5px;padding:7px 14px;overflow-x:auto;scrollbar-width:none}
+.filter-row-1::-webkit-scrollbar{display:none}
 .ftab{font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;white-space:nowrap;cursor:pointer;background:var(--card);border:1px solid var(--border);color:var(--text2);transition:all .2s}
 .ftab.active{background:rgba(0,229,255,.08);border-color:var(--accent);color:var(--accent)}
-.ftab.fav-tab.active{background:rgba(255,208,0,.08);border-color:var(--yellow);color:var(--yellow)}
-.ftab.alpha-tab.active{background:rgba(240,192,0,.1);border-color:var(--alpha);color:var(--alpha)}
+.ftab.f-fav.active{background:rgba(255,208,0,.08);border-color:var(--yellow);color:var(--yellow)}
+.ftab.f-alpha.active{background:rgba(240,192,0,.1);border-color:var(--alpha);color:var(--alpha)}
+.ftab.f-liq.active{background:rgba(255,102,0,.1);border-color:var(--orange);color:var(--orange)}
+.ftab.f-spike.active{background:rgba(0,255,136,.08);border-color:var(--green);color:var(--green)}
+.ftab.f-dump.active{background:rgba(255,34,68,.08);border-color:var(--red);color:var(--red)}
+.ftab.f-fr.active{background:rgba(160,32,240,.1);border-color:var(--purple);color:var(--purple)}
+.ftab.f-oi.active{background:rgba(0,229,255,.08);border-color:var(--accent);color:var(--accent)}
+.ftab.f-cvd.active{background:rgba(0,229,255,.08);border-color:var(--accent);color:var(--accent)}
+.ftab.f-strong.active{background:rgba(255,208,0,.08);border-color:var(--yellow);color:var(--yellow)}
 
+/* Sort + Threshold row */
+.filter-row-2{display:flex;gap:8px;padding:5px 14px 8px;align-items:center;overflow-x:auto;scrollbar-width:none}
+.filter-row-2::-webkit-scrollbar{display:none}
+.sort-label{font-size:10px;color:var(--muted);font-family:var(--mono);white-space:nowrap}
+.sort-btn{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:4px;cursor:pointer;background:var(--card);border:1px solid var(--border);color:var(--text2);white-space:nowrap;transition:all .2s}
+.sort-btn.active{border-color:var(--accent2);color:var(--accent2);background:rgba(160,32,240,.12)}
+.thresh-wrap{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.thresh-label{font-size:10px;color:var(--muted);font-family:var(--mono);white-space:nowrap}
+.thresh-input{width:56px;background:var(--card);border:1px solid var(--border);color:var(--text);padding:4px 8px;border-radius:4px;font-family:var(--mono);font-size:12px;text-align:center}
+
+/* ── LIQ BANNERS ── */
 .liq-area{flex-shrink:0}
 .liq-b{margin:6px 14px 0;background:rgba(255,102,0,.08);border:1px solid rgba(255,102,0,.3);border-radius:6px;padding:7px 11px;font-family:var(--mono);font-size:11px;color:var(--orange);display:flex;align-items:center;gap:6px}
 
+/* ── LIST ── */
 .list-wrap{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 
-.crow{display:grid;grid-template-columns:3px 1fr auto;align-items:stretch;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;min-height:56px}
+/* ── COIN ROW ── */
+.crow{display:grid;grid-template-columns:3px 1fr auto;align-items:stretch;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;min-height:58px}
 .crow:active{background:rgba(255,255,255,.03)}
 .crow-bar{width:3px}
 .bar-bull{background:var(--green)}.bar-bear{background:var(--red)}.bar-liq{background:var(--orange)}.bar-neutral{background:var(--yellow)}
@@ -83,45 +109,39 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .ct-liq{background:rgba(255,102,0,.15);color:var(--orange)}
 .ct-neu{background:rgba(255,208,0,.1);color:var(--yellow)}
 .ct-cvd{background:rgba(0,229,255,.1);color:var(--accent)}
-.ct-tf{background:rgba(160,32,240,.12);color:#c060ff}
+.ct-tf{background:rgba(160,32,240,.12);color:var(--purple)}
 .ct-alpha{background:rgba(240,192,0,.14);color:var(--alpha);border:1px solid rgba(240,192,0,.3)}
 .ct-fav{background:rgba(255,208,0,.12);color:var(--yellow)}
-
-/* SIGNAL TOOLTIP */
-.sig-tip{
-  position:fixed;z-index:500;
-  background:rgba(10,10,20,.97);border:1px solid var(--border);
-  border-radius:10px;padding:12px 14px;max-width:260px;min-width:200px;
-  font-family:var(--mono);font-size:11px;color:var(--text);
-  box-shadow:0 8px 32px rgba(0,0,0,.6);
-  pointer-events:none;display:none;
-  line-height:1.6;
-}
-.sig-tip-title{font-size:13px;font-weight:bold;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-.sig-tip-pos{margin-top:8px;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:bold}
-.sig-tip-pos.long{background:rgba(0,255,136,.15);color:var(--green);border:1px solid rgba(0,255,136,.3)}
-.sig-tip-pos.short{background:rgba(255,34,68,.12);color:var(--red);border:1px solid rgba(255,34,68,.3)}
-.sig-tip-pos.neutral{background:rgba(255,208,0,.1);color:var(--yellow);border:1px solid rgba(255,208,0,.2)}
+.ct-spike{background:rgba(0,255,136,.15);color:var(--green);border:1px solid rgba(0,255,136,.3)}
+.ct-dump{background:rgba(255,34,68,.15);color:var(--red);border:1px solid rgba(255,34,68,.3)}
+.ct-fr{background:rgba(160,32,240,.15);color:var(--purple);border:1px solid rgba(160,32,240,.3)}
+.ct-oi{background:rgba(0,229,255,.12);color:var(--accent);border:1px solid rgba(0,229,255,.25)}
 
 .crow-right{padding:9px 12px 9px 0;display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
 .crow-price{font-family:var(--mono);font-size:13px;color:var(--text)}
 .crow-chg{font-family:var(--mono);font-size:12px;font-weight:bold}
+.crow-vol{font-family:var(--mono);font-size:10px;color:var(--text2)}
 .sdots{display:flex;gap:2px;align-items:center}
 .sd{width:5px;height:5px;border-radius:50%;background:var(--border)}
 .sd.g{background:var(--green)}.sd.y{background:var(--yellow)}.sd.a{background:var(--accent)}
 .crow-arr{color:var(--muted);font-size:11px;margin-left:3px}
-.fav-star{font-size:14px;cursor:pointer;padding:2px 6px;color:var(--muted);transition:color .2s}
-.fav-star.on{color:var(--yellow)}
 
 .up{color:var(--green)}.dn{color:var(--red)}.neu{color:var(--yellow)}.bl{color:var(--accent)}.or{color:var(--orange)}
 .empty{text-align:center;padding:50px 20px;color:var(--muted);font-family:var(--mono);font-size:13px;line-height:2.2}
 
-/* DETAIL OVERLAY */
+/* ── SIGNAL TOOLTIP ── */
+.sig-tip{position:fixed;z-index:500;background:rgba(10,10,25,.97);border:1px solid var(--border);border-radius:10px;padding:12px 14px;max-width:270px;min-width:210px;font-family:var(--mono);font-size:11px;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,.6);pointer-events:none;display:none;line-height:1.7}
+.sig-tip-title{font-size:13px;font-weight:bold;margin-bottom:6px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.sig-tip-pos{margin-top:8px;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:bold}
+.pos-long{background:rgba(0,255,136,.15);color:var(--green);border:1px solid rgba(0,255,136,.3)}
+.pos-short{background:rgba(255,34,68,.12);color:var(--red);border:1px solid rgba(255,34,68,.3)}
+.pos-watch{background:rgba(255,208,0,.1);color:var(--yellow);border:1px solid rgba(255,208,0,.2)}
+
+/* ── DETAIL OVERLAY ── */
 .ov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.9);backdrop-filter:blur(8px);display:none;align-items:flex-end}
 .ov.open{display:flex}
 .dp{width:100%;background:var(--bg2);border-radius:18px 18px 0 0;border-top:1px solid var(--border);max-height:93vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .dp-hnd{width:34px;height:3px;background:var(--border);border-radius:2px;margin:12px auto 0}
-
 .dp-top{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 .dp-sym{font-family:var(--mono);font-size:22px;font-weight:bold;letter-spacing:1px;color:var(--text)}
 .dp-alpha-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:4px;font-family:var(--mono);font-size:11px;font-weight:bold;background:rgba(240,192,0,.14);color:var(--alpha);border:1px solid rgba(240,192,0,.35);margin-top:4px}
@@ -129,20 +149,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .dp-top-btns{display:flex;gap:8px;align-items:center;flex-shrink:0}
 .dp-fav-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:18px;cursor:pointer;transition:all .2s}
 .dp-fav-btn.on{border-color:var(--yellow);background:rgba(255,208,0,.1)}
-.dp-refresh-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:14px;cursor:pointer;color:var(--accent);transition:all .2s;font-family:var(--mono)}
-.dp-refresh-btn:hover{border-color:var(--accent);background:rgba(0,229,255,.08)}
-.dp-refresh-btn.spinning{animation:spin .6s linear infinite}
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.dp-refresh-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:14px;cursor:pointer;color:var(--accent);font-family:var(--mono);transition:all .2s}
+.dp-refresh-btn.spin{animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 .dp-price{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:10px}
 .dp-p{font-family:var(--mono);font-size:24px;font-weight:bold;color:var(--text)}
 .dp-c{font-family:var(--mono);font-size:16px;font-weight:bold}
 
 .dp-links{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
-.ext-link{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:6px;font-family:var(--mono);font-size:11px;font-weight:bold;cursor:pointer;text-decoration:none;transition:all .2s;border:1px solid var(--border);background:var(--card);color:var(--text2)}
+.ext-link{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:6px;font-family:var(--mono);font-size:11px;font-weight:bold;cursor:pointer;text-decoration:none;border:1px solid var(--border);background:var(--card);color:var(--text2)}
 .ext-link.binance{border-color:rgba(240,192,0,.3);color:var(--alpha)}
 .ext-link.cg-chart{border-color:rgba(0,229,255,.3);color:var(--accent)}
-.ext-link.cg-tv{border-color:rgba(160,32,240,.3);color:#c060ff}
+.ext-link.cg-tv{border-color:rgba(160,32,240,.3);color:var(--purple)}
 
 .dp-badge-row{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .big-b{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:7px;font-family:var(--mono);font-size:13px;font-weight:bold;letter-spacing:.5px}
@@ -150,7 +169,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .dp-tf-section{padding:12px 16px;border-bottom:1px solid var(--border)}
 .section-title{font-size:10px;color:var(--text2);letter-spacing:1.5px;font-family:var(--mono);margin-bottom:10px;text-transform:uppercase}
 .tf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.tf-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;position:relative;overflow:hidden;transition:border-color .2s;cursor:pointer}
+.tf-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;transition:border-color .2s}
 .tf-card:hover{border-color:rgba(0,229,255,.4)}
 .tf-card.tf-has-signal{border-color:rgba(0,229,255,.25)}
 .tf-card.tf-bull{border-left:3px solid var(--green)}
@@ -158,8 +177,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .tf-card.tf-liq{border-left:3px solid var(--orange)}
 .tf-card.tf-neutral{border-left:3px solid var(--yellow)}
 .tf-card.tf-none{opacity:.4}
-.tf-card.tf-selected{border-color:var(--accent)!important;box-shadow:0 0 12px rgba(0,229,255,.15)}
-.tf-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.tf-card.tf-selected{border-color:var(--accent)!important;box-shadow:0 0 10px rgba(0,229,255,.15)}
+.tf-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
 .tf-label{font-family:var(--mono);font-size:13px;font-weight:bold;color:var(--text)}
 .tf-dir-badge{font-size:9px;padding:2px 6px;border-radius:3px;font-family:var(--mono);font-weight:bold}
 .tdb-bull{background:rgba(0,255,136,.12);color:var(--green)}
@@ -167,25 +186,24 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .tdb-liq{background:rgba(255,102,0,.15);color:var(--orange)}
 .tdb-neu{background:rgba(255,208,0,.1);color:var(--yellow)}
 .tdb-none{background:rgba(80,80,104,.15);color:var(--muted)}
+.tf-pchg{font-family:var(--mono);font-size:11px;font-weight:bold;margin-bottom:4px}
 .tf-metrics{display:grid;grid-template-columns:1fr 1fr;gap:3px}
 .tf-metric{font-family:var(--mono);font-size:10px}
 .tf-metric-label{color:var(--text2);font-size:9px}
 .tf-metric-val{font-weight:bold;margin-top:1px;color:var(--text)}
-.tf-pchg{font-family:var(--mono);font-size:11px;font-weight:bold;margin-bottom:4px}
 .tf-score-row{display:flex;align-items:center;gap:5px;margin-top:6px}
 .tf-score-bg{flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
 .tf-score-fill{height:100%;border-radius:2px}
-.tf-score-num{font-family:var(--mono);font-size:10px;color:var(--text2);white-space:nowrap}
+.tf-score-num{font-family:var(--mono);font-size:10px;color:var(--text2)}
 .tf-sigs{display:flex;gap:3px;flex-wrap:wrap;margin-top:5px}
 .tf-sig{font-size:9px;padding:2px 4px;border-radius:2px;font-family:var(--mono);font-weight:bold;background:rgba(128,128,128,.08);color:var(--text)}
 .tf-loading{font-family:var(--mono);font-size:11px;color:var(--text2);text-align:center;padding:8px}
-.tf-bnlink{font-size:10px;color:var(--accent);float:right}
+.tf-bnlink{font-size:10px;color:var(--accent)}
 
-/* CHARTS */
 .dp-charts{padding:12px 16px;border-bottom:1px solid var(--border)}
-.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.chart-title{font-size:10px;color:var(--text2);letter-spacing:1px;font-family:var(--mono);text-transform:uppercase}
-.chart-tf-selector{display:flex;gap:4px}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px}
+.chart-title-lbl{font-size:10px;color:var(--text2);letter-spacing:1px;font-family:var(--mono);text-transform:uppercase}
+.chart-tf-sel{display:flex;gap:4px;flex-wrap:wrap}
 .chart-tf-btn{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:4px;cursor:pointer;background:var(--card);border:1px solid var(--border);color:var(--text2);transition:all .2s}
 .chart-tf-btn.active{border-color:var(--accent2);color:var(--accent2);background:rgba(160,32,240,.15)}
 .chart-wrap{background:var(--card);border-radius:8px;padding:10px;margin-bottom:10px}
@@ -200,7 +218,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .dp-sigs{padding:12px 16px;border-bottom:1px solid var(--border)}
 .dp-sigs-t{font-size:10px;color:var(--text2);letter-spacing:1px;margin-bottom:7px;font-family:var(--mono);font-weight:600}
 .sigs-wrap{display:flex;gap:5px;flex-wrap:wrap}
-.stag{font-size:11px;padding:5px 10px;border-radius:4px;font-family:var(--mono);font-weight:bold;background:rgba(128,128,128,.1);color:var(--text);cursor:default;position:relative}
+.stag{font-size:11px;padding:5px 10px;border-radius:4px;font-family:var(--mono);font-weight:bold;background:rgba(128,128,128,.1);color:var(--text);cursor:default}
 
 .dp-score{padding:12px 16px 28px}
 .sc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
@@ -209,15 +227,37 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 .sc-bg{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
 .sc-f{height:100%;border-radius:3px;transition:width .5s}
 
-.err{margin:5px 14px;background:rgba(255,34,68,.08);border:1px solid rgba(255,34,68,.25);border-radius:6px;padding:8px 11px;font-family:var(--mono);font-size:11px;color:var(--red);display:none}
+.ftab.f-ls.active{background:rgba(192,96,255,.1);border-color:var(--purple);color:var(--purple)}
+
+/* ── MONEY FLOW PANEL ── */
+.dp-flow{padding:12px 16px;border-bottom:1px solid var(--border)}
+.flow-title{font-size:10px;color:var(--text2);letter-spacing:1.5px;font-family:var(--mono);margin-bottom:10px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.flow-badge{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:bold;font-family:var(--mono)}
+.flow-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.flow-card{background:var(--card);border-radius:8px;padding:10px 12px;border:1px solid var(--border)}
+.flow-card.fc-buy{border-color:rgba(0,255,136,.25)}
+.flow-card.fc-sell{border-color:rgba(255,34,68,.25)}
+.flow-card.fc-diverg{border-color:rgba(192,96,255,.3);background:rgba(192,96,255,.04)}
+.fc-label{font-size:9px;color:var(--text2);letter-spacing:.5px;text-transform:uppercase;font-weight:600}
+.fc-val{font-family:var(--mono);font-size:15px;font-weight:bold;margin-top:3px;color:var(--text)}
+.fc-sub{font-size:10px;color:var(--text2);margin-top:2px;font-family:var(--mono)}
+.flow-bar-bg{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:8px}
+.flow-bar-buy{height:100%;background:var(--green);border-radius:3px;transition:width .4s}
+.flow-bar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;margin-top:3px}
+.ls-bar-bg{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:6px}
+.ls-bar-long{height:100%;background:linear-gradient(90deg,var(--green),rgba(0,255,136,.6));border-radius:4px;transition:width .4s}
+.ls-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;margin-top:3px}
+.diverg-box{background:var(--card);border:1px solid rgba(192,96,255,.2);border-radius:8px;padding:10px 12px;margin-top:8px}
+.flow-spinner{display:inline-block;width:10px;height:10px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;margin-right:6px}
 
 @media(min-width:768px){
   html,body{overflow:auto}
-  body{max-width:960px;margin:0 auto}
+  body{max-width:980px;margin:0 auto}
   .dp{max-height:none;border-radius:12px;margin:20px;width:auto}
   .ov{align-items:center;justify-content:center}
-  .list-wrap{max-height:calc(100vh - 280px);overflow-y:auto}
+  .list-wrap{max-height:calc(100vh - 320px);overflow-y:auto}
   .dp-metrics{grid-template-columns:repeat(3,1fr)}
+  .tf-grid{grid-template-columns:repeat(4,1fr)}
 }
 </style>
 </head>
@@ -225,9 +265,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 
 <!-- SIGNAL TOOLTIP -->
 <div class="sig-tip" id="sigTip">
-  <div class="sig-tip-title" id="sigTipTitle">—</div>
-  <div id="sigTipDesc">—</div>
-  <div class="sig-tip-pos" id="sigTipPos">—</div>
+  <div class="sig-tip-title" id="stTitle">—</div>
+  <div id="stDesc">—</div>
+  <div class="sig-tip-pos" id="stPos">—</div>
 </div>
 
 <div class="hdr">
@@ -245,40 +285,59 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
   <button class="btn btn-stop"  id="btnX" onclick="stopScan()" style="display:none">⏹ СТОП</button>
   <button class="btn btn-clear" onclick="clearAll()">🗑</button>
   <div class="tf-wrap">
-    <div class="tf active" id="tf-1m"   onclick="setTF('1m',this)">1m</div>
-    <div class="tf"        id="tf-5m"   onclick="setTF('5m',this)">5m</div>
-    <div class="tf"        id="tf-15m"  onclick="setTF('15m',this)">15m</div>
-    <div class="tf"        id="tf-1h"   onclick="setTF('1h',this)">1h</div>
-    <div class="tf"        id="tf-3h"   onclick="setTF('3h',this)">3h</div>
-    <div class="tf"        id="tf-4h"   onclick="setTF('4h',this)">4h</div>
-    <div class="tf"        id="tf-12h"  onclick="setTF('12h',this)">12h</div>
-    <div class="tf"        id="tf-1d"   onclick="setTF('1d',this)">1d</div>
-    <div class="tf"        id="tf-1w"   onclick="setTF('1w',this)">1w</div>
-    <div class="tf all-tf" id="tf-all"  onclick="setTF('all',this)">СИТЕ</div>
+    <div class="tf active" id="tf-1m"  onclick="setTF('1m',this)">1m</div>
+    <div class="tf"        id="tf-5m"  onclick="setTF('5m',this)">5m</div>
+    <div class="tf"        id="tf-15m" onclick="setTF('15m',this)">15m</div>
+    <div class="tf"        id="tf-1h"  onclick="setTF('1h',this)">1h</div>
+    <div class="tf"        id="tf-4h"  onclick="setTF('4h',this)">4h</div>
+    <div class="tf"        id="tf-12h" onclick="setTF('12h',this)">12h</div>
+    <div class="tf"        id="tf-1d"  onclick="setTF('1d',this)">1d</div>
+    <div class="tf"        id="tf-1w"  onclick="setTF('1w',this)">1w</div>
+    <div class="tf all-tf" id="tf-all" onclick="setTF('all',this)">СИТЕ</div>
   </div>
 </div>
 
 <div class="stats">
   <div class="sc"><div class="sv up"  id="sBull">0</div><div class="sl">BULL</div></div>
   <div class="sc"><div class="sv dn"  id="sBear">0</div><div class="sl">BEAR</div></div>
-  <div class="sc"><div class="sv or"  id="sLiq">0</div><div class="sl">LIQ HUNT</div></div>
+  <div class="sc"><div class="sv or"  id="sLiq">0</div><div class="sl">LIQ</div></div>
   <div class="sc"><div class="sv" style="color:var(--alpha)" id="sAlpha">0</div><div class="sl">ALPHA</div></div>
   <div class="sc"><div class="sv" style="color:var(--yellow)" id="sFav">0</div><div class="sl">FAV</div></div>
-  <div class="sc"><div class="sv bl"  id="sTot">0</div><div class="sl">ВКУПНО</div></div>
+  <div class="sc"><div class="sv bl" id="sTot">0</div><div class="sl">ВКУПНО</div></div>
 </div>
 
 <div class="prog" id="prog"><div class="prog-t" id="progT">Скенирање...</div><div class="prog-bg"><div class="prog-f" id="progF" style="width:0%"></div></div></div>
 <div class="err" id="errB"></div>
 
-<div class="frow">
-  <div class="ftab active"    onclick="setFil('all',this)">ВСЕ</div>
-  <div class="ftab fav-tab"   onclick="setFil('fav',this)">⭐ FAVORITES</div>
-  <div class="ftab alpha-tab" onclick="setFil('alpha',this)">🅐 ALPHA</div>
-  <div class="ftab"           onclick="setFil('bull',this)">🟢 BULL</div>
-  <div class="ftab"           onclick="setFil('bear',this)">🔴 BEAR</div>
-  <div class="ftab"           onclick="setFil('liq',this)">🟠 LIQ HUNT</div>
-  <div class="ftab"           onclick="setFil('strong',this)">⚡ ЈАКИ</div>
-  <div class="ftab"           onclick="setFil('cvd',this)">📊 CVD DIV</div>
+<!-- FILTER PANEL -->
+<div class="filter-panel">
+  <div class="filter-row-1">
+    <div class="ftab active"   onclick="setFil('all',this)">ВСЕ</div>
+    <div class="ftab f-fav"    onclick="setFil('fav',this)">⭐ FAV</div>
+    <div class="ftab f-alpha"  onclick="setFil('alpha',this)">🅐 ALPHA</div>
+    <div class="ftab f-liq"    onclick="setFil('liq',this)">⚡ LIQ HUNT</div>
+    <div class="ftab f-spike"  onclick="setFil('spike',this)">🚀 SPIKE+VOL</div>
+    <div class="ftab f-dump"   onclick="setFil('dump',this)">💥 DUMP+VOL</div>
+    <div class="ftab f-fr"     onclick="setFil('fr',this)">💰 FR EXTREME</div>
+    <div class="ftab f-oi"     onclick="setFil('oisurge',this)">📈 OI SURGE</div>
+    <div class="ftab f-cvd"    onclick="setFil('cvd',this)">📊 CVD DIV</div>
+    <div class="ftab f-strong" onclick="setFil('strong',this)">⚡ SCORE 7+</div>
+    <div class="ftab f-ls"     onclick="setFil('ls',this)">⚖️ L/S EXT</div>
+  </div>
+  <div class="filter-row-2">
+    <span class="sort-label">СОРТИРАЈ:</span>
+    <div class="sort-btn active" id="sort-score"  onclick="setSort('score',this)">Score</div>
+    <div class="sort-btn"        id="sort-chg"    onclick="setSort('chg',this)">% Промена</div>
+    <div class="sort-btn"        id="sort-vol"    onclick="setSort('vol',this)">Волумен</div>
+    <div class="sort-btn"        id="sort-fr"     onclick="setSort('fr',this)">FR</div>
+    <div class="sort-btn"        id="sort-oi"     onclick="setSort('oi',this)">OI</div>
+    <div class="thresh-wrap">
+      <span class="thresh-label">MIN %:</span>
+      <input class="thresh-input" id="minChg" type="number" value="0" min="0" max="50" step="0.5" oninput="renderList()">
+      <span class="thresh-label">MIN VOL $M:</span>
+      <input class="thresh-input" id="minVol" type="number" value="0" min="0" max="1000" step="1" oninput="renderList()">
+    </div>
+  </div>
 </div>
 
 <div class="liq-area" id="liqArea"></div>
@@ -295,51 +354,52 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
         <div class="dp-sub" id="dpSub">—</div>
       </div>
       <div class="dp-top-btns">
-        <button class="dp-refresh-btn" id="dpRefreshBtn" onclick="refreshDetail()" title="Освежи">↻</button>
+        <button class="dp-refresh-btn" id="dpRefBtn" onclick="refreshDetail()">↻</button>
         <div id="dpFavBtn" class="dp-fav-btn" onclick="toggleFavFromDetail()">☆</div>
       </div>
     </div>
-
     <div class="dp-price"><div class="dp-p" id="dpP">—</div><div class="dp-c" id="dpC">—</div></div>
-
     <div class="dp-links" id="dpLinks"></div>
-
     <div class="dp-badge-row">
       <div class="big-b" id="dpBB"></div>
       <button onclick="closeOv()" style="background:var(--card);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:8px 14px;font-family:var(--mono);font-size:12px;cursor:pointer">✕ ЗАТВОРИ</button>
     </div>
-
     <div class="dp-tf-section">
-      <div class="section-title">// СТАТУС ПО ВРЕМЕНСКИ РАМКИ · клик = графици</div>
+      <div class="section-title">// СТАТУС ПО TF · клик = графици</div>
       <div class="tf-grid" id="tfGrid"></div>
     </div>
-
-    <!-- CHARTS with TF selector -->
+    <!-- MONEY FLOW PANEL -->
+    <div class="dp-flow" id="dpFlow" style="display:none">
+      <div class="flow-title">// MONEY FLOW ANALYSIS <span class="flow-badge" id="flowBadge" style="display:none"></span></div>
+      <div id="flowContent"><span class="flow-spinner"></span><span style="font-family:var(--mono);font-size:11px;color:var(--text2)">Вчитувам...</span></div>
+    </div>
     <div class="dp-charts" id="dpCharts" style="display:none">
       <div class="chart-header">
-        <div class="chart-title" id="chartTitle">// OI + CVD</div>
-        <div class="chart-tf-selector" id="chartTFSel"></div>
+        <div class="chart-title-lbl" id="chartTitle">// OI + CVD</div>
+        <div class="chart-tf-sel" id="chartTFSel"></div>
       </div>
+      <!-- УЛТИМАТИВЕН ИНДИКАТОР -->
+      <div id="ultimateIndicator" style="padding:0 0 10px;display:none"></div>
       <div class="chart-wrap">
         <div class="chart-lbl" id="oiChartLbl">🟡 OI коини (лево) · ⚪ OI USDT (десно)</div>
-        <div style="position:relative;height:150px"><canvas id="oiChart"></canvas></div>
+        <div style="position:relative;height:160px"><canvas id="oiChart"></canvas></div>
       </div>
       <div class="chart-wrap">
         <div class="chart-lbl">CVD — Cumulative Volume Delta</div>
         <div style="position:relative;height:110px"><canvas id="cvdChart"></canvas></div>
       </div>
     </div>
-
     <div class="dp-metrics">
-      <div class="dm"><div class="dm-l">CVD Δ</div><div class="dm-v" id="mCvd">—</div><div class="dm-s" id="mCvdS">—</div></div>
+      <div class="dm"><div class="dm-l">CVD Δ (Taker)</div><div class="dm-v" id="mCvd">—</div><div class="dm-s" id="mCvdS">—</div></div>
+      <div class="dm"><div class="dm-l">L/S Ratio</div><div class="dm-v" id="mLs">—</div><div class="dm-s" id="mLsS">—</div></div>
       <div class="dm"><div class="dm-l">OI (коини)</div><div class="dm-v" id="mOi">—</div><div class="dm-s" id="mOiS">—</div></div>
       <div class="dm"><div class="dm-l">OI (USDT)</div><div class="dm-v bl" id="mOiUsdt">—</div><div class="dm-s" id="mOiUsdtS">—</div></div>
       <div class="dm"><div class="dm-l">Funding Rate</div><div class="dm-v" id="mFr">—</div><div class="dm-s" id="mFrS">—</div></div>
+      <div class="dm"><div class="dm-l">Spot Flow Basis</div><div class="dm-v" id="mSpot">—</div><div class="dm-s" id="mSpotS">—</div></div>
       <div class="dm"><div class="dm-l">Волумен 24h</div><div class="dm-v bl" id="mVol">—</div><div class="dm-s" id="mVolS">—</div></div>
       <div class="dm"><div class="dm-l">24h High/Low</div><div class="dm-v up" id="mHi">—</div><div class="dm-s" id="mHiS">—</div></div>
       <div class="dm"><div class="dm-l">Liq Hunt</div><div class="dm-v" id="mLiq">—</div><div class="dm-s" id="mLiqS">—</div></div>
     </div>
-
     <div class="dp-sigs"><div class="dp-sigs-t">// АКТИВНИ СИГНАЛИ</div><div class="sigs-wrap" id="dpSigs"></div></div>
     <div class="dp-score">
       <div class="sc-row"><div class="sc-n" id="scN">—</div><div class="sc-d" id="scD">—</div></div>
@@ -349,105 +409,124 @@ body{background:var(--bg);color:var(--text);font-family:var(--ui);display:flex;f
 </div>
 
 <script>
-// ── SIGNAL EXPLANATIONS ───────────────────────────────────
-const SIG_INFO = {
-  'CVD DIV': {
-    title:'CVD Дивергенција',
-    desc:'Цената оди нагоре но buying pressure опаѓа (или обратно). Ова е класичен сигнал дека движењето нема поддршка — можен reversal.',
-    bull:{pos:'SHORT',cls:'short',txt:'⬇ МОЖНА ПОЗИЦИЈА: SHORT — цената расте без buyers'},
-    bear:{pos:'LONG',cls:'long',txt:'⬆ МОЖНА ПОЗИЦИЈА: LONG — цената паѓа но buyers се зголемуваат'}
-  },
-  'CVD CONF': {
-    title:'CVD Конфирмација',
-    desc:'Цената и buying pressure се движат во иста насока. Трендот е потврден со volume.',
-    bull:{pos:'LONG',cls:'long',txt:'⬆ МОЖНА ПОЗИЦИЈА: LONG — тренд потврден со buying'},
-    bear:{pos:'SHORT',cls:'short',txt:'⬇ МОЖНА ПОЗИЦИЈА: SHORT — тренд потврден со selling'}
-  },
-  '⚡SHORT SQ': {
-    title:'Short Squeeze (Liq Hunt)',
-    desc:'Цената направи spike нагоре + CVD опаѓа. Пазарот намерно ги ликвидирал шортовите. По squeeze-от честопати следи reversal надолу.',
-    bull:{pos:'SHORT',cls:'short',txt:'⬇ ПОСЛЕ SQUEEZE: SHORT — reversal по ликвидација на шортови'}
-  },
-  '⚡LONG DMP': {
-    title:'Long Dump (Liq Hunt)',
-    desc:'Цената направи spike надолу + CVD расте. Пазарот намерно ги ликвидирал лонговите. По dump-от честопати следи bounce нагоре.',
-    bear:{pos:'LONG',cls:'long',txt:'⬆ ПОСЛЕ DUMP: LONG — bounce по ликвидација на лонгови'}
-  },
-  'default': {
-    title:'Сигнал',
-    desc:'Детектирана аномалија во пазарните индикатори.',
-    bull:{pos:'LONG',cls:'long',txt:'⬆ МОЖНА ПОЗИЦИЈА: LONG'},
-    bear:{pos:'SHORT',cls:'short',txt:'⬇ МОЖНА ПОЗИЦИЈА: SHORT'}
-  }
+// ── SIGNAL INFO ───────────────────────────────────────────
+const SIG_INFO={
+  'CVD DIV':{title:'CVD Дивергенција',desc:'Цената и buying pressure одат во СПРОТИВНИ насоки. Движењето нема volume поддршка — можен reversal.',bull:{cls:'pos-short',txt:'⬇ МОЖНА ПОЗИЦИЈА: SHORT — цената расте без buyers'},bear:{cls:'pos-long',txt:'⬆ МОЖНА ПОЗИЦИЈА: LONG — цената паѓа со зголемен buying'}},
+  'CVD CONF':{title:'CVD Конфирмација',desc:'Цената и buying pressure одат во ИСТА насока. Трендот е потврден со volume.',bull:{cls:'pos-long',txt:'⬆ МОЖНА ПОЗИЦИЈА: LONG — тренд потврден'},bear:{cls:'pos-short',txt:'⬇ МОЖНА ПОЗИЦИЈА: SHORT — тренд потврден'}},
+  '⚡SHORT SQ':{title:'Short Squeeze (Liq Hunt)',desc:'Spike нагоре + CVD паѓа. Пазарот ги ликвидирал шортовите. По squeeze-от честопати следи reversal надолу.',bull:{cls:'pos-short',txt:'⬇ ПОСЛЕ SQUEEZE: Очекувај reversal — SHORT'},bear:{cls:'pos-watch',txt:'◆ ПРАТИ: Spike може да продолжи'}},
+  '⚡LONG DMP':{title:'Long Dump (Liq Hunt)',desc:'Dump надолу + CVD расте. Пазарот ги ликвидирал лонговите. По dump-от честопати следи bounce нагоре.',bear:{cls:'pos-long',txt:'⬆ ПОСЛЕ DUMP: Очекувај bounce — LONG'},bull:{cls:'pos-watch',txt:'◆ ПРАТИ: Dump може да продолжи'}},
+  'SPIKE+VOL':{title:'Spike + Голем Волумен',desc:'Голем % пораст со натпросечен волумен. Силен моментум — можен breakout или pump & dump.',bull:{cls:'pos-long',txt:'⬆ МОМЕНТУМ LONG — потврди со CVD'},bear:{cls:'pos-short',txt:'⬇ МОЖЕН PUMP&DUMP — внимавај'}},
+  'DUMP+VOL':{title:'Dump + Голем Волумен',desc:'Голем % пад со натпросечен волумен. Силно selling — можен capitulation или short opportunity.',bear:{cls:'pos-short',txt:'⬇ CAPITULATION SHORT — потврди со CVD'},bull:{cls:'pos-long',txt:'⬆ МОЖЕН BOUNCE — прати нивоата'}},
+  'FR EXTREME':{title:'Екстремен Funding Rate',desc:'Funding rate е многу висок или низок. Висок +FR = пазарот е преполн со лонгови = bearish. Низок -FR = преполн со шортови = bullish.',bull:{cls:'pos-short',txt:'⬇ ВИСОК FR: Лонговите плаќаат — SHORT'},bear:{cls:'pos-long',txt:'⬆ НИЗОК FR: Шортовите плаќаат — LONG'}},
+  'OI SURGE':{title:'OI Surge — Нагли нови позиции',desc:'Отворениот интерес нагло пораснал. Многу нови позиции се отвориле — можен голем потег во блиска иднина.',bull:{cls:'pos-watch',txt:'◆ НОВИ ЛОНГОВИ — прати за breakout'},bear:{cls:'pos-watch',txt:'◆ НОВИ ШОРТОВИ — прати за breakdown'}},
+  'default':{title:'Сигнал',desc:'Детектирана аномалија во пазарните индикатори.',bull:{cls:'pos-long',txt:'⬆ МОЖНА ПОЗИЦИЈА: LONG'},bear:{cls:'pos-short',txt:'⬇ МОЖНА ПОЗИЦИЈА: SHORT'}}
 };
 
-function showSigTip(e,sigLabel,sigType){
+function showSigTip(e,lbl,type){
   const tip=document.getElementById('sigTip');
-  const info=SIG_INFO[sigLabel]||SIG_INFO['default'];
-  document.getElementById('sigTipTitle').textContent=info.title;
-  document.getElementById('sigTipDesc').textContent=info.desc;
-  const posEl=document.getElementById('sigTipPos');
-  const posInfo=(sigType==='bull'?info.bull:sigType==='bear'?info.bear:null)||(info.bull||info.bear);
-  if(posInfo){posEl.className='sig-tip-pos '+posInfo.cls;posEl.textContent=posInfo.txt;}
-  else{posEl.className='sig-tip-pos neutral';posEl.textContent='◆ Прати ги другите индикатори';}
-
-  const x=Math.min(e.clientX+10,window.innerWidth-270);
-  const y=Math.min(e.clientY-10,window.innerHeight-150);
-  tip.style.left=x+'px';tip.style.top=y+'px';
-  tip.style.display='block';
+  const info=SIG_INFO[lbl]||SIG_INFO['default'];
+  document.getElementById('stTitle').textContent=info.title;
+  document.getElementById('stDesc').textContent=info.desc;
+  const pos=document.getElementById('stPos');
+  const pi=(type==='bull'?info.bull:type==='bear'?info.bear:null)||info.bull||info.bear||{cls:'pos-watch',txt:'◆ Прати ги другите индикатори'};
+  pos.className='sig-tip-pos '+pi.cls;pos.textContent=pi.txt;
+  const x=Math.min(e.clientX+12,window.innerWidth-280);
+  const y=Math.min(e.clientY-8,window.innerHeight-160);
+  tip.style.left=x+'px';tip.style.top=y+'px';tip.style.display='block';
+  e.stopPropagation();
 }
 function hideSigTip(){document.getElementById('sigTip').style.display='none';}
-document.addEventListener('mousemove',e=>{
-  const tip=document.getElementById('sigTip');
-  if(tip.style.display==='block'){
-    const x=Math.min(e.clientX+10,window.innerWidth-270);
-    const y=Math.min(e.clientY-10,window.innerHeight-150);
-    tip.style.left=x+'px';tip.style.top=y+'px';
-  }
-});
+document.addEventListener('click',hideSigTip);
 
 // ── CONFIG ─────────────────────────────────────────────────
-const FAPI  = 'https://fapi.binance.com/fapi/v1';
-const BAPI  = 'https://www.binance.com/bapi/defi/v1/public/wallet-direct/buw/wallet/cex/alpha/all/token/list';
-const PROXY = 'https://api.allorigins.win/raw?url=';
-const TFS_ALL  = ['15m','1h','4h'];
-const TFS_FULL = ['1m','5m','15m','1h','3h','4h','12h','1d','1w'];
-const BN_TF = {'1m':'1m','5m':'5m','15m':'15m','1h':'1h','3h':'3h','4h':'4h','12h':'12h','1d':'1D','1w':'1W'};
+const FAPI='https://fapi.binance.com/fapi/v1';
+const FDAPI='https://fapi.binance.com/futures/data'; // takerlongshortRatio, globalLongShortAccountRatio, topLongShortPositionRatio, openInterestHist
+const SAPI='https://api.binance.com/api/v3';         // Spot API — money flow analysis
+const BAPI='https://www.binance.com/bapi/defi/v1/public/wallet-direct/buw/wallet/cex/alpha/all/token/list';
+const PROXY='https://api.allorigins.win/raw?url=';
+
+// TF map за /futures/data endpoints (поддржуваат: 5m,15m,30m,1h,2h,4h,6h,12h,1d)
+const FLOW_TF={'1m':'5m','5m':'5m','15m':'15m','1h':'1h','4h':'4h','12h':'12h','1d':'1d','1w':'1d'};
+const TFS_ALL=['15m','1h','4h'];
+const TFS_FULL=['1m','5m','15m','1h','4h','12h','1d','1w'];
+const BN_TF={'1m':'1m','5m':'5m','15m':'15m','1h':'1h','4h':'4h','12h':'12h','1d':'1D','1w':'1W'};
 
 const S={
   scanning:false,timer:null,abort:false,
-  signals:[],filter:'all',tf:'1m',srch:'',
+  signals:[],filter:'all',sort:'score',tf:'1m',srch:'',
   alphaSet:new Set(),
   favorites:new Set(JSON.parse(localStorage.getItem('favs')||'[]')),
-  _partial:{},
-  detailCoin:null,
-  chartTF:null
+  _partial:{},detailCoin:null,chartTF:null
 };
-let _tMap={},_fMap={};
-let _oiChart=null,_cvdChart=null;
+let _tMap={},_fMap={},_oiChart=null,_cvdChart=null;
 
-async function apiFetch(ep){
-  const url=FAPI+ep;
+async function apiFetch(ep,base){
+  const url=(base||FAPI)+ep;
   try{const r=await fetch(url,{signal:AbortSignal.timeout(6000)});if(r.ok)return await r.json();}catch(e){}
   try{const r=await fetch(PROXY+encodeURIComponent(url),{signal:AbortSignal.timeout(9000)});if(r.ok)return await r.json();}catch(e){}
   return null;
 }
 
+// ── REAL TAKER CVD via /futures/data/takerlongshortRatio ──
+async function fetchTakerCVD(coin,tf){
+  const p=FLOW_TF[tf]||'15m';
+  const d=await apiFetch(`/takerlongshortRatio?symbol=${coin}USDT&period=${p}&limit=20`,FDAPI);
+  if(!d||d.length<4)return null;
+  const h=Math.floor(d.length/2);
+  let eB=0,eS=0,lB=0,lS=0;
+  for(let i=0;i<h;i++){eB+=parseFloat(d[i].buyVol);eS+=parseFloat(d[i].sellVol);}
+  for(let i=h;i<d.length;i++){lB+=parseFloat(d[i].buyVol);lS+=parseFloat(d[i].sellVol);}
+  const eT=eB+eS,lT=lB+lS;
+  const cvdDelta=((lT>0?lB/lT:.5)-(eT>0?eB/eT:.5))*100;
+  const tB=d.reduce((s,x)=>s+parseFloat(x.buyVol),0);
+  const tS=d.reduce((s,x)=>s+parseFloat(x.sellVol),0);
+  const last=d[d.length-1];
+  return{cvdDelta,buyPct:tB/(tB+tS)*100,totalBuy:tB,totalSell:tS,buySellRatio:parseFloat(last.buySellRatio),buyVol:parseFloat(last.buyVol),sellVol:parseFloat(last.sellVol)};
+}
+
+// ── GLOBAL L/S ACCOUNT RATIO ──
+async function fetchLSRatio(coin,tf){
+  const p=FLOW_TF[tf]||'15m';
+  const d=await apiFetch(`/globalLongShortAccountRatio?symbol=${coin}USDT&period=${p}&limit=10`,FDAPI);
+  if(!d||!d.length)return null;
+  const last=d[d.length-1],prev=d.length>1?d[d.length-2]:last;
+  return{longRatio:parseFloat(last.longAccount),shortRatio:parseFloat(last.shortAccount),lsRatio:parseFloat(last.longShortRatio),prevLsRatio:parseFloat(prev.longShortRatio)};
+}
+
+// ── TOP TRADER POSITION RATIO ──
+async function fetchTopTraderRatio(coin,tf){
+  const p=FLOW_TF[tf]||'15m';
+  const d=await apiFetch(`/topLongShortPositionRatio?symbol=${coin}USDT&period=${p}&limit=5`,FDAPI);
+  if(!d||!d.length)return null;
+  const last=d[d.length-1];
+  return{longRatio:parseFloat(last.longAccount),shortRatio:parseFloat(last.shortAccount),lsRatio:parseFloat(last.longShortRatio)};
+}
+
+// ── SPOT MONEY FLOW (CVD basis = Futures - Spot) ──
+async function fetchSpotFlow(coin,tf,futCvd){
+  const p=FLOW_TF[tf]||'15m';
+  const kl=await apiFetch(`/klines?symbol=${coin}USDT&interval=${p}&limit=20`,SAPI);
+  if(!kl||kl.length<4)return null;
+  const h=Math.floor(kl.length/2);let eB=0,eT=0,lB=0,lT=0;
+  for(let i=0;i<h;i++){eB+=parseFloat(kl[i][9]);eT+=parseFloat(kl[i][5]);}
+  for(let i=h;i<kl.length;i++){lB+=parseFloat(kl[i][9]);lT+=parseFloat(kl[i][5]);}
+  const spotCvdDelta=((lT>0?lB/lT:.5)-(eT>0?eB/eT:.5))*100;
+  const tB=kl.reduce((s,k)=>s+parseFloat(k[9]),0),tV=kl.reduce((s,k)=>s+parseFloat(k[5]),0);
+  const spotBuyPct=tV>0?tB/tV*100:50;
+  // Basis: позитивен = Futures агресивни, Spot не следи = leveraged speculation
+  // Негативен = Spot купува, Futures следи = органска акумулација
+  const basis=futCvd!==null?futCvd-spotCvdDelta:null;
+  return{spotCvdDelta,spotBuyPct,basis};
+}
+
 async function fetchAlphaList(){
   const FB=['ACT','AIXBT','ALT','ANIME','ARB','ATOM','AVAX','BACK','BABY','BANK','BB','BLUR','BOME','BONK','CATI','COOKIE','CYBER','DOGE','DOGS','DYM','EIGEN','FARTCOIN','FLOKI','GOAT','HAEDAL','HMSTR','INJ','INIT','IO','IP','JTO','KAIA','LAYER','LISTA','MAGIC','MAJOR','MANTA','ME','MELANIA','MEME','MOODENG','MOVE','NEAR','NEIRO','NIL','NOT','OP','ORDI','PARTI','PENGU','PEPE','PIXEL','PNUT','POPCAT','PORTAL','PYTH','REZ','SAGA','SATS','SCR','SEI','SHELL','SIGN','SOL','STRK','TIA','TON','TRUMP','TURBO','VIRTUAL','WAL','WIF','WLD','ZEREBRO','ZK','ZRO','ZETA','ORDER','BARD','GWEI','BOB','PTB','ATH','BEAT','SIREN'];
-  try{
-    const r=await fetch(BAPI,{signal:AbortSignal.timeout(8000)});
-    if(r.ok){const j=await r.json();if(j.data?.length>0){S.alphaSet=new Set(j.data.map(t=>(t.symbol||t.cexCoinName||'').toUpperCase()));document.getElementById('alphaCount').textContent=`🅐 ${S.alphaSet.size}`;return;}}
-  }catch(e){}
-  try{
-    const r=await fetch(PROXY+encodeURIComponent(BAPI),{signal:AbortSignal.timeout(10000)});
-    if(r.ok){const j=await r.json();if(j.data?.length>0){S.alphaSet=new Set(j.data.map(t=>(t.symbol||t.cexCoinName||'').toUpperCase()));document.getElementById('alphaCount').textContent=`🅐 ${S.alphaSet.size}`;return;}}
-  }catch(e){}
-  S.alphaSet=new Set(FB);
-  document.getElementById('alphaCount').textContent=`🅐 ${FB.length}*`;
+  try{const r=await fetch(BAPI,{signal:AbortSignal.timeout(8000)});if(r.ok){const j=await r.json();if(j.data?.length>0){S.alphaSet=new Set(j.data.map(t=>(t.symbol||t.cexCoinName||'').toUpperCase()));document.getElementById('alphaCount').textContent=`🅐 ${S.alphaSet.size}`;return;}}}catch(e){}
+  try{const r=await fetch(PROXY+encodeURIComponent(BAPI),{signal:AbortSignal.timeout(10000)});if(r.ok){const j=await r.json();if(j.data?.length>0){S.alphaSet=new Set(j.data.map(t=>(t.symbol||t.cexCoinName||'').toUpperCase()));document.getElementById('alphaCount').textContent=`🅐 ${S.alphaSet.size}`;return;}}}catch(e){}
+  S.alphaSet=new Set(FB);document.getElementById('alphaCount').textContent=`🅐 ${FB.length}*`;
 }
-function isAlpha(c){return S.alphaSet.has(c.toUpperCase());}
-function isFav(c){return S.favorites.has(c.toUpperCase());}
+const isAlpha=c=>S.alphaSet.has(c.toUpperCase());
+const isFav=c=>S.favorites.has(c.toUpperCase());
 
 // ── SCAN ──────────────────────────────────────────────────
 async function startScan(){
@@ -457,156 +536,196 @@ async function startScan(){
   document.getElementById('btnX').style.display='inline-block';
   setDot('scan');errHide();
   await doScan();
-  const iv={'1m':60000,'5m':300000,'15m':900000,'1h':3600000,'3h':10800000,'4h':14400000,'12h':43200000,'1d':3600000,'1w':3600000,'all':120000}[S.tf]||60000;
+  const iv={'1m':60000,'5m':300000,'15m':900000,'1h':3600000,'4h':14400000,'12h':43200000,'1d':3600000,'1w':3600000,'all':120000}[S.tf]||60000;
   S.timer=setInterval(()=>{if(!S.abort)doScan();},iv);
 }
-
 function stopScan(){
   S.abort=true;S.scanning=false;clearInterval(S.timer);
   document.getElementById('btnS').style.display='inline-block';
   document.getElementById('btnX').style.display='none';
   setDot('off');document.getElementById('prog').style.display='none';
-  if(Object.keys(S._partial).length>0){
-    S.signals=buildSignals(S._partial);
-    renderList();
-    toast(`⏹ ${S.signals.length} сигнали (делумно)`);
-  }
+  if(Object.keys(S._partial).length>0){S.signals=buildSignals(S._partial);renderList();toast(`⏹ ${S.signals.length} сигнали`);}
 }
 
 async function doScan(){
   document.getElementById('prog').style.display='block';
   setP('Вчитувам Alpha листа + тикери...',3);
-
-  const[,tickers,fundings]=await Promise.all([fetchAlphaList(),apiFetch('/ticker/24hr'),apiFetch('/premiumIndex')]);
+  const[,tickers,fundings,exchangeInfo]=await Promise.all([fetchAlphaList(),apiFetch('/ticker/24hr'),apiFetch('/premiumIndex'),apiFetch('/exchangeInfo')]);
   if(!tickers){errShow('⚠️ Binance API недостапен');stopScan();return;}
 
+  // Build set of ONLY actively trading USDT perp symbols
+  const tradingSymbols=new Set();
+  if(exchangeInfo?.symbols){
+    exchangeInfo.symbols.forEach(s=>{
+      if(s.symbol.endsWith('USDT')&&!s.symbol.includes('_')&&s.status==='TRADING'&&s.contractType==='PERPETUAL'){
+        tradingSymbols.add(s.symbol.replace('USDT',''));
+      }
+    });
+  }
+
   _tMap={};_fMap={};
-  tickers.forEach(t=>{if(t.symbol.endsWith('USDT')&&!t.symbol.includes('_'))_tMap[t.symbol.replace('USDT','')]=t;});
+  tickers.forEach(t=>{
+    if(t.symbol.endsWith('USDT')&&!t.symbol.includes('_')){
+      const coin=t.symbol.replace('USDT','');
+      // Only include if in trading set (or if exchangeInfo failed, accept all)
+      if(tradingSymbols.size===0||tradingSymbols.has(coin)){
+        _tMap[coin]=t;
+      }
+    }
+  });
   if(fundings)fundings.forEach(f=>{if(f.symbol.endsWith('USDT'))_fMap[f.symbol.replace('USDT','')]=parseFloat(f.lastFundingRate||0)*100;});
 
   const tfsToScan=S.tf==='all'?TFS_ALL:[S.tf];
-
-  // Determine coins
   let coins=[];
-  if(S.srch){
-    const c=S.srch.toUpperCase().replace('USDT','').trim();
-    if(_tMap[c])coins=[c];
-    else{errShow(`⚠️ ${c}USDT не постои на Futures`);stopScan();return;}
-  } else if(S.filter==='fav'){
-    coins=[...S.favorites].filter(c=>_tMap[c]);
-    if(!coins.length){errShow('⚠️ Нема favorites — додади со ⭐');stopScan();return;}
-  } else {
-    const favCoins=[...S.favorites].filter(c=>_tMap[c]);
-    const otherCoins=Object.keys(_tMap).filter(c=>!S.favorites.has(c));
-    coins=[...favCoins,...otherCoins];
-  }
+  if(S.srch){const c=S.srch.toUpperCase().replace('USDT','').trim();if(_tMap[c])coins=[c];else{errShow(`⚠️ ${c}USDT не постои`);stopScan();return;}}
+  else if(S.filter==='fav'){coins=[...S.favorites].filter(c=>_tMap[c]);if(!coins.length){errShow('⚠️ Нема favorites');stopScan();return;}}
+  else{coins=[...[...S.favorites].filter(c=>_tMap[c]),...Object.keys(_tMap).filter(c=>!S.favorites.has(c))];}
 
-  S._partial={};
-  let done=0;
-  const batchSize=S.tf==='all'?5:10;
-  const batchSleep=S.tf==='all'?300:150;
+  S._partial={};let done=0;
+  const bs=S.tf==='all'?5:10,sl=S.tf==='all'?300:150;
 
   for(let ti=0;ti<tfsToScan.length;ti++){
     const tf=tfsToScan[ti];
-    for(let i=0;i<coins.length;i+=batchSize){
+    for(let i=0;i<coins.length;i+=bs){
       if(S.abort)break;
-      const chunk=coins.slice(i,i+batchSize);
+      const chunk=coins.slice(i,i+bs);
       const res=await Promise.all(chunk.map(c=>analyzeOneTF(c,_tMap[c],_fMap[c]||0,tf)));
       res.forEach((r,idx)=>{
-        if(!r)return;
-        const c=chunk[idx];
-        if(!S._partial[c]){S._partial[c]={coin:c,price:r.price,priceChg:r.priceChg,volume:r.volume,high24:r.high24,low24:r.low24,isAlpha:isAlpha(c),isFav:isFav(c),score:0,liqHunt:false,tfData:{},bestTF:tf};}
+        if(!r)return;const c=chunk[idx];
+        if(!S._partial[c])S._partial[c]={coin:c,price:r.price,priceChg:r.priceChg,volume:r.volume,high24:r.high24,low24:r.low24,isAlpha:isAlpha(c),isFav:isFav(c),score:0,liqHunt:false,lsExtreme:false,tfData:{},bestTF:tf};
         S._partial[c].tfData[tf]=r;
         if(r.score>(S._partial[c].tfData[S._partial[c].bestTF]?.score||0))S._partial[c].bestTF=tf;
         S._partial[c].score=Math.max(S._partial[c].score,r.score);
         if(r.liqHunt)S._partial[c].liqHunt=true;
+        if(r.lsExtreme)S._partial[c].lsExtreme=true;
       });
-      done=Math.min(i+batchSize,coins.length);
-      const pct=5+((ti/tfsToScan.length)+(done/coins.length/tfsToScan.length))*92;
-      setP(`${tf} · ${done}/${coins.length} коини`,Math.round(pct));
-      await sleep(batchSleep);
+      done=Math.min(i+bs,coins.length);
+      setP(`${tf} · ${done}/${coins.length}`,Math.round(5+((ti/tfsToScan.length)+(done/coins.length/tfsToScan.length))*92));
+      await sleep(sl);
     }
   }
-
-  if(!S.abort){
-    S.signals=buildSignals(S._partial);
-    renderList();setDot('live');
-    document.getElementById('prog').style.display='none';
-    toast(`✅ ${S.signals.length} сигнали · ${S.signals.filter(s=>s.isAlpha).length} Alpha · ${S.signals.filter(s=>s.isFav).length} Fav`);
-  }
+  if(!S.abort){S.signals=buildSignals(S._partial);renderList();setDot('live');document.getElementById('prog').style.display='none';toast(`✅ ${S.signals.length} сигнали · ${S.signals.filter(s=>s.isAlpha).length} Alpha`);}
 }
 
 function buildSignals(partial){
-  return Object.values(partial)
-    .filter(x=>x.score>0)
-    .map(x=>{
-      const best=x.tfData[x.bestTF]||Object.values(x.tfData)[0];
-      return{...x,...best,tf:x.bestTF,isAlpha:x.isAlpha,isFav:x.isFav,tfData:x.tfData};
-    })
-    .sort((a,b)=>{
-      if(b.isFav!==a.isFav)return(b.isFav?1:0)-(a.isFav?1:0);
-      if(b.score!==a.score)return b.score-a.score;
-      return(b.isAlpha?1:0)-(a.isAlpha?1:0);
-    });
+  return Object.values(partial).filter(x=>x.score>0).map(x=>{
+    const best=x.tfData[x.bestTF]||Object.values(x.tfData)[0];
+    return{...x,...best,tf:x.bestTF,isAlpha:x.isAlpha,isFav:x.isFav,tfData:x.tfData,lsExtreme:x.lsExtreme};
+  }).sort((a,b)=>{
+    if(b.isFav!==a.isFav)return(b.isFav?1:0)-(a.isFav?1:0);
+    return b.score-a.score;
+  });
 }
 
 // ── ANALYZE ───────────────────────────────────────────────
 async function analyzeOneTF(coin,ticker,fr,tf){
   if(!ticker)return null;
   const price=parseFloat(ticker.lastPrice),priceChg=parseFloat(ticker.priceChangePercent),volume=parseFloat(ticker.quoteVolume),high24=parseFloat(ticker.highPrice),low24=parseFloat(ticker.lowPrice);
-  let cvdDelta=0,liqHunt=false,liqType='',oiChange=0,oiUsdt=0,oiCoins=0,tfPriceChg=0;
+  let cvdDelta=0,liqHunt=false,liqType='',oiChange=0,oiUsdt=0,oiCoins=0,tfPriceChg=0,lsRatio=null,takerBuyPct=50,lsExtreme=false;
 
+  // ── 1. Klines — price change, liq hunt detection, OI approx ──
   try{
-    const klines=await apiFetch(`/klines?symbol=${coin}USDT&interval=${tf}&limit=20`);
-    if(klines&&klines.length>=10){
-      const half=Math.floor(klines.length/2);let eB=0,eT=0,lB=0,lT=0;
-      for(let i=0;i<half;i++){eB+=parseFloat(klines[i][9]);eT+=parseFloat(klines[i][5]);}
-      for(let i=half;i<klines.length;i++){lB+=parseFloat(klines[i][9]);lT+=parseFloat(klines[i][5]);}
+    const kl=await apiFetch(`/klines?symbol=${coin}USDT&interval=${tf}&limit=20`);
+    if(kl&&kl.length>=10){
+      const h=Math.floor(kl.length/2);let eB=0,eT=0,lB=0,lT=0;
+      for(let i=0;i<h;i++){eB+=parseFloat(kl[i][9]);eT+=parseFloat(kl[i][5]);}
+      for(let i=h;i<kl.length;i++){lB+=parseFloat(kl[i][9]);lT+=parseFloat(kl[i][5]);}
+      // Fallback CVD (заменет подолу со реален ако е достапен)
       cvdDelta=((lT>0?lB/lT:.5)-(eT>0?eB/eT:.5))*100;
-      const v1=klines.slice(-5).reduce((s,k)=>s+parseFloat(k[7]),0),v2=klines.slice(-10,-5).reduce((s,k)=>s+parseFloat(k[7]),0);
+      const v1=kl.slice(-5).reduce((s,k)=>s+parseFloat(k[7]),0),v2=kl.slice(-10,-5).reduce((s,k)=>s+parseFloat(k[7]),0);
       oiChange=v2>0?((v1-v2)/v2)*100:0;
-      const firstClose=parseFloat(klines[0][4]),lastClose=parseFloat(klines[klines.length-1][4]);
-      tfPriceChg=firstClose>0?((lastClose-firstClose)/firstClose)*100:0;
-      for(const k of klines.slice(-3)){
+      tfPriceChg=parseFloat(kl[0][4])>0?((parseFloat(kl[kl.length-1][4])-parseFloat(kl[0][4]))/parseFloat(kl[0][4]))*100:0;
+      for(const k of kl.slice(-3)){
         const hi=parseFloat(k[2]),lo=parseFloat(k[3]),op=parseFloat(k[1]),cl=parseFloat(k[4]);
         const body=Math.abs(cl-op),range=hi-lo;
-        if(range>0&&body/range<0.38){
-          if((priceChg>0)!==(cvdDelta>0)){liqHunt=true;liqType=priceChg>0?'bull':'bear';}
-        }
+        if(range>0&&body/range<0.38&&(priceChg>0)!==(cvdDelta>0)){liqHunt=true;liqType=priceChg>0?'bull':'bear';}
       }
     }
   }catch(e){}
 
-  // ── REAL OI from /openInterest endpoint ──
+  // ── 2. Реален Taker CVD via /futures/data/takerlongshortRatio ──
   try{
-    const oiData=await apiFetch(`/openInterest?symbol=${coin}USDT`);
-    if(oiData&&oiData.openInterest){
-      oiCoins=parseFloat(oiData.openInterest);
-      oiUsdt=oiCoins*price;
+    const td=await fetchTakerCVD(coin,tf);
+    if(td){
+      cvdDelta=td.cvdDelta; // замени апроксимацијата со реален
+      takerBuyPct=td.buyPct;
+      // Ре-евалуирај liq hunt со реален CVD
+      if(Math.abs(priceChg)>1.5&&(priceChg>0)!==(cvdDelta>0)){liqHunt=true;liqType=priceChg>0?'bull':'bear';}
+    }
+  }catch(e){}
+
+  // ── 3. Real OI snapshot ──
+  try{
+    const oi=await apiFetch(`/openInterest?symbol=${coin}USDT`);
+    if(oi?.openInterest){oiCoins=parseFloat(oi.openInterest);oiUsdt=oiCoins*price;}
+  }catch(e){}
+
+  // ── 4. L/S Account Ratio ──
+  try{
+    const ls=await fetchLSRatio(coin,tf);
+    if(ls){
+      lsRatio=ls.lsRatio;
+      // Contrarian: >1.5 = преполни лонгови = bear signal; <0.67 = bear signal = bull
+      if(ls.lsRatio>1.5||ls.lsRatio<0.67)lsExtreme=true;
     }
   }catch(e){}
 
   let score=0;const sigs=[];
-  if(Math.abs(priceChg)>2){score++;sigs.push({l:`${priceChg>0?'+':''}${priceChg.toFixed(1)}%`,t:priceChg>0?'bull':'bear'});}
-  if(Math.abs(cvdDelta)>3){const cb=cvdDelta>0,pb=priceChg>0;if(cb!==pb){score+=2;sigs.push({l:'CVD DIV',t:cb?'bull':'bear'});}else{score++;sigs.push({l:'CVD CONF',t:cb?'bull':'bear'});}}
+  const absPc=Math.abs(priceChg),absCvd=Math.abs(cvdDelta);
+  const volM=volume/1e6;
+
+  // Price momentum
+  if(absPc>2){score++;sigs.push({l:`${priceChg>0?'+':''}${priceChg.toFixed(1)}%`,t:priceChg>0?'bull':'bear'});}
+
+  // Реален Taker CVD (поточен од klines апроксимација)
+  if(absCvd>3){const cb=cvdDelta>0,pb=priceChg>0;if(cb!==pb){score+=2;sigs.push({l:'CVD DIV',t:cb?'bull':'bear'});}else{score++;sigs.push({l:'CVD CONF',t:cb?'bull':'bear'});}}
+
+  // Taker Buy доминација
+  if(takerBuyPct>62){score++;sigs.push({l:`TAKER ${takerBuyPct.toFixed(0)}%B`,t:'bull'});}
+  else if(takerBuyPct<38){score++;sigs.push({l:`TAKER ${(100-takerBuyPct).toFixed(0)}%S`,t:'bear'});}
+
+  // OI change
   if(Math.abs(oiChange)>2){score++;sigs.push({l:`OI ${oiChange>0?'+':''}${oiChange.toFixed(1)}%`,t:oiChange>0?'bull':'bear'});}
+
+  // Funding
   if(Math.abs(fr)>0.03){score++;sigs.push({l:`FR ${fr>0?'+':''}${fr.toFixed(4)}%`,t:fr>0.05?'bear':'bull'});}
+
+  // Liq hunt
   if(liqHunt){score+=2;sigs.push({l:liqType==='bull'?'⚡SHORT SQ':'⚡LONG DMP',t:'liq'});}
-  if(volume>5000000)score++;
+
+  // L/S Extreme (contrarian)
+  if(lsExtreme){
+    const lsCon=lsRatio>1.5?'bear':'bull';
+    score++;
+    sigs.push({l:`L/S ${lsRatio.toFixed(2)} ${lsRatio>1.5?'▲OVB':'▼OVS'}`,t:lsCon});
+  }
+
+  // Volume bonus
+  if(volM>10)score++;
+
+  // Alpha/Fav bonus
   if(isAlpha(coin))score++;
   if(isFav(coin))score++;
+
+  // ── SPECIAL SIGNAL TAGS ──
+  if(priceChg>3&&volM>20)sigs.push({l:'SPIKE+VOL',t:'spike'});
+  if(priceChg<-3&&volM>20)sigs.push({l:'DUMP+VOL',t:'dump'});
+  if(Math.abs(fr)>0.08)sigs.push({l:'FR EXTREME',t:'fr'});
+  if(oiChange>20)sigs.push({l:'OI SURGE',t:'oisurge'});
 
   if(score===0)return null;
   const bulls=sigs.filter(s=>s.t==='bull').length,bears=sigs.filter(s=>s.t==='bear').length,liqs=sigs.filter(s=>s.t==='liq').length;
   const dir=liqs>0?liqType||'liq':bulls>bears?'bull':bears>bulls?'bear':'neutral';
-  return{coin,price,priceChg,tfPriceChg,volume,high24,low24,cvdDelta,oiChange,oiUsdt,oiCoins,fr,liqHunt,liqType,score,sigs,dir,tf,ts:new Date().toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit',second:'2-digit'})};
+  return{coin,price,priceChg,tfPriceChg,volume,volM,high24,low24,cvdDelta,takerBuyPct,oiChange,oiUsdt,oiCoins,fr,lsRatio,lsExtreme,liqHunt,liqType,score,sigs,dir,tf,ts:new Date().toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit',second:'2-digit'})};
 }
 
 // ── RENDER LIST ───────────────────────────────────────────
 function renderList(){
+  // Liq banners
   document.getElementById('liqArea').innerHTML=S.signals.filter(s=>s.liqHunt).slice(0,2)
-    .map(s=>`<div class="liq-b">⚡ <b>${s.coin}USDT</b>${s.isAlpha?' 🅐':''}${s.isFav?' ⭐':''} — ${s.liqType==='bull'?'SHORT SQUEEZE':'LONG DUMP'} @ $${fmt(s.price)} <span style="margin-left:auto;color:var(--muted)">${s.tf} · ${s.ts}</span></div>`).join('');
+    .map(s=>`<div class="liq-b">⚡ <b>${s.coin}USDT</b>${s.isAlpha?' 🅐':''}${s.isFav?' ⭐':''} — ${s.liqType==='bull'?'SHORT SQ':'LONG DMP'} @ $${fmt(s.price)} <span style="margin-left:auto;color:var(--muted)">${s.tf} · ${s.ts}</span></div>`).join('');
 
+  // Stats
   document.getElementById('sBull').textContent=S.signals.filter(s=>s.dir==='bull').length;
   document.getElementById('sBear').textContent=S.signals.filter(s=>s.dir==='bear').length;
   document.getElementById('sLiq').textContent=S.signals.filter(s=>s.liqHunt).length;
@@ -614,35 +733,71 @@ function renderList(){
   document.getElementById('sFav').textContent=S.signals.filter(s=>s.isFav).length;
   document.getElementById('sTot').textContent=S.signals.length;
 
+  // Thresholds
+  const minChg=parseFloat(document.getElementById('minChg').value)||0;
+  const minVolM=parseFloat(document.getElementById('minVol').value)||0;
+
+  // Filter
   let data=S.signals;
   if(S.srch)data=data.filter(s=>s.coin.includes(S.srch));
   else{
-    if(S.filter==='fav')   data=data.filter(s=>s.isFav);
-    if(S.filter==='alpha') data=data.filter(s=>s.isAlpha);
-    if(S.filter==='bull')  data=data.filter(s=>s.dir==='bull');
-    if(S.filter==='bear')  data=data.filter(s=>s.dir==='bear');
-    if(S.filter==='liq')   data=data.filter(s=>s.liqHunt);
-    if(S.filter==='strong')data=data.filter(s=>s.score>=5);
-    if(S.filter==='cvd')   data=data.filter(s=>s.sigs?.some(sg=>sg.l==='CVD DIV'));
+    if(S.filter==='fav')     data=data.filter(s=>s.isFav);
+    if(S.filter==='alpha')   data=data.filter(s=>s.isAlpha);
+    if(S.filter==='liq')     data=data.filter(s=>s.liqHunt);
+    if(S.filter==='spike')   data=data.filter(s=>s.sigs?.some(sg=>sg.t==='spike'));
+    if(S.filter==='dump')    data=data.filter(s=>s.sigs?.some(sg=>sg.t==='dump'));
+    if(S.filter==='fr')      data=data.filter(s=>s.sigs?.some(sg=>sg.t==='fr'));
+    if(S.filter==='oisurge') data=data.filter(s=>s.sigs?.some(sg=>sg.t==='oisurge'));
+    if(S.filter==='cvd')     data=data.filter(s=>s.sigs?.some(sg=>sg.l==='CVD DIV'));
+    if(S.filter==='strong')  data=data.filter(s=>s.score>=7);
+    if(S.filter==='ls')      data=data.filter(s=>s.lsExtreme);
   }
 
-  if(!data.length){document.getElementById('list').innerHTML=`<div class="empty">🔍<br>${S.srch?S.srch+'USDT не пронајден':S.filter==='fav'?'Нема favorites — додади со ⭐':'Нема сигнали'}</div>`;return;}
+  // Threshold filters
+  if(minChg>0)data=data.filter(s=>Math.abs(s.priceChg)>=minChg);
+  if(minVolM>0)data=data.filter(s=>(s.volM||s.volume/1e6)>=minVolM);
+
+  // Sort
+  const sortFn={
+    score:(a,b)=>b.score-a.score,
+    chg:(a,b)=>Math.abs(b.priceChg)-Math.abs(a.priceChg),
+    vol:(a,b)=>b.volume-a.volume,
+    fr:(a,b)=>Math.abs(b.fr)-Math.abs(a.fr),
+    oi:(a,b)=>Math.abs(b.oiChange)-Math.abs(a.oiChange)
+  }[S.sort]||((a,b)=>b.score-a.score);
+  data=[...data].sort(sortFn);
+
+  if(!data.length){
+    document.getElementById('list').innerHTML=`<div class="empty">🔍<br>${S.srch?S.srch+'USDT не пронајден':S.filter==='fav'?'Нема favorites':'Нема сигнали за овој филтер'}</div>`;
+    return;
+  }
   document.getElementById('list').innerHTML=data.map(rowHTML).join('');
 }
 
 function rowHTML(s){
   const pc=s.priceChg>=0;
   const barC=s.liqHunt?'bar-liq':s.dir==='bull'?'bar-bull':s.dir==='bear'?'bar-bear':'bar-neutral';
-  const sc=s.score>=5?'g':s.score>=3?'y':'a';
+  const sc=s.score>=6?'g':s.score>=3?'y':'a';
   const dots=Array.from({length:7},(_,i)=>`<div class="sd ${i<s.score?sc:''}"></div>`).join('');
+
   const tags=[];
   if(s.isFav)tags.push(`<span class="ctag ct-fav">⭐</span>`);
   if(s.isAlpha)tags.push(`<span class="ctag ct-alpha">🅐</span>`);
-  if(s.liqHunt)tags.push(`<span class="ctag ct-liq" onmouseenter="showSigTip(event,'${s.liqType==='bull'?'⚡SHORT SQ':'⚡LONG DMP'}','liq')" onmouseleave="hideSigTip()" ontouchstart="showSigTip(event,'${s.liqType==='bull'?'⚡SHORT SQ':'⚡LONG DMP'}','liq')">${s.liqType==='bull'?'⚡SHORT SQ':'⚡LONG DMP'}</span>`);
-  else if(s.dir==='bull')tags.push(`<span class="ctag ct-bull">▲BULL</span>`);
+
+  // Main signal badge
+  if(s.liqHunt){
+    const lbl=s.liqType==='bull'?'⚡SHORT SQ':'⚡LONG DMP';
+    tags.push(`<span class="ctag ct-liq" onmouseenter="showSigTip(event,'${lbl}','liq')" onmouseleave="hideSigTip()">${lbl}</span>`);
+  } else if(s.dir==='bull')tags.push(`<span class="ctag ct-bull">▲BULL</span>`);
   else if(s.dir==='bear')tags.push(`<span class="ctag ct-bear">▼BEAR</span>`);
   else tags.push(`<span class="ctag ct-neu">◆NEU</span>`);
+
+  // Special tags
   if(s.sigs?.some(sg=>sg.l==='CVD DIV'))tags.push(`<span class="ctag ct-cvd" onmouseenter="showSigTip(event,'CVD DIV','${s.dir}')" onmouseleave="hideSigTip()">CVD DIV</span>`);
+  if(s.sigs?.some(sg=>sg.t==='spike'))tags.push(`<span class="ctag ct-spike" onmouseenter="showSigTip(event,'SPIKE+VOL','bull')" onmouseleave="hideSigTip()">🚀+VOL</span>`);
+  if(s.sigs?.some(sg=>sg.t==='dump'))tags.push(`<span class="ctag ct-dump" onmouseenter="showSigTip(event,'DUMP+VOL','bear')" onmouseleave="hideSigTip()">💥+VOL</span>`);
+  if(s.sigs?.some(sg=>sg.t==='fr'))tags.push(`<span class="ctag ct-fr" onmouseenter="showSigTip(event,'FR EXTREME','${s.fr>0?'bear':'bull'}')" onmouseleave="hideSigTip()">FR⚠️</span>`);
+  if(s.sigs?.some(sg=>sg.t==='oisurge'))tags.push(`<span class="ctag ct-oi" onmouseenter="showSigTip(event,'OI SURGE','${s.dir}')" onmouseleave="hideSigTip()">OI↑</span>`);
   if(S.tf==='all')tags.push(`<span class="ctag ct-tf">${s.tf}</span>`);
 
   return`<div class="crow" onclick="openDetail('${s.coin}')">
@@ -654,6 +809,7 @@ function rowHTML(s){
     <div class="crow-right">
       <div class="crow-price">$${fmt(s.price)}</div>
       <div class="crow-chg ${pc?'up':'dn'}">${pc?'+':''}${s.priceChg.toFixed(2)}%</div>
+      <div class="crow-vol">${fmtM(s.volume)}</div>
       <div class="sdots">${dots}<span class="crow-arr">›</span></div>
     </div>
   </div>`;
@@ -662,43 +818,31 @@ function rowHTML(s){
 // ── DETAIL ────────────────────────────────────────────────
 function openDetail(coin){
   S.detailCoin=coin;
-  document.getElementById('ov').style.display='flex';
-  document.getElementById('ov').classList.add('open');
+  document.getElementById('ov').style.display='flex';document.getElementById('ov').classList.add('open');
   document.getElementById('dpCharts').style.display='none';
-
+  // Reset flow panel
+  const fp=document.getElementById('dpFlow');fp.style.display='block';
+  document.getElementById('flowContent').innerHTML='<span class="flow-spinner"></span><span style="font-family:var(--mono);font-size:11px;color:var(--text2)">Вчитувам flow податоци...</span>';
+  document.getElementById('flowBadge').style.display='none';
   const s=S.signals.find(x=>x.coin===coin);
-  if(s){populateDetail(s);loadAllTFCards(coin,s);}
+  if(s){populateDetail(s);loadAllTFCards(coin,s);loadMoneyFlow(coin,s.tf);}
   else fetchAndShowDetail(coin);
 }
 
 async function refreshDetail(){
   if(!S.detailCoin)return;
-  const btn=document.getElementById('dpRefreshBtn');
-  btn.classList.add('spinning');
+  const btn=document.getElementById('dpRefBtn');btn.classList.add('spin');
   document.getElementById('dpCharts').style.display='none';
-
-  // Refresh tickers + fundings
   const[tickers,fundings]=await Promise.all([apiFetch('/ticker/24hr'),apiFetch('/premiumIndex')]);
   if(tickers){_tMap={};tickers.forEach(t=>{if(t.symbol.endsWith('USDT')&&!t.symbol.includes('_'))_tMap[t.symbol.replace('USDT','')]=t;});}
   if(fundings){_fMap={};fundings.forEach(f=>{if(f.symbol.endsWith('USDT'))_fMap[f.symbol.replace('USDT','')]=parseFloat(f.lastFundingRate||0)*100;});}
-
-  const coin=S.detailCoin;
-  const ticker=_tMap[coin];
-  if(!ticker){btn.classList.remove('spinning');return;}
-
+  const coin=S.detailCoin,ticker=_tMap[coin];
+  if(!ticker){btn.classList.remove('spin');return;}
   const results=await Promise.all(TFS_FULL.map(tf=>analyzeOneTF(coin,ticker,_fMap[coin]||0,tf)));
   const best=results.filter(Boolean).sort((a,b)=>b.score-a.score)[0];
-  if(best){
-    populateDetail({...best,isAlpha:isAlpha(coin),isFav:isFav(coin)});
-    // Update signals cache
-    const idx=S.signals.findIndex(x=>x.coin===coin);
-    if(idx>=0)S.signals[idx]={...S.signals[idx],...best};
-  }
-  const tfData={};TFS_FULL.forEach((tf,i)=>{if(results[i])tfData[tf]=results[i];});
+  if(best){populateDetail({...best,isAlpha:isAlpha(coin),isFav:isFav(coin)});const idx=S.signals.findIndex(x=>x.coin===coin);if(idx>=0)S.signals[idx]={...S.signals[idx],...best};loadMoneyFlow(coin,best.tf);}
   TFS_FULL.forEach((tf,i)=>renderTFCard(tf,results[i],coin));
-
-  btn.classList.remove('spinning');
-  toast(`↻ ${coin} освежен`);
+  btn.classList.remove('spin');toast(`↻ ${coin} освежен`);
 }
 
 function populateDetail(s){
@@ -706,54 +850,44 @@ function populateDetail(s){
   document.getElementById('dpSym').textContent=coin;
   document.getElementById('dpAlphaBadge').innerHTML=s.isAlpha?`<div class="dp-alpha-badge">🅐 BINANCE ALPHA</div>`:'';
   document.getElementById('dpSub').textContent=`${coin}USDT PERP · Најдобар TF: ${s.tf} · ${s.ts}`;
-
-  const favBtn=document.getElementById('dpFavBtn');
-  favBtn.textContent=s.isFav?'★':'☆';
-  favBtn.className='dp-fav-btn'+(s.isFav?' on':'');
-
+  const fb=document.getElementById('dpFavBtn');fb.textContent=s.isFav?'★':'☆';fb.className='dp-fav-btn'+(s.isFav?' on':'');
   const pc=s.priceChg>=0;
   document.getElementById('dpP').textContent='$'+fmt(s.price);
   const dc=document.getElementById('dpC');dc.textContent=(pc?'+':'')+s.priceChg.toFixed(2)+'%';dc.className='dp-c '+(pc?'up':'dn');
-
   document.getElementById('dpLinks').innerHTML=`
     <a class="ext-link binance" onclick="openBinance('${coin}','${s.tf}')">📊 Binance ${s.tf}</a>
-    <a class="ext-link cg-chart" href="https://legend.coinglass.com/chart/${coin}USDT" target="_blank" rel="noopener">📈 CoinGlass Chart</a>
-    <a class="ext-link cg-tv" href="https://coinglass.com/tv/binance_${coin}USDT" target="_blank" rel="noopener">📺 CoinGlass TV</a>`;
-
+    <a class="ext-link cg-chart" href="https://legend.coinglass.com/chart/${coin}USDT" target="_blank" rel="noopener">📈 CoinGlass</a>
+    <a class="ext-link cg-tv" href="https://coinglass.com/tv/binance_${coin}USDT" target="_blank" rel="noopener">📺 CG TV</a>`;
   const bb=document.getElementById('dpBB');
   let bbTxt,bbBg,bbCol,bbBrd;
   if(s.liqHunt&&s.liqType==='bull'){bbTxt='⚡ LIQ HUNT — SHORT SQUEEZE';bbBg='rgba(255,102,0,.15)';bbCol='var(--orange)';bbBrd='rgba(255,102,0,.35)';}
   else if(s.liqHunt&&s.liqType==='bear'){bbTxt='⚡ LIQ HUNT — LONG DUMP';bbBg='rgba(255,34,68,.12)';bbCol='var(--red)';bbBrd='rgba(255,34,68,.35)';}
-  else if(s.liqHunt){bbTxt='⚡ LIQ HUNT';bbBg='rgba(255,102,0,.15)';bbCol='var(--orange)';bbBrd='rgba(255,102,0,.35)';}
   else if(s.dir==='bull'){bbTxt='▲ BULL СИГНАЛ';bbBg='rgba(0,255,136,.1)';bbCol='var(--green)';bbBrd='rgba(0,255,136,.3)';}
   else if(s.dir==='bear'){bbTxt='▼ BEAR СИГНАЛ';bbBg='rgba(255,34,68,.1)';bbCol='var(--red)';bbBrd='rgba(255,34,68,.3)';}
   else{bbTxt='◆ NEUTRAL';bbBg='rgba(255,208,0,.07)';bbCol='var(--yellow)';bbBrd='rgba(255,208,0,.2)';}
   bb.textContent=bbTxt;bb.style.cssText=`background:${bbBg};color:${bbCol};border:1px solid ${bbBrd}`;
-
   const cvdC=s.cvdDelta>=0?'up':'dn',oiC=s.oiChange>=0?'up':'dn',frC=s.fr>0.05?'dn':s.fr<-0.05?'up':'neu';
-  setM('mCvd',`${s.cvdDelta>=0?'+':''}${s.cvdDelta.toFixed(1)}%`,cvdC,s.cvdDelta>0?'Buying pressure↑':'Selling pressure↑');
-  setM('mOi',s.oiCoins>0?fmtM(s.oiCoins)+' '+coin:'—',oiC,`Промена: ${s.oiChange>=0?'+':''}${s.oiChange.toFixed(1)}%`);
+  const lsC=s.lsRatio?s.lsRatio>1.5?'dn':s.lsRatio<0.67?'up':'neu':'neu';
+  setM('mCvd',`${s.cvdDelta>=0?'+':''}${s.cvdDelta.toFixed(1)}%`,cvdC,`Taker buy: ${s.takerBuyPct!=null?s.takerBuyPct.toFixed(0)+'%':'?'} · ${s.cvdDelta>0?'Buyers доминираат':'Sellers доминираат'}`);
+  setM('mLs',s.lsRatio?s.lsRatio.toFixed(3):'—',lsC,s.lsRatio?s.lsRatio>1.5?'⚠️ Преполни лонгови (bearish)':s.lsRatio<0.67?'⚠️ Преполни шортови (bullish)':'Балансиран':'—');
+  setM('mOi',s.oiCoins>0?fmtM(s.oiCoins)+' '+coin:'—',oiC,`OI Δ: ${s.oiChange>=0?'+':''}${s.oiChange.toFixed(1)}%`);
   setM('mOiUsdt',s.oiUsdt>0?'$'+fmtM(s.oiUsdt):'—','bl',s.oiUsdt>0?'Вкупен OI во USDT':'—');
   setM('mFr',`${s.fr>=0?'+':''}${s.fr.toFixed(4)}%`,frC,s.fr>0.05?'Лонгови плаќаат':s.fr<-0.05?'Шортови плаќаат':'Неутрален');
+  setM('mSpot','се вчитува...','neu','Futures - Spot CVD basis');
   setM('mVol',fmtM(s.volume),'bl','24h USDT промет');
   setM('mHi','$'+fmt(s.high24),'up','Low: $'+fmt(s.low24));
-  const liqDesc=s.liqHunt?(s.liqType==='bull'?'Price↑ + CVD↓ = Short squeeze':'Price↓ + CVD↑ = Long dump'):'Не детектиран';
-  setM('mLiq',s.liqHunt?'⚡ ДА':'—',s.liqHunt?'or':'neu',liqDesc);
-
-  // Signal tags with hover tooltips
+  setM('mLiq',s.liqHunt?'⚡ ДА':'—',s.liqHunt?'or':'neu',s.liqHunt?(s.liqType==='bull'?'Price↑+CVD↓=Short SQ':'Price↓+CVD↑=Long DMP'):'Не детектиран');
   const tags=s.sigs?.map(sg=>{
     const tc=sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu';
     return`<span class="stag ${tc}" onmouseenter="showSigTip(event,'${sg.l}','${sg.t}')" onmouseleave="hideSigTip()">${sg.l}</span>`;
   }).join('')||'';
   document.getElementById('dpSigs').innerHTML=tags||`<span style="color:var(--muted);font-family:var(--mono);font-size:12px">Нема активни сигнали</span>`;
-
-  const sc=s.score>=5?'var(--green)':s.score>=3?'var(--yellow)':'var(--accent)';
-  document.getElementById('scN').textContent=`Score: ${s.score}/9`;document.getElementById('scN').style.color=sc;
-  document.getElementById('scD').textContent=s.score>=7?'⚡ Екстремно јак':s.score>=5?'Јак сигнал':s.score>=3?'Умерен':'Слаб сигнал';
-  document.getElementById('scF').style.cssText=`width:${Math.min((s.score/9)*100,100)}%;background:${sc}`;
+  const sc=s.score>=6?'var(--green)':s.score>=4?'var(--yellow)':'var(--accent)';
+  document.getElementById('scN').textContent=`Score: ${s.score}/11`;document.getElementById('scN').style.color=sc;
+  document.getElementById('scD').textContent=s.score>=8?'⚡ Екстремно јак':s.score>=6?'Јак сигнал':s.score>=4?'Умерен':'Слаб сигнал';
+  document.getElementById('scF').style.cssText=`width:${Math.min((s.score/11)*100,100)}%;background:${sc}`;
 }
 
-// ── TF CARDS ─────────────────────────────────────────────
 async function loadAllTFCards(coin,coinData){
   document.getElementById('tfGrid').innerHTML=TFS_FULL.map(tf=>`<div class="tf-card tf-none" id="tfc-${tf}"><div class="tf-loading">${tf}...</div></div>`).join('');
   await Promise.all(TFS_FULL.map(async tf=>{
@@ -764,238 +898,462 @@ async function loadAllTFCards(coin,coinData){
 }
 
 function renderTFCard(tf,r,coin){
-  const card=document.getElementById(`tfc-${tf}`);
-  if(!card)return;
-  const chartIcon=`<span class="tf-bnlink">↗</span>`;
-
+  const card=document.getElementById(`tfc-${tf}`);if(!card)return;
+  const lnk=`<span class="tf-bnlink">↗</span>`;
   if(!r){
-    card.className='tf-card tf-none';
-    card.onclick=()=>openBinance(coin,tf);
-    card.innerHTML=`<div class="tf-card-header"><span class="tf-label">${tf}${chartIcon}</span><span class="tf-dir-badge tdb-none">—</span></div><div style="font-family:var(--mono);font-size:10px;color:var(--text2)">Нема сигнал</div>`;
-    return;
+    card.className='tf-card tf-none';card.onclick=()=>openBinance(coin,tf);
+    card.innerHTML=`<div class="tf-card-header"><span class="tf-label">${tf}${lnk}</span><span class="tf-dir-badge tdb-none">—</span></div><div style="font-family:var(--mono);font-size:10px;color:var(--text2)">Нема сигнал</div>`;return;
   }
-
-  const dirClass=r.liqHunt?'tf-liq':r.dir==='bull'?'tf-bull':r.dir==='bear'?'tf-bear':'tf-neutral';
-  const liqLabel=r.liqType==='bull'?'⚡SHORT':r.liqType==='bear'?'⚡LONG DMP':'⚡ЛИК';
-  const dirBadge=r.liqHunt?`<span class="tf-dir-badge tdb-liq">${liqLabel}</span>`:r.dir==='bull'?'<span class="tf-dir-badge tdb-bull">▲BULL</span>':r.dir==='bear'?'<span class="tf-dir-badge tdb-bear">▼BEAR</span>':`<span class="tf-dir-badge tdb-neu">◆NEU</span>`;
+  const dc=r.liqHunt?'tf-liq':r.dir==='bull'?'tf-bull':r.dir==='bear'?'tf-bear':'tf-neutral';
+  const lb=r.liqHunt?(r.liqType==='bull'?'⚡SHORT':'⚡LONG DMP'):'';
+  const db=r.liqHunt?`<span class="tf-dir-badge tdb-liq">${lb}</span>`:r.dir==='bull'?'<span class="tf-dir-badge tdb-bull">▲BULL</span>':r.dir==='bear'?'<span class="tf-dir-badge tdb-bear">▼BEAR</span>':`<span class="tf-dir-badge tdb-neu">◆NEU</span>`;
   const cvdC=r.cvdDelta>=0?'up':'dn',oiC=r.oiChange>=0?'up':'dn',frC=r.fr>0.05?'dn':r.fr<-0.05?'up':'neu';
+  const lsC=r.lsRatio?r.lsRatio>1.5?'dn':r.lsRatio<0.67?'up':'neu':'neu';
   const sc=r.score>=5?'var(--green)':r.score>=3?'var(--yellow)':'var(--accent)';
-  const tfPc=r.tfPriceChg>=0;
-  const oiUsdtStr=r.oiUsdt>0?'$'+fmtM(r.oiUsdt):'—';
-  const sigTags=r.sigs.map(sg=>`<span class="tf-sig ${sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu'}">${sg.l}</span>`).join('');
-
-  card.className=`tf-card tf-has-signal ${dirClass}`;
-  card.onclick=()=>showTFCharts(coin,tf,r);
+  const tp=r.tfPriceChg>=0;
+  const oiU=r.oiUsdt>0?'$'+fmtM(r.oiUsdt):'—';
+  const st=r.sigs.map(sg=>`<span class="tf-sig ${sg.t==='bull'?'up':sg.t==='bear'?'dn':sg.t==='liq'?'or':'neu'}">${sg.l}</span>`).join('');
+  card.className=`tf-card tf-has-signal ${dc}`;card.onclick=()=>showTFCharts(coin,tf,r);
   card.innerHTML=`
-    <div class="tf-card-header">
-      <span class="tf-label">${tf}${chartIcon}</span>
-      ${dirBadge}
-    </div>
-    <div class="tf-pchg ${tfPc?'up':'dn'}">${tfPc?'+':''}${r.tfPriceChg.toFixed(2)}%</div>
+    <div class="tf-card-header"><span class="tf-label">${tf}${lnk}</span>${db}</div>
+    <div class="tf-pchg ${tp?'up':'dn'}">${tp?'+':''}${r.tfPriceChg.toFixed(2)}%</div>
     <div class="tf-metrics">
       <div class="tf-metric"><div class="tf-metric-label">CVD Δ</div><div class="tf-metric-val ${cvdC}">${r.cvdDelta>=0?'+':''}${r.cvdDelta.toFixed(1)}%</div></div>
-      <div class="tf-metric"><div class="tf-metric-label">OI Δ</div><div class="tf-metric-val ${oiC}">${r.oiChange>=0?'+':''}${r.oiChange.toFixed(1)}%</div></div>
-      <div class="tf-metric"><div class="tf-metric-label">OI USDT</div><div class="tf-metric-val bl">${oiUsdtStr}</div></div>
+      <div class="tf-metric"><div class="tf-metric-label">L/S</div><div class="tf-metric-val ${lsC}">${r.lsRatio?r.lsRatio.toFixed(2):'—'}</div></div>
+      <div class="tf-metric"><div class="tf-metric-label">OI USDT</div><div class="tf-metric-val bl">${oiU}</div></div>
       <div class="tf-metric"><div class="tf-metric-label">FR</div><div class="tf-metric-val ${frC}">${r.fr>=0?'+':''}${r.fr.toFixed(3)}%</div></div>
     </div>
-    <div class="tf-sigs">${sigTags}</div>
-    <div class="tf-score-row">
-      <div class="tf-score-bg"><div class="tf-score-fill" style="width:${Math.min((r.score/9)*100,100)}%;background:${sc}"></div></div>
-      <span class="tf-score-num" style="color:${sc}">${r.score}/9</span>
-    </div>`;
+    <div class="tf-sigs">${st}</div>
+    <div class="tf-score-row"><div class="tf-score-bg"><div class="tf-score-fill" style="width:${Math.min((r.score/11)*100,100)}%;background:${sc}"></div></div><span class="tf-score-num" style="color:${sc}">${r.score}/11</span></div>`;
 }
 
 // ── CHARTS ────────────────────────────────────────────────
 function destroyCharts(){
   if(_oiChart){try{_oiChart.destroy();}catch(e){}finally{_oiChart=null;}}
   if(_cvdChart){try{_cvdChart.destroy();}catch(e){}finally{_cvdChart=null;}}
+  const ui=document.getElementById('ultimateIndicator');if(ui){ui.style.display='none';ui.innerHTML='';}
 }
 
-async function showTFCharts(coin,tf,cachedData){
+async function showTFCharts(coin,tf){
   document.querySelectorAll('.tf-card').forEach(c=>c.classList.remove('tf-selected'));
-  const card=document.getElementById(`tfc-${tf}`);
-  if(card)card.classList.add('tf-selected');
-
-  S.chartTF=tf;
-  S.detailCoin=coin;
-
-  // Build TF selector buttons
-  const selEl=document.getElementById('chartTFSel');
-  selEl.innerHTML=TFS_FULL.map(t=>`<button class="chart-tf-btn ${t===tf?'active':''}" onclick="switchChartTF('${coin}','${t}',this)">${t}</button>`).join('');
-
+  const card=document.getElementById(`tfc-${tf}`);if(card)card.classList.add('tf-selected');
+  S.chartTF=tf;S.detailCoin=coin;
+  document.getElementById('chartTFSel').innerHTML=TFS_FULL.map(t=>`<button class="chart-tf-btn ${t===tf?'active':''}" onclick="switchChartTF('${coin}','${t}',this)">${t}</button>`).join('');
   document.getElementById('chartTitle').textContent=`// ${coin} · ${tf} · OI + CVD`;
-  document.getElementById('oiChartLbl').textContent=`🟡 OI ${coin} коини (лево) · ⚪ OI USDT (десно) · ${tf}`;
-
-  const chartsEl=document.getElementById('dpCharts');
-  chartsEl.style.display='block';
-  await sleep(30);
-  chartsEl.scrollIntoView({behavior:'smooth',block:'start'});
-
+  document.getElementById('oiChartLbl').textContent=`🟡 OI ${coin} (лево) · ⚪ OI USDT (десно) · ${tf}`;
+  const el=document.getElementById('dpCharts');el.style.display='block';
+  await sleep(30);el.scrollIntoView({behavior:'smooth',block:'start'});
   await renderCharts(coin,tf);
 }
 
 async function switchChartTF(coin,tf,btn){
-  document.querySelectorAll('.chart-tf-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('.chart-tf-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
   S.chartTF=tf;
   document.getElementById('chartTitle').textContent=`// ${coin} · ${tf} · OI + CVD`;
-  document.getElementById('oiChartLbl').textContent=`🟡 OI ${coin} коини (лево) · ⚪ OI USDT (десно) · ${tf}`;
+  document.getElementById('oiChartLbl').textContent=`🟡 OI ${coin} (лево) · ⚪ OI USDT (десно) · ${tf}`;
   await renderCharts(coin,tf);
 }
 
 async function renderCharts(coin,tf){
   destroyCharts();
 
-  const klines=await apiFetch(`/klines?symbol=${coin}USDT&interval=${tf}&limit=60`);
-  if(!klines||klines.length<2){
-    document.getElementById('oiChartLbl').textContent='⚠️ Нема податоци за овој TF';
-    return;
+  // TF map за openInterestHist period параметар
+  const oiPeriodMap={'1m':'5m','5m':'5m','15m':'15m','1h':'1h','4h':'4h','12h':'4h','1d':'1d','1w':'1d'};
+  const oiPeriod=oiPeriodMap[tf]||'1h';
+  const limitByTF={'1m':60,'5m':60,'15m':60,'1h':48,'4h':48,'12h':30,'1d':30,'1w':30};
+  const lim=limitByTF[tf]||48;
+
+  // Паралелно вчитување: klines за CVD + вистински OI хисторија
+  const DAPI='https://fapi.binance.com/futures/data';
+  const oiUrl=`${DAPI}/openInterestHist?symbol=${coin}USDT&period=${oiPeriod}&limit=${lim}`;
+
+  const[kl, oiHist]=await Promise.all([
+    apiFetch(`/klines?symbol=${coin}USDT&interval=${tf}&limit=${lim}`),
+    fetch(oiUrl,{signal:AbortSignal.timeout(6000)}).then(r=>r.ok?r.json():null).catch(()=>null)
+  ]);
+
+  if(!kl||kl.length<2){document.getElementById('oiChartLbl').textContent='⚠️ Нема податоци';return;}
+
+  const W='#ffffff',tickC='#c8c8e8',gridC='rgba(255,255,255,0.05)';
+  const ttip={mode:'index',intersect:false,backgroundColor:'rgba(10,10,25,.97)',titleColor:W,bodyColor:'#c8c8e8',borderColor:'#2a2a45',borderWidth:1,padding:10,cornerRadius:6};
+
+  // ── OI Chart со вистински OI ──
+  let oiLabels, oiCoinsData, oiUsdtData;
+
+  if(oiHist&&oiHist.length>1){
+    // Вистински OI од Binance
+    oiLabels=oiHist.map(d=>{const dt=new Date(d.timestamp);return dt.toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit'});});
+    oiCoinsData=oiHist.map(d=>parseFloat(d.sumOpenInterest));
+    oiUsdtData=oiHist.map(d=>parseFloat(d.sumOpenInterestValue));
+    document.getElementById('oiChartLbl').textContent=`🟡 OI ${coin} коини (лево) · ⚪ Notional Value USDT (десно) · ${tf} · Вистински OI`;
+  } else {
+    // Fallback — апроксимација
+    oiLabels=kl.map(k=>{const d=new Date(parseInt(k[0]));return d.toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit'});});
+    oiCoinsData=kl.map(k=>parseFloat(k[5]));
+    oiUsdtData=kl.map(k=>parseFloat(k[7]));
+    document.getElementById('oiChartLbl').textContent=`🟡 OI ${coin} (лево) · ⚪ OI USDT (десно) · ${tf} · апроксимација`;
   }
 
-  const labels=klines.map(k=>{
-    const d=new Date(parseInt(k[0]));
-    return d.toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit'});
-  });
-
-  // OI coins = column 5 (base asset volume), OI USDT = column 7 (quote asset volume)
-  const oiCoins=klines.map(k=>parseFloat(k[5]));
-  const oiUsdt=klines.map(k=>parseFloat(k[7]));
-
-  const W='#ffffff', tickC='#d0d0e8', gridC='rgba(255,255,255,0.06)';
-  const tooltipOpts={
-    mode:'index',intersect:false,
-    backgroundColor:'rgba(10,10,25,0.97)',
-    titleColor:W,bodyColor:'#d0d0e8',
-    borderColor:'#1e1e35',borderWidth:1,
-    padding:10,
-    callbacks:{
-      label:ctx=>{
-        const v=ctx.raw;
-        const lbl=ctx.dataset.label;
-        return` ${lbl}: ${fmtM(v)}`;
-      }
-    }
-  };
-
-  // ── OI Chart ──
-  const oiCtx=document.getElementById('oiChart').getContext('2d');
-  _oiChart=new Chart(oiCtx,{
+  // Збиени барови — Binance стил
+  _oiChart=new Chart(document.getElementById('oiChart').getContext('2d'),{
     type:'bar',
-    data:{
-      labels,
-      datasets:[
-        {
-          type:'bar',label:`OI ${coin}`,data:oiCoins,
-          backgroundColor:'rgba(255,208,0,0.75)',borderColor:'rgba(255,208,0,0.9)',
-          borderWidth:1,borderRadius:1,yAxisID:'yL',order:2
-        },
-        {
-          type:'line',label:'OI USDT',data:oiUsdt,
-          borderColor:'#ffffff',backgroundColor:'transparent',
-          borderWidth:2,
-          pointRadius:0,pointHoverRadius:4,pointHoverBackgroundColor:'#fff',
-          yAxisID:'yR',order:1,tension:0.2
-        }
-      ]
-    },
+    data:{labels:oiLabels,datasets:[
+      {
+        type:'bar',label:`OI ${coin}`,data:oiCoinsData,
+        backgroundColor:'rgba(255,208,0,.8)',borderColor:'rgba(255,208,0,1)',
+        borderWidth:0,borderRadius:0,
+        barPercentage:0.95,categoryPercentage:0.98, // збиени барови
+        yAxisID:'yL',order:2
+      },
+      {
+        type:'line',label:'Notional USDT',data:oiUsdtData,
+        borderColor:'#ffffff',backgroundColor:'transparent',
+        borderWidth:2,
+        pointRadius:3,pointHoverRadius:5,
+        pointBackgroundColor:'#ffffff',pointBorderColor:'#ffffff',
+        pointBorderWidth:1,
+        yAxisID:'yR',order:1,tension:0.3
+      }
+    ]},
     options:{
       responsive:true,maintainAspectRatio:false,animation:false,
       plugins:{
-        legend:{display:true,labels:{color:W,font:{size:10},boxWidth:10,padding:12}},
-        tooltip:tooltipOpts
+        legend:{display:true,labels:{color:W,font:{size:10},boxWidth:10,padding:12,usePointStyle:true}},
+        tooltip:{...ttip,callbacks:{
+          label:ctx=>{
+            const v=ctx.raw;
+            return` ${ctx.dataset.label}: ${fmtM(v)}`;
+          }
+        }}
       },
       scales:{
-        x:{ticks:{color:tickC,font:{size:9},maxTicksLimit:8},grid:{color:gridC},border:{color:'#1e1e35'}},
-        yL:{position:'left',ticks:{color:'#ffd000',font:{size:9},maxTicksLimit:5,callback:v=>fmtM(v)},grid:{color:gridC},border:{color:'#1e1e35'}},
-        yR:{position:'right',ticks:{color:W,font:{size:9},maxTicksLimit:5,callback:v=>fmtM(v)},grid:{display:false},border:{color:'#1e1e35'}}
+        x:{ticks:{color:tickC,font:{size:9},maxTicksLimit:10,maxRotation:0},grid:{color:gridC},border:{color:'#1e1e35'}},
+        yL:{position:'left',ticks:{color:'#ffd000',font:{size:9},maxTicksLimit:6,callback:v=>fmtM(v)},grid:{color:gridC},border:{color:'#1e1e35'}},
+        yR:{position:'right',ticks:{color:W,font:{size:9},maxTicksLimit:6,callback:v=>fmtM(v)},grid:{display:false},border:{color:'#1e1e35'}}
       }
     }
   });
 
   // ── CVD Chart ──
-  let cumCVD=0;
-  const cvdData=klines.map(k=>{
-    const buy=parseFloat(k[9]),total=parseFloat(k[5]);
-    cumCVD+=(buy-(total-buy));
-    return cumCVD;
-  });
+  const cvdLabels=kl.map(k=>{const d=new Date(parseInt(k[0]));return d.toLocaleTimeString('mk-MK',{hour:'2-digit',minute:'2-digit'});});
+  let cum=0;
+  const cvdData=kl.map(k=>{const b=parseFloat(k[9]),t=parseFloat(k[5]);cum+=(b-(t-b));return cum;});
   const cvdLast=cvdData[cvdData.length-1]||0;
-  const cvdColor=cvdLast>=0?'rgba(0,255,136,0.9)':'rgba(255,34,68,0.9)';
-  const cvdFill=cvdLast>=0?'rgba(0,255,136,0.1)':'rgba(255,34,68,0.1)';
+  const cvdC=cvdLast>=0?'rgba(0,255,136,.9)':'rgba(255,34,68,.9)';
+  const cvdFill=cvdLast>=0?'rgba(0,255,136,.08)':'rgba(255,34,68,.08)';
 
-  const cvdCtx=document.getElementById('cvdChart').getContext('2d');
-  _cvdChart=new Chart(cvdCtx,{
+  _cvdChart=new Chart(document.getElementById('cvdChart').getContext('2d'),{
     type:'line',
-    data:{
-      labels,
-      datasets:[{
-        label:'CVD',data:cvdData,
-        borderColor:cvdColor,backgroundColor:cvdFill,
-        borderWidth:2,pointRadius:0,pointHoverRadius:4,
-        pointHoverBackgroundColor:cvdColor,
-        tension:0.2,fill:true
-      }]
-    },
+    data:{labels:cvdLabels,datasets:[{
+      label:'CVD',data:cvdData,
+      borderColor:cvdC,backgroundColor:cvdFill,
+      borderWidth:2,pointRadius:0,pointHoverRadius:4,
+      pointHoverBackgroundColor:cvdC,tension:0.3,fill:true
+    }]},
     options:{
       responsive:true,maintainAspectRatio:false,animation:false,
       plugins:{
         legend:{display:false},
-        tooltip:{...tooltipOpts,callbacks:{label:ctx=>` CVD: ${fmtM(ctx.raw)}`}}
+        tooltip:{...ttip,callbacks:{label:ctx=>` CVD: ${fmtM(ctx.raw)}`}},
+        // Линија на нула
+        annotation:{annotations:{zero:{type:'line',yMin:0,yMax:0,borderColor:'rgba(255,255,255,0.3)',borderWidth:1,borderDash:[4,4]}}}
       },
       scales:{
-        x:{ticks:{color:tickC,font:{size:9},maxTicksLimit:8},grid:{color:gridC},border:{color:'#1e1e35'}},
-        y:{ticks:{color:tickC,font:{size:9},maxTicksLimit:5,callback:v=>fmtM(v)},grid:{color:gridC},border:{color:'#1e1e35'}}
+        x:{ticks:{color:tickC,font:{size:9},maxTicksLimit:10,maxRotation:0},grid:{color:gridC},border:{color:'#1e1e35'}},
+        y:{ticks:{color:tickC,font:{size:9},maxTicksLimit:6,callback:v=>fmtM(v)},grid:{color:gridC},border:{color:'#1e1e35'}}
       }
     }
   });
+
+  // ── УЛТИМАТИВЕН LONG/SHORT ИНДИКАТОР ──
+  calcUltimateSignal(coin, tf, kl, oiCoinsData, oiUsdtData, cvdData);
+}
+
+function calcUltimateSignal(coin, tf, kl, oiCoins, oiUsdt, cvdData){
+  let longPts=0, shortPts=0;
+  const reasons=[];
+
+  // 1. CVD тренд (тежина: 3)
+  const cvdLen=cvdData.length;
+  const cvdRecent=cvdData.slice(-5);
+  const cvdEarly=cvdData.slice(-10,-5);
+  const cvdTrendUp=cvdRecent[cvdRecent.length-1]>cvdEarly[0];
+  const cvdDiv=(cvdTrendUp&&parseFloat(kl[kl.length-1][4])<parseFloat(kl[kl.length-6]?.[4]||kl[0][4]));
+  const cvdDivBear=(!cvdTrendUp&&parseFloat(kl[kl.length-1][4])>parseFloat(kl[kl.length-6]?.[4]||kl[0][4]));
+
+  if(cvdTrendUp&&!cvdDiv){longPts+=3;reasons.push({t:'long',txt:'CVD расте ↑ (buying pressure)'});}
+  else if(!cvdTrendUp&&!cvdDivBear){shortPts+=3;reasons.push({t:'short',txt:'CVD паѓа ↓ (selling pressure)'});}
+  else if(cvdDiv){shortPts+=3;reasons.push({t:'short',txt:'CVD дивергенција — цената расте без buyers'});}
+  else if(cvdDivBear){longPts+=3;reasons.push({t:'long',txt:'CVD дивергенција — цената паѓа со buyers'});}
+
+  // 2. OI тренд (тежина: 2)
+  if(oiCoins.length>5){
+    const oiNew=oiCoins.slice(-3).reduce((a,b)=>a+b,0)/3;
+    const oiOld=oiCoins.slice(-8,-5).reduce((a,b)=>a+b,0)/3;
+    const oiUp=oiNew>oiOld;
+    const priceUp=parseFloat(kl[kl.length-1][4])>parseFloat(kl[kl.length-6]?.[4]||kl[0][4]);
+    if(oiUp&&priceUp){longPts+=2;reasons.push({t:'long',txt:'OI расте + цена расте = нови лонгови'});}
+    else if(oiUp&&!priceUp){shortPts+=2;reasons.push({t:'short',txt:'OI расте + цена паѓа = нови шортови'});}
+    else if(!oiUp&&priceUp){shortPts+=1;reasons.push({t:'short',txt:'OI паѓа + цена расте = шортови се затвораат (SQ)'});}
+    else{longPts+=1;reasons.push({t:'long',txt:'OI паѓа + цена паѓа = лонгови се затвораат'});}
+  }
+
+  // 3. Funding Rate
+  const fr=_fMap[coin]||0;
+  if(fr>0.08){shortPts+=2;reasons.push({t:'short',txt:`FR +${fr.toFixed(3)}% — лонгови преполни → SHORT`});}
+  else if(fr>0.03){shortPts+=1;reasons.push({t:'short',txt:`FR +${fr.toFixed(3)}% — лонгови доминираат`});}
+  else if(fr<-0.08){longPts+=2;reasons.push({t:'long',txt:`FR ${fr.toFixed(3)}% — шортови преполни → LONG`});}
+  else if(fr<-0.03){longPts+=1;reasons.push({t:'long',txt:`FR ${fr.toFixed(3)}% — шортови доминираат`});}
+
+  // 4. Последни свеќи — price action (тежина: 2)
+  const last3=kl.slice(-3);
+  const bullCandles=last3.filter(k=>parseFloat(k[4])>parseFloat(k[1])).length;
+  if(bullCandles>=2){longPts+=1;reasons.push({t:'long',txt:`${bullCandles}/3 bull свеќи → моментум нагоре`});}
+  else if(bullCandles<=1){shortPts+=1;reasons.push({t:'short',txt:`${3-bullCandles}/3 bear свеќи → моментум надолу`});}
+
+  // 5. Liq Hunt детекција
+  const s=S.signals.find(x=>x.coin===coin);
+  if(s?.liqHunt){
+    if(s.liqType==='bull'){shortPts+=2;reasons.push({t:'short',txt:'Short Squeeze детектиран → reversal надолу'});}
+    else{longPts+=2;reasons.push({t:'long',txt:'Long Dump детектиран → bounce нагоре'});}
+  }
+
+  // Финален сигнал
+  const total=longPts+shortPts;
+  const longPct=total>0?Math.round((longPts/total)*100):50;
+  const shortPct=100-longPct;
+  const signal=longPts>shortPts?'LONG':shortPts>longPts?'SHORT':'NEUTRAL';
+  const confidence=total>0?Math.round(Math.max(longPts,shortPts)/total*100):50;
+
+  // Прикажи го индикаторот
+  renderUltimateIndicator(signal,longPts,shortPts,longPct,shortPct,confidence,reasons,coin,tf);
+}
+
+function renderUltimateIndicator(signal,lp,sp,lpct,spct,conf,reasons,coin,tf){
+  const el=document.getElementById('ultimateIndicator');
+  if(!el)return;
+
+  const sigColor=signal==='LONG'?'var(--green)':signal==='SHORT'?'var(--red)':'var(--yellow)';
+  const sigBg=signal==='LONG'?'rgba(0,255,136,.12)':signal==='SHORT'?'rgba(255,34,68,.12)':'rgba(255,208,0,.08)';
+  const sigBorder=signal==='LONG'?'rgba(0,255,136,.4)':signal==='SHORT'?'rgba(255,34,68,.4)':'rgba(255,208,0,.3)';
+  const sigEmoji=signal==='LONG'?'⬆':'SHORT'?'⬇':'◆';
+  const confLabel=conf>=80?'Многу јак':conf>=65?'Јак':conf>=50?'Умерен':'Слаб';
+
+  const reasonsHTML=reasons.map(r=>`
+    <div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+      <span style="font-size:10px;color:${r.t==='long'?'var(--green)':r.t==='short'?'var(--red)':'var(--yellow)'};flex-shrink:0">${r.t==='long'?'▲':'▼'}</span>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text2)">${r.txt}</span>
+    </div>`).join('');
+
+  el.style.display='block';
+  el.innerHTML=`
+    <div style="background:${sigBg};border:2px solid ${sigBorder};border-radius:12px;padding:16px;margin-bottom:4px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--text2);letter-spacing:2px;margin-bottom:4px">// УЛТИМАТИВЕН СИГНАЛ · ${coin} · ${tf}</div>
+          <div style="font-family:var(--mono);font-size:28px;font-weight:bold;color:${sigColor};letter-spacing:2px">${signal==='LONG'?'⬆ LONG':signal==='SHORT'?'⬇ SHORT':'◆ NEUTRAL'}</div>
+          <div style="font-family:var(--mono);font-size:12px;color:${sigColor};margin-top:2px">${confLabel} сигнал · ${conf}% доверба</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--green)">LONG: ${lp}pt</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--red)">SHORT: ${sp}pt</div>
+        </div>
+      </div>
+      <!-- LONG/SHORT BAR -->
+      <div style="margin-bottom:12px">
+        <div style="display:flex;height:10px;border-radius:5px;overflow:hidden">
+          <div style="width:${lpct}%;background:linear-gradient(90deg,rgba(0,255,136,.6),rgba(0,255,136,.9));transition:width .5s"></div>
+          <div style="width:${spct}%;background:linear-gradient(90deg,rgba(255,34,68,.9),rgba(255,34,68,.6));transition:width .5s"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:3px">
+          <span style="font-family:var(--mono);font-size:9px;color:var(--green)">LONG ${lpct}%</span>
+          <span style="font-family:var(--mono);font-size:9px;color:var(--red)">SHORT ${spct}%</span>
+        </div>
+      </div>
+      <!-- REASONS -->
+      <div style="font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:6px">// ПРИЧИНИ</div>
+      ${reasonsHTML}
+      <div style="margin-top:10px;padding:8px;background:rgba(0,0,0,.2);border-radius:6px;font-family:var(--mono);font-size:10px;color:var(--text2)">
+        ⚠️ Ова е информативен индикатор, НЕ финансиски совет. Секогаш постави SL.
+      </div>
+    </div>`;
 }
 
 async function fetchAndShowDetail(coin){
   document.getElementById('dpSym').textContent=coin;
   document.getElementById('dpAlphaBadge').innerHTML=isAlpha(coin)?`<div class="dp-alpha-badge">🅐 BINANCE ALPHA</div>`:'';
-  document.getElementById('dpP').textContent='Се вчитува...';
-  document.getElementById('dpC').textContent='';
+  document.getElementById('dpP').textContent='Се вчитува...';document.getElementById('dpC').textContent='';
   document.getElementById('tfGrid').innerHTML=TFS_FULL.map(tf=>`<div class="tf-card tf-none" id="tfc-${tf}"><div class="tf-loading">${tf}...</div></div>`).join('');
-
   if(!Object.keys(_tMap).length){
     const[t,f]=await Promise.all([apiFetch('/ticker/24hr'),apiFetch('/premiumIndex')]);
     if(t)t.forEach(x=>{if(x.symbol.endsWith('USDT'))_tMap[x.symbol.replace('USDT','')]=x;});
     if(f)f.forEach(x=>{if(x.symbol.endsWith('USDT'))_fMap[x.symbol.replace('USDT','')]=parseFloat(x.lastFundingRate||0)*100;});
   }
-
-  const ticker=_tMap[coin];
-  if(!ticker){document.getElementById('dpP').textContent='Не постои на Futures';return;}
-
-  const fav=isFav(coin);
-  const fb=document.getElementById('dpFavBtn');fb.textContent=fav?'★':'☆';fb.className='dp-fav-btn'+(fav?' on':'');
-
+  const ticker=_tMap[coin];if(!ticker){document.getElementById('dpP').textContent='Не постои на Futures';return;}
+  const fav=isFav(coin);const fb=document.getElementById('dpFavBtn');fb.textContent=fav?'★':'☆';fb.className='dp-fav-btn'+(fav?' on':'');
   document.getElementById('dpLinks').innerHTML=`
     <a class="ext-link binance" onclick="openBinance('${coin}','1h')">📊 Binance 1h</a>
-    <a class="ext-link cg-chart" href="https://legend.coinglass.com/chart/${coin}USDT" target="_blank" rel="noopener">📈 CoinGlass Chart</a>
-    <a class="ext-link cg-tv" href="https://coinglass.com/tv/binance_${coin}USDT" target="_blank" rel="noopener">📺 CoinGlass TV</a>`;
-
+    <a class="ext-link cg-chart" href="https://legend.coinglass.com/chart/${coin}USDT" target="_blank" rel="noopener">📈 CoinGlass</a>
+    <a class="ext-link cg-tv" href="https://coinglass.com/tv/binance_${coin}USDT" target="_blank" rel="noopener">📺 CG TV</a>`;
   const results=await Promise.all(TFS_FULL.map(tf=>analyzeOneTF(coin,ticker,_fMap[coin]||0,tf)));
   const best=results.filter(Boolean).sort((a,b)=>b.score-a.score)[0];
-  if(best)populateDetail({...best,isAlpha:isAlpha(coin),isFav:isFav(coin)});
+  if(best){populateDetail({...best,isAlpha:isAlpha(coin),isFav:isFav(coin)});loadMoneyFlow(coin,best.tf);}
   TFS_FULL.forEach((tf,i)=>renderTFCard(tf,results[i],coin));
+}
+
+// ── MONEY FLOW PANEL ─────────────────────────────────────
+async function loadMoneyFlow(coin,tf){
+  const flowTF=FLOW_TF[tf]||'15m';
+  const [takerData,lsData,topData]=await Promise.all([
+    fetchTakerCVD(coin,tf).catch(()=>null),
+    fetchLSRatio(coin,tf).catch(()=>null),
+    fetchTopTraderRatio(coin,tf).catch(()=>null)
+  ]);
+  const spotData=await fetchSpotFlow(coin,tf,takerData?takerData.cvdDelta:null).catch(()=>null);
+
+  // Ажурирај Spot Flow метрика
+  if(spotData){
+    const bC=spotData.basis!==null?(spotData.basis>4?'dn':spotData.basis<-4?'up':'neu'):'neu';
+    const bDesc=spotData.basis===null?'—':
+      spotData.basis>8?'🚨 LEVERAGED — Futures купува, Spot не следи':
+      spotData.basis>4?'⚠️ Умерено leveraged':
+      spotData.basis<-8?'📥 ORGANIC — Spot купува прво':
+      spotData.basis<-4?'📥 Spot-водено':
+      '✅ Futures/Spot корелација';
+    setM('mSpot',spotData.basis!==null?(spotData.basis>0?'+':'')+spotData.basis.toFixed(2)+'%':'—',bC,bDesc);
+  } else {
+    setM('mSpot','N/A','neu','Spot пар не постои');
+  }
+
+  const el=document.getElementById('flowContent');
+  if(!takerData&&!lsData){
+    el.innerHTML=`<span style="font-family:var(--mono);font-size:11px;color:var(--muted)">Нема /futures/data за ${coin} (${flowTF})</span>`;
+    return;
+  }
+
+  let html='';
+
+  // ── Taker Buy/Sell ──
+  if(takerData){
+    const buyDom=takerData.buyPct>60,sellDom=takerData.buyPct<40;
+    html+=`<div class="flow-grid">
+      <div class="flow-card ${buyDom?'fc-buy':''}">
+        <div class="fc-label">TAKER BUY VOL</div>
+        <div class="fc-val up">${fmtM(takerData.totalBuy)}</div>
+        <div class="fc-sub">${takerData.buyPct.toFixed(1)}% од вкупно</div>
+      </div>
+      <div class="flow-card ${sellDom?'fc-sell':''}">
+        <div class="fc-label">TAKER SELL VOL</div>
+        <div class="fc-val dn">${fmtM(takerData.totalSell)}</div>
+        <div class="fc-sub">${(100-takerData.buyPct).toFixed(1)}% од вкупно</div>
+      </div>
+      <div class="flow-card">
+        <div class="fc-label">BUY/SELL RATIO</div>
+        <div class="fc-val ${takerData.buySellRatio>=1?'up':'dn'}">${takerData.buySellRatio.toFixed(3)}</div>
+        <div class="fc-sub">${takerData.buySellRatio>1.2?'Агресивни купувачи':takerData.buySellRatio<0.8?'Агресивни продавачи':'Балансирано'}</div>
+      </div>
+      <div class="flow-card">
+        <div class="fc-label">CVD Δ (Taker)</div>
+        <div class="fc-val ${takerData.cvdDelta>=0?'up':'dn'}">${takerData.cvdDelta>=0?'+':''}${takerData.cvdDelta.toFixed(2)}%</div>
+        <div class="fc-sub">${Math.abs(takerData.cvdDelta)>5?'Силен':'Умерен'} ${takerData.cvdDelta>=0?'buying':'selling'} притисок</div>
+      </div>
+    </div>
+    <div class="flow-bar-bg"><div class="flow-bar-buy" style="width:${takerData.buyPct}%"></div></div>
+    <div class="flow-bar-labels"><span class="up">BUY ${takerData.buyPct.toFixed(0)}%</span><span class="dn">SELL ${(100-takerData.buyPct).toFixed(0)}%</span></div>`;
+  }
+
+  // ── Global L/S Ratio ──
+  if(lsData){
+    const lsC=lsData.lsRatio>1.5?'dn':lsData.lsRatio<0.67?'up':'neu';
+    const lsDesc=lsData.lsRatio>1.5?'⚠️ OVERBOUGHT — contrarian SHORT':
+                  lsData.lsRatio<0.67?'⚠️ OVERSOLD — contrarian LONG':
+                  lsData.lsRatio>lsData.prevLsRatio?'Лонговите растат':'Шортовите растат';
+    const lp=lsData.longRatio*100;
+    html+=`<div style="margin-top:10px">
+      <div style="font-size:9px;color:var(--text2);letter-spacing:1px;font-family:var(--mono);margin-bottom:6px;text-transform:uppercase">GLOBAL L/S ACCOUNT RATIO · ${flowTF}</div>
+      <div class="diverg-box" style="${lsData.lsRatio>1.5||lsData.lsRatio<0.67?'border-color:rgba(255,102,0,.4)':''}">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-family:var(--mono);font-size:17px;font-weight:bold;color:${lsC==='dn'?'var(--red)':lsC==='up'?'var(--green)':'var(--yellow)'}">${lsData.lsRatio.toFixed(3)}</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text2);margin-top:3px">${lsDesc}</div>
+          </div>
+          <div style="text-align:right;font-family:var(--mono);font-size:10px">
+            <div class="up">${lp.toFixed(1)}% Long</div>
+            <div class="dn">${(100-lp).toFixed(1)}% Short</div>
+          </div>
+        </div>
+        <div class="ls-bar-bg"><div class="ls-bar-long" style="width:${lp}%"></div></div>
+        <div class="ls-labels"><span class="up">LONG ${lp.toFixed(0)}%</span><span class="dn">SHORT ${(100-lp).toFixed(0)}%</span></div>
+      </div>
+    </div>`;
+  }
+
+  // ── Top Traders vs Retail ──
+  if(topData&&lsData){
+    const topLP=topData.longRatio*100,retailLP=lsData.longRatio*100;
+    const div=topLP-retailLP;
+    const divDesc=div>5?'🐋 Китови LONG vs ретејл':div<-5?'🐋 Китови SHORT vs ретејл':'Во согласност';
+    html+=`<div style="margin-top:10px">
+      <div style="font-size:9px;color:var(--text2);letter-spacing:1px;font-family:var(--mono);margin-bottom:6px;text-transform:uppercase">TOP TRADERS vs RETAIL</div>
+      <div class="diverg-box ${Math.abs(div)>5?'fc-diverg':''}">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-family:var(--mono);font-size:15px;font-weight:bold;color:${div>0?'var(--green)':'var(--red)'}">${div>0?'+':''}${div.toFixed(1)}%</div>
+            <div style="font-family:var(--mono);font-size:10px;color:var(--text2);margin-top:3px">${divDesc}</div>
+          </div>
+          <div style="text-align:right;font-family:var(--mono);font-size:10px">
+            <div>🐋 <span class="up">${topLP.toFixed(1)}%</span>L</div>
+            <div>👥 <span class="up">${retailLP.toFixed(1)}%</span>L</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // ── Spot vs Futures Basis ──
+  if(spotData&&takerData){
+    const b=spotData.basis;
+    const bDesc=b===null?'—':
+      b>8?'🚨 LEVERAGED SPECULATION — Futures купуваат, Spot не реагира':
+      b>4?'⚠️ Умерено leveraged — Futures поагресивни':
+      b<-8?'📥 ORGANIC ACCUMULATION — Spot купува, Futures следи':
+      b<-4?'📥 Spot-водено движење':
+      '✅ Futures и Spot во корелација';
+    const bC=b!==null?(b>4?'dn':b<-4?'up':'neu'):'neu';
+
+    if(b!==null&&Math.abs(b)>8){
+      const badge=document.getElementById('flowBadge');
+      badge.style.cssText=`display:inline-block;background:${b>0?'rgba(255,102,0,.2)':'rgba(192,96,255,.2)'};color:${b>0?'var(--orange)':'var(--purple)'}`;
+      badge.textContent=b>0?'LEVERAGED':'ORGANIC';
+    }
+
+    html+=`<div style="margin-top:10px">
+      <div style="font-size:9px;color:var(--text2);letter-spacing:1px;font-family:var(--mono);margin-bottom:6px;text-transform:uppercase">SPOT vs FUTURES FLOW BASIS</div>
+      <div class="diverg-box ${b!==null&&Math.abs(b)>5?'fc-diverg':''}">
+        <div style="font-family:var(--mono);font-size:15px;font-weight:bold;color:${bC==='dn'?'var(--red)':bC==='up'?'var(--green)':'var(--yellow)'}">${b!==null?(b>0?'+':'')+b.toFixed(2)+'%':'—'}</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text2);margin-top:4px">${bDesc}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
+          <div class="flow-card"><div class="fc-label">FUTURES CVD</div><div class="fc-val ${takerData.cvdDelta>=0?'up':'dn'}">${takerData.cvdDelta>=0?'+':''}${takerData.cvdDelta.toFixed(2)}%</div><div class="fc-sub">Taker · ${flowTF}</div></div>
+          <div class="flow-card"><div class="fc-label">SPOT CVD</div><div class="fc-val ${spotData.spotCvdDelta>=0?'up':'dn'}">${spotData.spotCvdDelta>=0?'+':''}${spotData.spotCvdDelta.toFixed(2)}%</div><div class="fc-sub">Spot · ${flowTF} · ${spotData.spotBuyPct.toFixed(0)}%B</div></div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  el.innerHTML=html||`<span style="font-family:var(--mono);font-size:11px;color:var(--muted)">Ограничени flow податоци.</span>`;
 }
 
 // ── FAVORITES ─────────────────────────────────────────────
 function toggleFav(coin){
-  if(S.favorites.has(coin))S.favorites.delete(coin);
-  else S.favorites.add(coin);
+  S.favorites.has(coin)?S.favorites.delete(coin):S.favorites.add(coin);
   localStorage.setItem('favs',JSON.stringify([...S.favorites]));
-  S.signals.forEach(s=>{if(s.coin===coin)s.isFav=S.favorites.has(coin);});
-  renderList();
+  S.signals.forEach(s=>{if(s.coin===coin)s.isFav=S.favorites.has(coin);});renderList();
 }
 function toggleFavFromDetail(){
-  if(!S.detailCoin)return;
-  toggleFav(S.detailCoin);
-  const fav=isFav(S.detailCoin);
-  const fb=document.getElementById('dpFavBtn');fb.textContent=fav?'★':'☆';fb.className='dp-fav-btn'+(fav?' on':'');
-  toast(fav?`⭐ ${S.detailCoin} додаден во Favorites`:`${S.detailCoin} отстранет од Favorites`);
+  if(!S.detailCoin)return;toggleFav(S.detailCoin);
+  const fav=isFav(S.detailCoin);const fb=document.getElementById('dpFavBtn');fb.textContent=fav?'★':'☆';fb.className='dp-fav-btn'+(fav?' on':'');
+  toast(fav?`⭐ ${S.detailCoin} додаден`:`${S.detailCoin} отстранет`);
 }
-
 function openBinance(coin,tf){
   const url=`https://www.binance.com/en/futures/${coin}USDT?type=isolated&interval=${BN_TF[tf]||tf}`;
   const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();document.body.removeChild(a);
@@ -1004,9 +1362,10 @@ function openBinance(coin,tf){
 // ── UTILS ─────────────────────────────────────────────────
 function setTF(tf,el){S.tf=tf;document.querySelectorAll('.tf').forEach(b=>b.classList.remove('active'));el.classList.add('active');if(S.scanning){stopScan();setTimeout(startScan,400);}}
 function setFil(f,el){S.filter=f;document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderList();}
+function setSort(s,el){S.sort=s;document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderList();}
 function clearAll(){S.signals=[];document.getElementById('liqArea').innerHTML='';document.getElementById('list').innerHTML='<div class="empty">📡<br>Притисни СКЕНИРАЈ</div>';['sBull','sBear','sLiq','sAlpha','sFav','sTot'].forEach(id=>document.getElementById(id).textContent='0');}
 function setDot(s){const d=document.getElementById('dot');d.className='dot'+(s==='live'?' live':s==='scan'?' scan':'');}
-function setP(txt,pct){document.getElementById('progT').textContent=txt;document.getElementById('progF').style.width=pct+'%';}
+function setP(t,p){document.getElementById('progT').textContent=t;document.getElementById('progF').style.width=p+'%';}
 function errShow(m){const e=document.getElementById('errB');e.textContent=m;e.style.display='block';}
 function errHide(){document.getElementById('errB').style.display='none';}
 function setM(id,val,cls,sub){document.getElementById(id).textContent=val;document.getElementById(id).className='dm-v '+(cls||'');const s=document.getElementById(id+'S');if(s)s.textContent=sub||'';}
@@ -1015,16 +1374,12 @@ function closeOv(){document.getElementById('ov').classList.remove('open');docume
 function onSrch(v){
   S.srch=v.toUpperCase().replace('USDT','').trim();
   document.getElementById('srchX').style.display=v?'block':'none';
-  if(S.srch){
-    renderList();
-    if(!S.signals.filter(s=>s.coin.includes(S.srch)).length){
-      document.getElementById('list').innerHTML=`<div class="empty">🔍<br><b>${S.srch}USDT</b><br><span style="font-size:11px;color:var(--muted)">Притисни ⚡ СКЕНИРАЈ за само овој коин</span></div>`;
-    }
-  } else renderList();
+  if(S.srch){renderList();if(!S.signals.filter(s=>s.coin.includes(S.srch)).length)document.getElementById('list').innerHTML=`<div class="empty">🔍<br><b>${S.srch}USDT</b><br><span style="font-size:11px;color:var(--muted)">Притисни ⚡ СКЕНИРАЈ за само овој коин</span></div>`;}
+  else renderList();
 }
 function clrSrch(){document.getElementById('srch').value='';document.getElementById('srchX').style.display='none';S.srch='';renderList();}
 function fmt(p){if(p>=1000)return p.toLocaleString('en-US',{maximumFractionDigits:2});if(p>=1)return p.toFixed(4);if(p>=0.01)return p.toFixed(5);return p.toFixed(8);}
-function fmtM(n){if(n===undefined||n===null||isNaN(n))return'—';const a=Math.abs(n);if(a>=1e9)return(n/1e9).toFixed(2)+'B';if(a>=1e6)return(n/1e6).toFixed(2)+'M';if(a>=1e3)return(n/1e3).toFixed(1)+'K';return n.toFixed(0);}
+function fmtM(n){if(n===undefined||isNaN(n))return'—';const a=Math.abs(n);if(a>=1e9)return(n/1e9).toFixed(2)+'B';if(a>=1e6)return(n/1e6).toFixed(2)+'M';if(a>=1e3)return(n/1e3).toFixed(1)+'K';return n.toFixed(0);}
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 function toast(m){let t=document.getElementById('_t');if(!t){t=document.createElement('div');t.id='_t';t.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#121220;border:1px solid #1e1e35;border-radius:8px;padding:9px 16px;font-family:var(--mono);font-size:11px;z-index:999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none;color:#fff';document.body.appendChild(t);}t.textContent=m;t.style.opacity='1';setTimeout(()=>t.style.opacity='0',3500);}
 
